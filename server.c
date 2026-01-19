@@ -120,6 +120,10 @@ void send_wait_message(GameState *game, int client_idx) {
     send(game->client_sockets[client_idx], msg, strlen(msg), 0);
 }
 
+void handle_client(int client_sockets, int client_idx) {
+    
+}
+
 int main() {
     int server_fd;
     struct sockaddr_in address;
@@ -154,10 +158,21 @@ int main() {
 
     char first_symbol = '\0';
 
+    //create and open shared memory object
     shm_fd = shm_open("/tictactoe_shm", O_CREAT | O_RDWR, 0666);
-    ftruncate(shm_fd, sizeof(GameState));
+    if (shm_fd == -1) {
+        perror("shm_open failed");
+        exit(EXIT_FAILURE);
+    }
 
-    game = (GameState *)mmap(NULL, sizeof(GameState), PROT_READ | PROT_WRITE, MAP_SHARED, -1, 0);
+    if(ftruncate(shm_fd, sizeof(GameState)) == -1) { 
+        perror("ftruncate failed");
+        shm_unlink("/tictactoe_shm");
+        exit(EXIT_FAILURE);
+    }
+
+
+    game = (GameState *)mmap(NULL, sizeof(GameState), PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
     
     pthread_mutexattr_t attr;
     pthread_mutexattr_init(&attr);
@@ -243,10 +258,10 @@ int main() {
                        game->names[current], game->symbols[current], position + 1);
 
                 //Broadcast updated board to both client first
-                broadcast_board(&game);
+                broadcast_board(game);
                 usleep(100000); //small delay to ensure board is received
 
-                int winner = check_winner(&game);
+                int winner = check_winner(game);
                 if (winner != -1) {
                     char win_msg[100];
                     sprintf(win_msg, "WINNER:%s", game->names[winner]);
@@ -256,7 +271,7 @@ int main() {
                     log_winner(game->names[winner], game->symbols[winner]);
                     game->game_over = 1;
                     printf("\n%s (%c) wins!\n", game->names[winner], game->symbols[winner]);
-                } else if (check_draw(&game)) {
+                } else if (check_draw(game)) {
                     char draw_msg[] = "DRAW";
                     for (int i = 0; i < 2; i++) {
                         send(game->client_sockets[i], draw_msg, strlen(draw_msg), 0);
