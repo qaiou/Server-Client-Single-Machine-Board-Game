@@ -9,13 +9,14 @@
 #include <arpa/inet.h>
 #include <time.h>
 #include <ctype.h>
+#include <signal.h>
 
 #define PORT 8080
 #define BOARD_SIZE 9
 #define NAME_SIZE 50
 
 
-
+//shared game state structure
 typedef struct {
     pthread_mutex_t mutex;
     char board[BOARD_SIZE];          // 'X', 'O', or ' ' (space)
@@ -66,7 +67,6 @@ void log_draw() {
         fclose(fp);
     }
 }
-
 
 int check_winner(GameState *game) {
     int wins[8][3] = {
@@ -120,18 +120,147 @@ void send_wait_message(GameState *game, int client_idx) {
     send(game->client_sockets[client_idx], msg, strlen(msg), 0);
 }
 
-void handle_client(int client_sockets, GameState *game) {
-    
+void handle_client(int current, GameState *game) {
+    char buffer[256];
+
+    while(1) {
+        memset(buffer, 0, 256);
+        int valread = read(game->client_sockets[current], buffer, 256);
+        if (valread <= 0) {
+            printf("Player %s disconnected\n", game->names[current]);
+            break;
+        }
+
+        if (strncmp(buffer, "MOVE:", 5) == 0) {
+            int position = atoi(buffer + 5) - 1;
+
+            pthread_mutex_lock(&game->mutex);
+
+            if (game->game_over) {
+                pthread_mutex_unlock(&game->mutex);
+                break;
+            }
+
+            if (current != game->current_player) {
+                // Not this player's turn so ignore
+                pthread_mutex_unlock(&game->mutex);
+                continue;
+            }
+
+            /*
+            if (position < 0 || position >= BOARD_SIZE || game->board[position] != ' ') {
+                send(game->client_sockets[current], "INVALID", 7, 0);
+                send_prompt_message(game, current);
+                pthread_mutex_unlock(&game->mutex);
+                continue;
+            }
+
+            game->board[position] = game->symbols[current];
+            log_move(game->names[current], position, game->symbols[current]);
+            printf("%s (%c) moved to position %d\n",
+                   game->names[current], game->symbols[current], position + 1);
+
+            broadcast_board(game);
+
+             int winner = check_winner(game);
+            if (winner != -1) {
+                char win_msg[100];
+                sprintf(win_msg, "WINNER:%s", game->names[winner]);
+                for (int i = 0; i < 2; i++)
+                    send(game->client_sockets[i], win_msg, strlen(win_msg), 0);
+                log_winner(game->names[winner], game->symbols[winner]);
+                game->game_over = 1;
+                pthread_mutex_unlock(&game->mutex);
+                break;
+            }
+
+            if (check_draw(game)) {
+                for (int i = 0; i < 2; i++)
+                    send(game->client_sockets[i], "DRAW", 4, 0);
+                log_draw();
+                game->game_over = 1;
+                pthread_mutex_unlock(&game->mutex);
+                break;
+            }
+
+            game->current_player = 1 - game->current_player;
+            send_prompt_message(game, game->current_player);
+            send_wait_message(game, current);
+
+            pthread_mutex_unlock(&game->mutex);*/
+
+            
+            if (position >= 0 && position < BOARD_SIZE && game->board[position] == ' ') {
+
+                game->board[position] = game->symbols[current];
+                log_move(game->names[current], position, game->symbols[current]);
+                printf("%s (%c) moved to position %d\n", game->names[current], game->symbols[current], position + 1);
+
+                //Broadcast updated board to both client first
+                broadcast_board(game);
+                usleep(100000); //short delay to ensure board update is sent before next messages
+
+                int winner = check_winner(game);
+                if (winner != -1) {
+                    char win_msg[100];
+                    sprintf(win_msg, "WINNER:%s", game->names[winner]);
+                    for (int i = 0; i < 2; i++) {
+                        send(game->client_sockets[i], win_msg, strlen(win_msg), 0);
+                    }
+                    log_winner(game->names[winner], game->symbols[winner]);
+                    game->game_over = 1;
+                    printf("\n%s (%c) wins!\n", game->names[winner], game->symbols[winner]);
+
+                    pthread_mutex_unlock(&game->mutex);
+                    break;
+                } else if (check_draw(game)) {
+                    char draw_msg[] = "DRAW";
+                    for (int i = 0; i < 2; i++) {
+                        send(game->client_sockets[i], draw_msg, strlen(draw_msg), 0);
+                    }
+                    log_draw();
+                    game->game_over = 1;
+                    printf("\nGame is a draw!\n");
+                    pthread_mutex_unlock(&game->mutex);
+                    break;
+                } else {
+                    //switch to next player
+                    game->current_player = 1 - game->current_player;
+
+                    //send turn messages for next round
+                    send_prompt_message(game, game->current_player);
+                    send_wait_message(game, 1 - game->current_player);
+
+                    pthread_mutex_unlock(&game->mutex);
+                }
+            } else {
+                char invalid[] = "INVALID";
+                send(game->client_sockets[current], invalid, strlen(invalid), 0);
+
+                //resend prompt after invalid move
+                send_prompt_message(game, current);
+
+                pthread_mutex_unlock(&game->mutex);
+            }
+        }
+    }
+
+    close(game->client_sockets[current]);
+    munmap(game, sizeof(GameState));
+    exit(0);
 }
 
 int main() {
-    int server_fd;
+    signal(SIGCHLD, SIG_IGN); //prevent zombie processes
+    
+    int server_fd; //server file descriptor
     struct sockaddr_in address;
-    socklen_t addrlen = sizeof(address);
+    socklen_t addrlen = sizeof(address); 
     GameState *game = NULL;
     int shm_fd;
-    char buffer[256];
+    char buffer[256]; 
 
+    // Creating socket file descriptor
     if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
         perror("Socket failed");
         exit(EXIT_FAILURE);
@@ -140,6 +269,7 @@ int main() {
     int opt = 1;
     setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
 
+    //server addressing
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY;
     address.sin_port = htons(PORT);
@@ -156,9 +286,7 @@ int main() {
     printf("Server listening on port %d...\n", PORT);
     printf("Waiting for players to connect...\n\n");
 
-    char first_symbol = '\0';
-
-    //create and open shared memory object
+    //-------------create and open shared memory object-----------------------
     shm_fd = shm_open("/tictactoe_shm", O_CREAT | O_RDWR, 0666);
     if (shm_fd == -1) {
         perror("shm_open failed");
@@ -173,13 +301,20 @@ int main() {
 
     game = (GameState *)mmap(NULL, sizeof(GameState), PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
     
+    //-----------------initialize mutex------------------------
     pthread_mutexattr_t attr;
     pthread_mutexattr_init(&attr);
     pthread_mutexattr_setpshared(&attr, PTHREAD_PROCESS_SHARED);
     pthread_mutex_init(&game->mutex, &attr);
 
+
+    char first_symbol = '\0';
+    init_game(game);
+
     for (int i = 0; i < 2; i++) {
         printf("Waiting for player %d to connect...\n", i + 1);
+
+        //accept connection
         if ((game->client_sockets[i] = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen)) <0 ) {
             perror("Accept failed");
             exit(EXIT_FAILURE);
@@ -188,7 +323,7 @@ int main() {
         printf("Player %d connected!\n", i + 1);
 
         //receive player name
-        char buffer[256] = {0}; // temporary simpan the value sent from client
+        char buffer[256] = {0}; // temporary save the value sent from client
         read(game->client_sockets[i], buffer,256);
         if (strncmp(buffer, "NAME:", 5) == 0) {
             strncpy(game->names[i], buffer + 5, NAME_SIZE - 1);
@@ -223,83 +358,37 @@ int main() {
             send(game->client_sockets[i], assign_msg, strlen(assign_msg), 0);
             printf("Player 2 (%s) assigned: %c\n", game->names[1], second_symbol);
         }
+        
     }
 
+    //Parents starts the game
     printf("\nGame starting!\n");
     printf("%s (%c) vs %s (%c)\n\n", game->names[0], game->symbols[0], game->names[1], game->symbols[1]);
 
-    init_game(game);
     broadcast_board(game);
 
     //send initial turn messages
     send_prompt_message(game, 0);
     send_wait_message(game, 1);
 
-    while (!game->game_over) {
-        int current = game->current_player;
 
-        char buffer[256] = {0};
-        int valread = read(game->client_sockets[current], buffer, 256);
-
-        if (valread <= 0) {
-            printf("Player %s disconnected\n", game->names[current]);
-            break;
-        }
-
-        if (strncmp(buffer, "MOVE:", 5) == 0) {
-            int position = atoi(buffer + 5) - 1;
-            
-            if (position >= 0 && position < BOARD_SIZE && game->board[position] == ' ') {
-
-                game->board[position] = game->symbols[current];
-                log_move(game->names[current], position, game->symbols[current]);
-                printf("%s (%c) moved to position %d\n",
-                       game->names[current], game->symbols[current], position + 1);
-
-                //Broadcast updated board to both client first
-                broadcast_board(game);
-                usleep(100000); //small delay to ensure board is received
-
-                int winner = check_winner(game);
-                if (winner != -1) {
-                    char win_msg[100];
-                    sprintf(win_msg, "WINNER:%s", game->names[winner]);
-                    for (int i = 0; i < 2; i++) {
-                        send(game->client_sockets[i], win_msg, strlen(win_msg), 0);
-                    }
-                    log_winner(game->names[winner], game->symbols[winner]);
-                    game->game_over = 1;
-                    printf("\n%s (%c) wins!\n", game->names[winner], game->symbols[winner]);
-                } else if (check_draw(game)) {
-                    char draw_msg[] = "DRAW";
-                    for (int i = 0; i < 2; i++) {
-                        send(game->client_sockets[i], draw_msg, strlen(draw_msg), 0);
-                    }
-                    log_draw();
-                    game->game_over = 1;
-                    printf("\nGame is a draw!\n");
-                } else {
-                    //switch to next player
-                    game->current_player = 1 - game->current_player;
-
-                    //send turn messages for next round
-                    send_prompt_message(game, game->current_player);
-                    send_wait_message(game, 1 - game->current_player);
-                }
-            } else {
-                char invalid[] = "INVALID";
-                send(game->client_sockets[current], invalid, strlen(invalid), 0);
-                //resend prompt after invalid move
-                send_prompt_message(game, current);
-            }
-        }
-    }
-
+    //forking processes for each client
     for (int i = 0; i < 2; i++) {
-        close(game->client_sockets[i]);
+        pid_t pid = fork();
+        if (pid == 0) {
+            //child process handles client
+            close(server_fd);
+            handle_client(i, game);
+        }
     }
+
+    //wait for child processes to finish
+    while(1){
+        pause();
+    }
+
     munmap(game, sizeof(GameState));
-    close(server_fd);
+    shm_unlink("/tictactoe_shm");
     
     return 0;
 }
