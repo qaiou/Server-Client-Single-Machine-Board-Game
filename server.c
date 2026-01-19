@@ -120,7 +120,7 @@ void send_wait_message(GameState *game, int client_idx) {
     send(game->client_sockets[client_idx], msg, strlen(msg), 0);
 }
 
-void handle_client(int client_sockets, int client_idx) {
+void handle_client(int client_sockets, GameState *game) {
     
 }
 
@@ -170,7 +170,6 @@ int main() {
         shm_unlink("/tictactoe_shm");
         exit(EXIT_FAILURE);
     }
-
 
     game = (GameState *)mmap(NULL, sizeof(GameState), PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
     
