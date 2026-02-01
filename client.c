@@ -149,7 +149,7 @@ int main() {
             int ready = select(STDIN_FILENO + 1, &readfds, NULL, NULL, &tv);
 
             if (ready == 0) {
-                // Local timeout — server will confirm too
+                // timeout. server will confirm too
                 printf("\n*** TIME'S UP! ***\n");
                 fflush(stdout);
                 continue;
