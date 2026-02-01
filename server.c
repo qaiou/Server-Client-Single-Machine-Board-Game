@@ -61,6 +61,16 @@ void init_game(GameState *game) {
     game->game_over = 0;
 }
 
+int isCorrect(GameState *game, int current) {
+    for (int i = 0; i < WORD_LEN; i++){
+        if(game->guess_letter[current] == game->answer_word[i]){
+            game->answer_space[i] = game->guess_letter[current];
+            return 1;
+        }
+    }
+    return 0;
+}
+
 int check_winner(GameState *game) {
 }
 
@@ -77,7 +87,7 @@ void updateAnswerSpaces(GameState *game, int client_idx) {
 }
 
 void broadcast_board(GameState *game) {
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 3; i++) {
         updateAnswerSpaces(game, i);
     }
 }
@@ -103,10 +113,11 @@ void handle_timeout(GameState *game, int current) {
     char msg[] = "TIMEOUT";
     send(game->client_sockets[current], msg, strlen(msg), 0);
 
-    game->current_player = 1 - game->current_player;
+    game->current_player = (game->current_player + 1) % 3;
 
-    send_prompt_message(game, game->current_player);
     send_wait_message(game, current);
+    send_prompt_message(game, game->current_player);
+    
 }
 
 void handle_client(int current, GameState *game) {
@@ -116,13 +127,18 @@ void handle_client(int current, GameState *game) {
 
         // Only current player is allowed to wait for input
         pthread_mutex_lock(&game->mutex);
-        if (current != game->current_player || game->game_over) {
+        if (game->game_over) {
             pthread_mutex_unlock(&game->mutex);
-            usleep(100000); // avoid busy spinning
+            break;
+        }
+
+        if (current != game->current_player) {
+            pthread_mutex_unlock(&game->mutex);
+            usleep(100000);
             continue;
         }
 
-        send_prompt_message(game, 0);
+        send_prompt_message(game, current);
         pthread_mutex_unlock(&game->mutex);
 
         // ---- ROUND ROBIN WITH 10s TIME LIMIT ----
@@ -135,10 +151,10 @@ void handle_client(int current, GameState *game) {
         tv.tv_usec = 0;
 
         int ready = select(game->client_sockets[current] + 1, &readfds, NULL, NULL, &tv);
+        pthread_mutex_lock(&game->mutex);
 
         if (ready == 0) {
             // TIMEOUT
-            pthread_mutex_lock(&game->mutex);
             if (!game->game_over && current == game->current_player) {
                 printf("%s timed out!\n", game->names[current]);
                 handle_timeout(game, current);
@@ -149,8 +165,11 @@ void handle_client(int current, GameState *game) {
 
         if (ready < 0) {
             perror("select");
+            pthread_mutex_unlock(&game->mutex);
             break;
         }
+
+        pthread_mutex_unlock(&game->mutex);
 
         // ---- INPUT RECEIVED ----
         memset(buffer, 0, sizeof(buffer));
@@ -163,7 +182,7 @@ void handle_client(int current, GameState *game) {
         if (strncmp(buffer, "MOVE:", 5) != 0)
             continue;
 
-        int position = atoi(buffer + 5) - 1;
+        game->guess_letter[current]=buffer[5];
 
         //lock before modify
         pthread_mutex_lock(&game->mutex);
@@ -172,37 +191,35 @@ void handle_client(int current, GameState *game) {
             pthread_mutex_unlock(&game->mutex);
             break;
         }
-
         
-        /*
-        if (position < 0 || position >= BOARD_SIZE || game->board[position] != ' ') {
+        if (!isalpha(game->guess_letter[current])) {
             send(game->client_sockets[current], "INVALID", 7, 0);
-            send_prompt_message(game, current);
-            pthread_mutex_unlock(&game->mutex);
             continue;
-        }*/
+        }
 
-        // if correct
-        game->answer_space[position] = game->guess_letter[current];
-        //log_move(game->names[current], position, game->guess_letter[current]);
-        printf("%s  got (%c) correct \n", game->names[current], game->guess_letter[current], position + 1);
+        // if correct/ wrong
+        if (isCorrect(game, current)){
+            //log_move(game->names[current], position, game->guess_letter[current]);
+        printf("%s  got (%c) correct \n", game->names[current], game->guess_letter[current]);
+        }
+        else{
+            printf("%s  got (%c) wrong \n", game->names[current], game->guess_letter[current]);
+        }
 
-        int winner = -1;
-        int draw = 0;
+        broadcast_board(game);
 
         //check if word is already completed/ draw or win
         if (wordIsComplete(game)){
-            winner = check_winner(game);
-            draw = check_draw(game);
-            if (winner != -1)
-                game->game_over = 1;
-            if (draw)
-                game->game_over = 1;
+
+            //scoring
+
+            //game_over =1
+            
         }
 
         // if game not over yet, proceed to next player
         if (!game->game_over)
-            game->current_player = 1 - game->current_player;
+            game->current_player = (game->current_player + 1) % 3;
         
         pthread_mutex_unlock(&game->mutex);
 
@@ -210,6 +227,7 @@ void handle_client(int current, GameState *game) {
         broadcast_board(game);
         
         // round finish message to client
+        /*
         if (winner != -1) {
             char win_msg[100];
             sprintf(win_msg, "WINNER:%s", game->names[winner]);
@@ -224,10 +242,9 @@ void handle_client(int current, GameState *game) {
                 send(game->client_sockets[i], "DRAW", 4, 0);
             //log_draw();
             break;
-        }
+        }*/
 
         // ---- ROUND ROBIN SWITCH ----
-        send_prompt_message(game, game->current_player);
         send_wait_message(game, current);
     }
 
@@ -314,7 +331,7 @@ int main() {
 
 
     //-------------Player (client) connects ---------------------
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 3; i++) {
         printf("Waiting for player %d to connect...\n", i + 1);
 
         //accept connection
@@ -338,7 +355,7 @@ int main() {
 
     //Parents starts the game
     printf("\nGame starting!\n");
-    printf("%s (%c) vs %s (%c)\n\n", game->names[0], game->names[1]);
+    printf("%s vs %s vs %s \n\n", game->names[0], game->names[1], game->names[2]);
 
     broadcast_board(game);
 

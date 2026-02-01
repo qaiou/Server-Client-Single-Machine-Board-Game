@@ -11,8 +11,6 @@
 #define NAME_SIZE 50
 #define WORD_LEN 8
 
-#define BOARD_SIZE 9
-
 typedef struct {
     char answer_space[ANSWER_SIZE];
     char my_name[NAME_SIZE];
@@ -21,15 +19,11 @@ typedef struct {
     int lives;                   // player's lives
 } ClientState;
 
-void display_label_board() {
-    
-}
-
 void displayAnswerSpace(ClientState *s) {
     printf("\n==============================\n");
     printf("Player: %s\n", s->my_name);
     printf("Word: ");
-    for (int i = 0; i < WORD_LEN; i++)
+    for (int i = 0; i < ANSWER_SIZE; i++)
         printf("%c ", s->answer_space[i]);
     printf("\n==============================\n");
 }
@@ -81,7 +75,7 @@ int main() {
     memset(buffer, 0, 256);
     read(sock, buffer, 256);
     if (strncmp(buffer, "BOARD:", 6) == 0) {
-        memcpy(state.answer_space, buffer + 6, BOARD_SIZE);
+        memcpy(state.answer_space, buffer + 6, ANSWER_SIZE);
         clear_screen();
         displayAnswerSpace(&state);
     }
@@ -98,7 +92,7 @@ int main() {
 
         if (strncmp(buffer, "PROMPT", 6) == 0) {
             printf("\n>> YOUR TURN! (10 seconds) <<\n");
-            printf("Input next grid number (1-9): ");
+            printf("Input next letter: ");
             fflush(stdout);
 
             fd_set readfds;
@@ -117,33 +111,29 @@ int main() {
                 continue;
             }
 
-            int move;
-            if (scanf("%d", &move) != 1) {
+            char letter;
+            if (scanf("%c", &letter) != 1) {
                 while (getchar() != '\n');
                 printf("\nInvalid input!\n");
                 continue;
             }
-            while (getchar() != '\n');
+            while (getchar() != '\n'){};
 
             char move_msg[20];
-            sprintf(move_msg, "MOVE:%d", move);
+            sprintf(move_msg, "MOVE:%c",letter);
             send(sock, move_msg, strlen(move_msg), 0);
         } 
         else if (strncmp(buffer, "WAIT", 4) == 0) {
             printf("\n>> Waiting for opponent's move... <<\n");
             fflush(stdout);
         } 
-        else if (strncmp(buffer, "TIMEOUT", 7) == 0) {
-            printf("\n*** Time's up! You lost your turn. ***\n");
-            fflush(stdout);
-        }
         else if (strncmp(buffer, "BOARD:", 6) == 0) {
-            memcpy(state.answer_space, buffer + 6, BOARD_SIZE);
+            memcpy(state.answer_space, buffer + 6, ANSWER_SIZE);
             clear_screen();
             displayAnswerSpace(&state);
         } 
         else if (strncmp(buffer, "INVALID", 7) == 0) {
-            printf("\n*** Invalid move! That position is already taken.\n");
+            printf("\n*** Invalid move! Thats not a letter\n");
         } 
         else if (strncmp(buffer, "WINNER:", 7) == 0) {
             char winner_name[NAME_SIZE];
