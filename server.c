@@ -13,11 +13,16 @@
 #include <signal.h>
 
 #define PORT 8080
-#define BOARD_SIZE 9
+#define ANSWER_SIZE 5
 #define NAME_SIZE 50
+#define MAX_WORDS 110
+#define MAX_LEN 8
+
+#define BOARD_SIZE 9
 
 
 //shared game state structure
+/*
 typedef struct {
     pthread_mutex_t mutex;
     char board[BOARD_SIZE];          // 'X', 'O', or ' ' (space)
@@ -27,10 +32,48 @@ typedef struct {
     int current_player;              // 0 or 1
     int game_over;                   // 0 or 1
 } GameState;
+*/
+
+//--------shared memory------------
+typedef struct {
+    pthread_mutex_t mutex;
+    char answer_space[ANSWER_SIZE]; // 5 answer spaces        
+    int client_sockets[3];          // 3 players (or more)
+    char names[3][NAME_SIZE];       // players' name
+    char answer_word[MAX_LEN];      // Max 5 letters for each word
+    char guess_letter[3];           // player's letter guess
+    char guess_word[3][MAX_LEN];    // player's word guess (if player decides to guess a whole word)
+    int lives[3];                   // players' lives
+
+    char symbols[2];                // 2 variable ni nak buang nanti
+    char board[BOARD_SIZE];
+
+    int current_player;              
+    int game_over;                  // 0 or 1
+} GameState;
+
+
+char words[MAX_WORDS][MAX_LEN];
+int word_count = 0;
+
+void load_words(const char *filename) {   //done
+    FILE *fp = fopen(filename, "r");
+    if (!fp) {
+        perror("Failed to open words file");
+        exit(1);
+    }
+
+    while (fgets(words[word_count], MAX_LEN, fp) && word_count < MAX_WORDS) {
+        words[word_count][strcspn(words[word_count], "\n")] = 0;
+        word_count++;
+    }
+
+    fclose(fp);
+}
 
 void init_game(GameState *game) {
-    for (int i = 0; i < BOARD_SIZE; i++){
-        game->board[i] = ' ';
+    for (int i = 0; i < ANSWER_SIZE; i++){
+        game->answer_space[i] = '_';
     }
     game->current_player = 0;
     game->game_over = 0;
@@ -87,7 +130,7 @@ int check_winner(GameState *game) {
     return -1;
 }
 
-int check_draw(GameState *game) {
+int check_draw(GameState *game) {  //if wordIsComplete() = false && all players' lives = 0
     for (int i = 0; i < BOARD_SIZE; i++) {
         if (game->board[i] == ' ') {
             return 0;
@@ -310,6 +353,22 @@ int main() {
     char first_symbol = '\0';
     init_game(game);
 
+    //--------------- Load words and declare randomizer---------
+    load_words("words.txt");   
+    if (word_count == 0) {
+        printf("No words loaded. Check words.txt\n");
+        exit(1);
+    }
+    srand(time(NULL));
+
+    /* 
+    strcpy(game->answer_word, words[rand() % word_count]);
+
+    printf("\nRandom word selected: %s\n", game->answer_word);
+    */ //test if random word select works ^^
+
+
+    //-------------Player (client) connects ---------------------
     for (int i = 0; i < 2; i++) {
         printf("Waiting for player %d to connect...\n", i + 1);
 
@@ -329,34 +388,6 @@ int main() {
             game->names[i][NAME_SIZE - 1] = '\0';
             printf("Player %d name: %s\n", i + 1, game->names[i]);
         }
-
-        //handle symbol selection
-        if (i == 0) {
-            //first player choose
-            char choice_msg[] = "CHOOSE";
-            send(game->client_sockets[i], choice_msg, strlen(choice_msg), 0);
-
-            memset(buffer, 0, 256);
-            read(game->client_sockets[i], buffer, 256);
-            if (strncmp(buffer, "SYMBOL:", 7) == 0) {
-                first_symbol = buffer[7];
-                game->symbols[0] = first_symbol;
-                printf("Player 1 (%s) chose: %c\n", game->names[0], first_symbol);
-
-                char confirm[50];
-                sprintf(confirm, "ASSIGNED:%c", first_symbol);
-                send(game->client_sockets[i], confirm, strlen(confirm), 0);
-            }
-        } else {
-            //second player gets the other symbol
-            char second_symbol = (first_symbol == 'X') ? 'O' : 'X';
-            game->symbols[1] = second_symbol;
-
-            char assign_msg[50];
-            sprintf(assign_msg, "ASSIGNED:%c", second_symbol);
-            send(game->client_sockets[i], assign_msg, strlen(assign_msg), 0);
-            printf("Player 2 (%s) assigned: %c\n", game->names[1], second_symbol);
-        }
         
     }
 
@@ -372,7 +403,7 @@ int main() {
 
 
     //forking processes for each client
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < game->client_sockets; i++) {
         pid_t pid = fork();
         if (pid == 0) {
             //child process handles client
