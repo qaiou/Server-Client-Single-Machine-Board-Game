@@ -13,48 +13,29 @@
 #include <signal.h>
 
 #define PORT 8080
-#define ANSWER_SIZE 5
+#define ANSWER_SIZE 6
 #define NAME_SIZE 50
 #define MAX_WORDS 110
-#define MAX_LEN 8
+#define WORD_LEN 8
 
-#define BOARD_SIZE 9
-
-//hi
-
-//shared game state structure
-/*
-typedef struct {
-    pthread_mutex_t mutex;
-    char board[BOARD_SIZE];          // 'X', 'O', or ' ' (space)
-    int client_sockets[2];
-    char symbols[2];                 // symbols[0] for player 1, symbols[1] for player 2
-    char names[2][NAME_SIZE];
-    int current_player;              // 0 or 1
-    int game_over;                   // 0 or 1
-} GameState;
-*/
 
 //--------shared memory------------
 typedef struct {
     pthread_mutex_t mutex;
-    char answer_space[ANSWER_SIZE]; // 5 answer spaces        
+    char answer_space[ANSWER_SIZE]; // 5 answer spaces. initially is all '_'        
     int client_sockets[3];          // 3 players (or more)
     char names[3][NAME_SIZE];       // players' name
-    char answer_word[MAX_LEN];      // Max 5 letters for each word
+    char answer_word[WORD_LEN];      // Max 5 letters for each word
     char guess_letter[3];           // player's letter guess
-    char guess_word[3][MAX_LEN];    // player's word guess (if player decides to guess a whole word)
+    char guess_word[3][WORD_LEN];    // player's word guess (if player decides to guess a whole word)
     int lives[3];                   // players' lives
-
-    char symbols[2];                // 2 variable ni nak buang nanti
-    char board[BOARD_SIZE];
 
     int current_player;              
     int game_over;                  // 0 or 1
 } GameState;
 
 
-char words[MAX_WORDS][MAX_LEN];
+char words[MAX_WORDS][WORD_LEN];
 int word_count = 0;
 
 void load_words(const char *filename) {   //done
@@ -64,7 +45,7 @@ void load_words(const char *filename) {   //done
         exit(1);
     }
 
-    while (fgets(words[word_count], MAX_LEN, fp) && word_count < MAX_WORDS) {
+    while (fgets(words[word_count], WORD_LEN, fp) && word_count < MAX_WORDS) {
         words[word_count][strcspn(words[word_count], "\n")] = 0;
         word_count++;
     }
@@ -80,78 +61,24 @@ void init_game(GameState *game) {
     game->game_over = 0;
 }
 
-void log_move(char *name, int position, char symbol) {
-    FILE *fp = fopen("game_log.txt", "a");
-    if (fp) {
-        time_t now = time(NULL);
-        char *time_str = ctime(&now);
-        time_str[strlen(time_str)-1] = '\0';
-        fprintf(fp, "[%s] %s (%c) moved to position %d\n", time_str, name, symbol, position);
-        fclose(fp);
-    }
-}
-
-void log_winner(char *name, char symbol) {
-    FILE *fp = fopen("winners.txt", "a");
-    if (fp) {
-        time_t now = time(NULL);
-        char *time_str = ctime(&now);
-        time_str[strlen(time_str) - 1] = '\0';
-        fprintf(fp, "[%s] %s (%c) won the game!\n", time_str, name, symbol);
-        fclose(fp);
-    }
-}
-
-void log_draw() {
-    FILE *fp = fopen("winners.txt", "a");
-    if (fp) {
-        time_t now = time(NULL);
-        char *time_str = ctime(&now);
-        time_str[strlen(time_str) - 1] = '\0';
-        fprintf(fp, "[%s] Game ended in a draw\n", time_str);
-        fclose(fp);
-    }
-}
-
 int check_winner(GameState *game) {
-    int wins[8][3] = {
-        {0,1,2}, {3,4,5}, {6,7,8},
-        {0,3,6}, {1,4,7}, {2,5,8},
-        {0,4,8}, {2,4,6}
-    };
-    for (int i = 0; i < 8; i++) {
-        int a = wins[i][0], b = wins[i][1], c = wins[i][2];
-        if (game->board[a] != ' ' &&
-            game->board[a] == game->board[b] &&
-            game->board[b] == game->board[c]) {
-            char sym = game->board[a];
-            return (game->symbols[0] == sym) ? 0 : 1;
-        }
-    }
-    return -1;
 }
 
 int check_draw(GameState *game) {  //if wordIsComplete() = false && all players' lives = 0
-    for (int i = 0; i < BOARD_SIZE; i++) {
-        if (game->board[i] == ' ') {
-            return 0;
-        }
-    }
-    return 1;
 }
 
-void send_board_update(GameState *game, int client_idx) {
-    char board_str[BOARD_SIZE + 1];
-    memcpy(board_str, game->board, BOARD_SIZE);
-    board_str[BOARD_SIZE] = '\0';
+void updateAnswerSpaces(GameState *game, int client_idx) {
+    char answer_str[ANSWER_SIZE + 1];
+    memcpy(answer_str, game->answer_space, ANSWER_SIZE);
+    answer_str[ANSWER_SIZE] = '\0';
     char buffer[256];
-    sprintf(buffer, "BOARD:%s", board_str);
+    sprintf(buffer, "BOARD:%s", answer_str);
     send(game->client_sockets[client_idx], buffer, strlen(buffer), 0);
 }
 
 void broadcast_board(GameState *game) {
     for (int i = 0; i < 2; i++) {
-        send_board_update(game, i);
+        updateAnswerSpaces(game, i);
     }
 }
 
@@ -163,6 +90,13 @@ void send_prompt_message(GameState *game, int client_idx) {
 void send_wait_message(GameState *game, int client_idx) {
     char msg[] = "WAIT";
     send(game->client_sockets[client_idx], msg, strlen(msg), 0);
+}
+
+int wordIsComplete(GameState *game) {
+    for (int i = 0; i < WORD_LEN; i++)
+        if (game->answer_space[i] == '_')
+            return 0;
+    return 1;
 }
 
 void handle_timeout(GameState *game, int current) {
@@ -187,6 +121,8 @@ void handle_client(int current, GameState *game) {
             usleep(100000); // avoid busy spinning
             continue;
         }
+
+        send_prompt_message(game, 0);
         pthread_mutex_unlock(&game->mutex);
 
         // ---- ROUND ROBIN WITH 10s TIME LIMIT ----
@@ -237,23 +173,32 @@ void handle_client(int current, GameState *game) {
             break;
         }
 
+        
+        /*
         if (position < 0 || position >= BOARD_SIZE || game->board[position] != ' ') {
             send(game->client_sockets[current], "INVALID", 7, 0);
             send_prompt_message(game, current);
             pthread_mutex_unlock(&game->mutex);
             continue;
-        }
+        }*/
 
-        // Apply move
-        game->board[position] = game->symbols[current];
-        log_move(game->names[current], position, game->symbols[current]);
-        printf("%s (%c) moved to position %d\n", game->names[current], game->symbols[current], position + 1);
+        // if correct
+        game->answer_space[position] = game->guess_letter[current];
+        //log_move(game->names[current], position, game->guess_letter[current]);
+        printf("%s  got (%c) correct \n", game->names[current], game->guess_letter[current], position + 1);
+
+        int winner = -1;
+        int draw = 0;
 
         //check if word is already completed/ draw or win
-        int winner = check_winner(game);
-        int draw = check_draw(game);
-        if (winner != -1) game->game_over = 1;
-        if (draw) game->game_over = 1;
+        if (wordIsComplete(game)){
+            winner = check_winner(game);
+            draw = check_draw(game);
+            if (winner != -1)
+                game->game_over = 1;
+            if (draw)
+                game->game_over = 1;
+        }
 
         // if game not over yet, proceed to next player
         if (!game->game_over)
@@ -270,14 +215,14 @@ void handle_client(int current, GameState *game) {
             sprintf(win_msg, "WINNER:%s", game->names[winner]);
             for (int i = 0; i < 2; i++)
                 send(game->client_sockets[i], win_msg, strlen(win_msg), 0);
-            log_winner(game->names[winner], game->symbols[winner]);
+            //log_winner(game->names[winner], game->answer_space[winner]);
             break;
         }
 
         if (draw) {
             for (int i = 0; i < 2; i++)
                 send(game->client_sockets[i], "DRAW", 4, 0);
-            log_draw();
+            //log_draw();
             break;
         }
 
@@ -393,17 +338,17 @@ int main() {
 
     //Parents starts the game
     printf("\nGame starting!\n");
-    printf("%s (%c) vs %s (%c)\n\n", game->names[0], game->symbols[0], game->names[1], game->symbols[1]);
+    printf("%s (%c) vs %s (%c)\n\n", game->names[0], game->names[1]);
 
     broadcast_board(game);
 
     //send initial turn messages
-    send_prompt_message(game, 0);
     send_wait_message(game, 1);
+    send_wait_message(game, 2);
 
 
     //forking processes for each client
-    for (int i = 0; i < game->client_sockets; i++) {
+    for (int i = 0; i < 3; i++) {
         pid_t pid = fork();
         if (pid == 0) {
             //child process handles client
