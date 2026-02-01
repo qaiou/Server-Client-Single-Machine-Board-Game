@@ -154,8 +154,7 @@ void handle_client(int current, GameState *game) {
         tv.tv_sec = 10;
         tv.tv_usec = 0;
 
-        int ready = select(game->client_sockets[current] + 1,
-                           &readfds, NULL, NULL, &tv);
+        int ready = select(game->client_sockets[current] + 1, &readfds, NULL, NULL, &tv);
 
         if (ready == 0) {
             // TIMEOUT
@@ -186,16 +185,12 @@ void handle_client(int current, GameState *game) {
 
         int position = atoi(buffer + 5) - 1;
 
+        //lock before modify
         pthread_mutex_lock(&game->mutex);
 
         if (game->game_over) {
             pthread_mutex_unlock(&game->mutex);
             break;
-        }
-
-        if (current != game->current_player) {
-            pthread_mutex_unlock(&game->mutex);
-            continue;
         }
 
         if (position < 0 || position >= BOARD_SIZE || game->board[position] != ' ') {
@@ -208,39 +203,43 @@ void handle_client(int current, GameState *game) {
         // Apply move
         game->board[position] = game->symbols[current];
         log_move(game->names[current], position, game->symbols[current]);
-        printf("%s (%c) moved to position %d\n",
-               game->names[current], game->symbols[current], position + 1);
+        printf("%s (%c) moved to position %d\n", game->names[current], game->symbols[current], position + 1);
 
-        broadcast_board(game);
-        usleep(100000);
-
+        //check if word is already completed/ draw or win
         int winner = check_winner(game);
+        int draw = check_draw(game);
+        if (winner != -1) game->game_over = 1;
+        if (draw) game->game_over = 1;
+
+        // if game not over yet, proceed to next player
+        if (!game->game_over)
+            game->current_player = 1 - game->current_player;
+        
+        pthread_mutex_unlock(&game->mutex);
+
+        //update the answer spaces
+        broadcast_board(game);
+        
+        // round finish message to client
         if (winner != -1) {
             char win_msg[100];
             sprintf(win_msg, "WINNER:%s", game->names[winner]);
             for (int i = 0; i < 2; i++)
                 send(game->client_sockets[i], win_msg, strlen(win_msg), 0);
             log_winner(game->names[winner], game->symbols[winner]);
-            game->game_over = 1;
-            pthread_mutex_unlock(&game->mutex);
             break;
         }
 
-        if (check_draw(game)) {
+        if (draw) {
             for (int i = 0; i < 2; i++)
                 send(game->client_sockets[i], "DRAW", 4, 0);
             log_draw();
-            game->game_over = 1;
-            pthread_mutex_unlock(&game->mutex);
             break;
         }
 
         // ---- ROUND ROBIN SWITCH ----
-        game->current_player = 1 - game->current_player;
         send_prompt_message(game, game->current_player);
         send_wait_message(game, current);
-
-        pthread_mutex_unlock(&game->mutex);
     }
 
     close(game->client_sockets[current]);
