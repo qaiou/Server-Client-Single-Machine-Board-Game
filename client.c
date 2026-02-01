@@ -9,7 +9,7 @@
 #define PORT 8080
 #define ANSWER_SIZE 5
 #define NAME_SIZE 50
-#define MAX_LEN 8
+#define WORD_LEN 8
 
 #define BOARD_SIZE 9
 
@@ -17,55 +17,21 @@ typedef struct {
     char answer_space[ANSWER_SIZE];
     char my_name[NAME_SIZE];
     char guess_letter;           // player's letter guess
-    char guess_word[MAX_LEN];    // player's word guess (if player decides to guess a whole word)
+    char guess_word[WORD_LEN];    // player's word guess (if player decides to guess a whole word)
     int lives;                   // player's lives
-
-    char board[BOARD_SIZE];
-    char my_symbol;
 } ClientState;
 
 void display_label_board() {
-    printf("\n=== GRID LABELS ===\n");
-    printf("   |   |   \n");
-    printf(" 1 | 2 | 3 \n");
-    printf("___|___|___\n");
-    printf("   |   |   \n");
-    printf(" 4 | 5 | 6 \n");
-    printf("___|___|___\n");
-    printf("   |   |   \n");
-    printf(" 7 | 8 | 9 \n");
-    printf("   |   |   \n");
+    
 }
 
-void display_game_board(ClientState *state) {
-    printf("\n=== GAME BOARD ===\n");
-    printf("   |   |   \n");
-    printf(" %c | %c | %c \n",
-           (state->board[0] == 'X' || state->board[0] == 'O') ? state->board[0] : ' ',
-           (state->board[1] == 'X' || state->board[1] == 'O') ? state->board[1] : ' ',
-           (state->board[2] == 'X' || state->board[2] == 'O') ? state->board[2] : ' ');
-    printf("___|___|___\n");
-    printf("   |   |   \n");
-    printf(" %c | %c | %c \n",
-           (state->board[3] == 'X' || state->board[3] == 'O') ? state->board[3] : ' ',
-           (state->board[4] == 'X' || state->board[4] == 'O') ? state->board[4] : ' ',
-           (state->board[5] == 'X' || state->board[5] == 'O') ? state->board[5] : ' ');
-    printf("___|___|___\n");
-    printf("   |   |   \n");
-    printf(" %c | %c | %c \n",
-           (state->board[6] == 'X' || state->board[6] == 'O') ? state->board[6] : ' ',
-           (state->board[7] == 'X' || state->board[7] == 'O') ? state->board[7] : ' ',
-           (state->board[8] == 'X' || state->board[8] == 'O') ? state->board[8] : ' ');
-    printf("   |   |   \n");
-}
-
-void display_both_boards(ClientState *state) {
-    printf("\n");
-    printf("=======================================\n");
-    printf("\nPlayer: %s (%c)\n", state->my_name, state->my_symbol);
-    display_label_board();
-    display_game_board(state);
-    printf("=======================================\n");
+void displayAnswerSpace(ClientState *s) {
+    printf("\n==============================\n");
+    printf("Player: %s\n", s->my_name);
+    printf("Word: ");
+    for (int i = 0; i < WORD_LEN; i++)
+        printf("%c ", s->answer_space[i]);
+    printf("\n==============================\n");
 }
 
 void clear_screen() {
@@ -109,19 +75,15 @@ int main() {
     sprintf(name_msg, "NAME:%s", state.my_name);
     send(sock, name_msg, strlen(name_msg), 0);
 
-    // Wait for symbol assignment/choice
-    memset(buffer, 0, 256);
-    read(sock, buffer, 256);
-
     printf("\nWaiting for game to start...\n");
 
     // Receive initial board
     memset(buffer, 0, 256);
     read(sock, buffer, 256);
     if (strncmp(buffer, "BOARD:", 6) == 0) {
-        memcpy(state.board, buffer + 6, BOARD_SIZE);
+        memcpy(state.answer_space, buffer + 6, BOARD_SIZE);
         clear_screen();
-        display_both_boards(&state);
+        displayAnswerSpace(&state);
     }
 
     int game_active = 1;
@@ -176,9 +138,9 @@ int main() {
             fflush(stdout);
         }
         else if (strncmp(buffer, "BOARD:", 6) == 0) {
-            memcpy(state.board, buffer + 6, BOARD_SIZE);
+            memcpy(state.answer_space, buffer + 6, BOARD_SIZE);
             clear_screen();
-            display_both_boards(&state);
+            displayAnswerSpace(&state);
         } 
         else if (strncmp(buffer, "INVALID", 7) == 0) {
             printf("\n*** Invalid move! That position is already taken.\n");
