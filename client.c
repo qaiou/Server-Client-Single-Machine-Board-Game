@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <ctype.h>
+#include <sys/select.h>
 
 #define PORT 8080
 #define BOARD_SIZE 9
@@ -163,18 +164,32 @@ int main() {
         }
 
         if (strncmp(buffer, "PROMPT", 6) == 0) {
-            printf("\n>> YOUR TURN! <<\n");
+            printf("\n>> YOUR TURN! (10 seconds) <<\n");
             printf("Input next grid number (1-9): ");
             fflush(stdout);
 
-            int move;
-            while (scanf("%d", &move) != 1) {
-                //clear invalid output
-                while (getchar() != '\n');
-                printf("Invalid input! Please enter a number (1-9): ");
+            fd_set readfds;
+            struct timeval tv;
+            FD_ZERO(&readfds);
+            FD_SET(STDIN_FILENO, &readfds);
+            tv.tv_sec = 10;
+            tv.tv_usec = 0;
+
+            int ready = select(STDIN_FILENO + 1, &readfds, NULL, NULL, &tv);
+
+            if (ready == 0) {
+                // Local timeout — server will confirm too
+                printf("\n*** TIME'S UP! ***\n");
                 fflush(stdout);
+                continue;
             }
-            //clear input buffer
+
+            int move;
+            if (scanf("%d", &move) != 1) {
+                while (getchar() != '\n');
+                printf("\nInvalid input!\n");
+                continue;
+            }
             while (getchar() != '\n');
 
             char move_msg[20];
@@ -185,6 +200,10 @@ int main() {
             printf("\n>> Waiting for opponent's move... <<\n");
             fflush(stdout);
         } 
+        else if (strncmp(buffer, "TIMEOUT", 7) == 0) {
+            printf("\n*** Time's up! You lost your turn. ***\n");
+            fflush(stdout);
+        }
         else if (strncmp(buffer, "BOARD:", 6) == 0) {
             memcpy(state.board, buffer + 6, BOARD_SIZE);
             clear_screen();
