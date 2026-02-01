@@ -7,12 +7,20 @@
 #include <sys/select.h>
 
 #define PORT 8080
-#define BOARD_SIZE 9
+#define ANSWER_SIZE 5
 #define NAME_SIZE 50
+#define MAX_LEN 8
+
+#define BOARD_SIZE 9
 
 typedef struct {
-    char board[BOARD_SIZE];
+    char answer_space[ANSWER_SIZE];
     char my_name[NAME_SIZE];
+    char guess_letter;           // player's letter guess
+    char guess_word[MAX_LEN];    // player's word guess (if player decides to guess a whole word)
+    int lives;                   // player's lives
+
+    char board[BOARD_SIZE];
     char my_symbol;
 } ClientState;
 
@@ -104,43 +112,6 @@ int main() {
     // Wait for symbol assignment/choice
     memset(buffer, 0, 256);
     read(sock, buffer, 256);
-
-    if (strncmp(buffer, "CHOOSE", 6) == 0) {
-        //first player - choose syn=mbol
-        printf("\nYou are the first player!\n");
-        printf("Choose your symbol (X/O): ");
-        fflush(stdout);
-
-        char choice;
-        scanf(" %c", &choice);
-        while (getchar() != '\n'); //clear input buffer
-        choice = toupper(choice);
-
-        while (choice != 'X' && choice != 'O') {
-            printf("Invalid choice! Please choose X or O: ");
-            fflush(stdout);
-            scanf(" %c", &choice);
-            while (getchar() != '\n');
-            choice = toupper(choice);
-        }
-
-        char symbol_msg[20];
-        sprintf(symbol_msg, "SYMBOL:%c", choice);
-        send(sock, symbol_msg, strlen(symbol_msg), 0);
-
-        //wait for confirmation
-        memset(buffer, 0, 256);
-        read(sock, buffer, 256);
-        if (strncmp(buffer, "ASSIGNED:", 9) == 0) {
-            state.my_symbol = buffer[9];
-            printf("Your symbol: %c\n", state.my_symbol);
-        }
-    } else if (strncmp(buffer, "ASSIGNED:", 9) == 0) {
-        //second player - symbol assigned
-        state.my_symbol = buffer[9];
-        printf("\nYou are the second player!\n");
-        printf("Your symbol has been assigned: %c\n", state.my_symbol);
-    }
 
     printf("\nWaiting for game to start...\n");
 
