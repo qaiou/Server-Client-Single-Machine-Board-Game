@@ -38,7 +38,7 @@ typedef struct {
 char words[MAX_WORDS][WORD_LEN];
 int word_count = 0;
 
-//-------QAI---------
+//------- QAI ---------
 void load_words(const char *filename) {   //done
     FILE *fp = fopen(filename, "r");
     if (!fp) {
@@ -54,6 +54,7 @@ void load_words(const char *filename) {   //done
     fclose(fp);
 }
 
+//------- 6. YUNI ---------
 void setWord(GameState *game){
     
     strcpy(game->answer_word, words[rand() % word_count]);
@@ -62,7 +63,7 @@ void setWord(GameState *game){
      //test if random word select works ^^
 }
 
-//-------YUNI--------
+//-------1. YUNI--------
 void initAnswerSpaces(GameState *game) {        //done
     for (int i = 0; i < ANSWER_SIZE; i++){
         game->answer_space[i] = '_';
@@ -77,7 +78,7 @@ int check_winner(GameState *game) {
 int checkDraw(GameState *game) {  //if wordIsComplete() = false && all players' lives = 0
 }
 
-//-------QAI---------
+//------- 4. QAI ---------
 void updateAnswerSpaces(GameState *game, int client_idx) {
     char answer_str[ANSWER_SIZE + 1];
     memcpy(answer_str, game->answer_space, ANSWER_SIZE);
@@ -92,7 +93,7 @@ void broadcast_board(GameState *game) {
     }
 }
 
-//-------NUHA--------
+//------- 2. NUHA --------
 int isCorrect(GameState *game, int current) {
     for (int i = 0; i < WORD_LEN; i++){
         if(game->guess_letter[current] == game->answer_word[i]){
@@ -108,7 +109,7 @@ int isCorrect(GameState *game, int current) {
     return 0;
 }
 
-//-----------QAI-------------------------
+//----------- 5. QAI -------------------------
 int wordIsComplete(GameState *game) {
     for (int i = 0; i < WORD_LEN; i++)
         if (game->answer_space[i] == '_')
@@ -117,7 +118,7 @@ int wordIsComplete(GameState *game) {
     return 1;
 }
 
-//---------------NURA---------------------
+//--------------- 7. NURA ---------------------
 //logging functions
 
 
@@ -220,19 +221,22 @@ void handle_client(int current, GameState *game) {
             continue;
         }
 
-        // if correct/ wrong
+        // if correct/ wrongc + add/minus scores/lives
         if (isCorrect(game, current)){
             //log_move(game->names[current], position, game->guess_letter[current]);
             printf("%s  got (%c) correct \n", game->names[current], game->guess_letter[current]);
+
+            //tambah markah
         }
         else{
             printf("%s  got (%c) wrong \n", game->names[current], game->guess_letter[current]);
+
+            //tolak markah
+            //tolak nyawa
         }
 
         //check if word is already completed/ draw or win
         if (wordIsComplete(game)){
-
-            //scorin
 
             game->game_over=1;
             
