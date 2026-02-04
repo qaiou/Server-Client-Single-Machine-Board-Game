@@ -38,6 +38,7 @@ typedef struct {
 char words[MAX_WORDS][WORD_LEN];
 int word_count = 0;
 
+//-------QAI---------
 void load_words(const char *filename) {   //done
     FILE *fp = fopen(filename, "r");
     if (!fp) {
@@ -53,7 +54,16 @@ void load_words(const char *filename) {   //done
     fclose(fp);
 }
 
-void init_game(GameState *game) {
+void setWord(GameState *game){
+    
+    strcpy(game->answer_word, words[rand() % word_count]);
+
+    printf("\nRandom word selected: %s\n", game->answer_word);
+     //test if random word select works ^^
+}
+
+//-------YUNI--------
+void initAnswerSpaces(GameState *game) {        //done
     for (int i = 0; i < ANSWER_SIZE; i++){
         game->answer_space[i] = '_';
     }
@@ -61,22 +71,13 @@ void init_game(GameState *game) {
     game->game_over = 0;
 }
 
-int isCorrect(GameState *game, int current) {
-    for (int i = 0; i < WORD_LEN; i++){
-        if(game->guess_letter[current] == game->answer_word[i]){
-            game->answer_space[i] = game->guess_letter[current];
-            return 1;
-        }
-    }
-    return 0;
-}
-
 int check_winner(GameState *game) {
 }
 
-int check_draw(GameState *game) {  //if wordIsComplete() = false && all players' lives = 0
+int checkDraw(GameState *game) {  //if wordIsComplete() = false && all players' lives = 0
 }
 
+//-------QAI---------
 void updateAnswerSpaces(GameState *game, int client_idx) {
     char answer_str[ANSWER_SIZE + 1];
     memcpy(answer_str, game->answer_space, ANSWER_SIZE);
@@ -85,13 +86,44 @@ void updateAnswerSpaces(GameState *game, int client_idx) {
     sprintf(buffer, "BOARD:%s", answer_str);
     send(game->client_sockets[client_idx], buffer, strlen(buffer), 0);
 }
-
 void broadcast_board(GameState *game) {
     for (int i = 0; i < 3; i++) {
         updateAnswerSpaces(game, i);
     }
 }
 
+//-------NUHA--------
+int isCorrect(GameState *game, int current) {
+    for (int i = 0; i < WORD_LEN; i++){
+        if(game->guess_letter[current] == game->answer_word[i]){
+            game->answer_space[i] = game->guess_letter[current];
+
+            //send'correct' message to client
+             //update the answer spaces
+            broadcast_board(game);
+            return 1;
+        }
+    }
+    //send'worng' message to client
+    return 0;
+}
+
+//-----------QAI-------------------------
+int wordIsComplete(GameState *game) {
+    for (int i = 0; i < WORD_LEN; i++)
+        if (game->answer_space[i] == '_')
+            // send to all client word is complete
+            return 0;
+    return 1;
+}
+
+//---------------NURA---------------------
+//logging functions
+
+
+//---- keyword message send to client like a signal -----
+//---- for what it should show/do to client screen  -----
+//  not need to change for now
 void send_prompt_message(GameState *game, int client_idx) {
     char msg[] = "PROMPT";
     send(game->client_sockets[client_idx], msg, strlen(msg), 0);
@@ -102,13 +134,6 @@ void send_wait_message(GameState *game, int client_idx) {
     send(game->client_sockets[client_idx], msg, strlen(msg), 0);
 }
 
-int wordIsComplete(GameState *game) {
-    for (int i = 0; i < WORD_LEN; i++)
-        if (game->answer_space[i] == '_')
-            return 0;
-    return 1;
-}
-
 void handle_timeout(GameState *game, int current) {
     char msg[] = "TIMEOUT";
     send(game->client_sockets[current], msg, strlen(msg), 0);
@@ -116,10 +141,13 @@ void handle_timeout(GameState *game, int current) {
     game->current_player = (game->current_player + 1) % 3;
 
     send_wait_message(game, current);
-    send_prompt_message(game, game->current_player);
-    
+    send_prompt_message(game, game->current_player); 
 }
+// --------------------------------------------------------
+// --------------------------------------------------------
 
+
+//-- when forked, enter this part for each client
 void handle_client(int current, GameState *game) {
     char buffer[256];
 
@@ -186,11 +214,6 @@ void handle_client(int current, GameState *game) {
 
         //lock before modify
         pthread_mutex_lock(&game->mutex);
-
-        if (game->game_over) {
-            pthread_mutex_unlock(&game->mutex);
-            break;
-        }
         
         if (!isalpha(game->guess_letter[current])) {
             send(game->client_sockets[current], "INVALID", 7, 0);
@@ -200,31 +223,30 @@ void handle_client(int current, GameState *game) {
         // if correct/ wrong
         if (isCorrect(game, current)){
             //log_move(game->names[current], position, game->guess_letter[current]);
-        printf("%s  got (%c) correct \n", game->names[current], game->guess_letter[current]);
+            printf("%s  got (%c) correct \n", game->names[current], game->guess_letter[current]);
         }
         else{
             printf("%s  got (%c) wrong \n", game->names[current], game->guess_letter[current]);
         }
 
-        broadcast_board(game);
-
         //check if word is already completed/ draw or win
         if (wordIsComplete(game)){
 
-            //scoring
+            //scorin
 
-            //game_over =1
+            game->game_over=1;
             
         }
 
         // if game not over yet, proceed to next player
         if (!game->game_over)
             game->current_player = (game->current_player + 1) % 3;
+        else
+            break;
         
         pthread_mutex_unlock(&game->mutex);
 
-        //update the answer spaces
-        broadcast_board(game);
+       
         
         // round finish message to client
         /*
@@ -313,7 +335,7 @@ int main() {
 
 
     char first_symbol = '\0';
-    init_game(game);
+    initAnswerSpaces(game);
 
     //--------------- Load words and declare randomizer---------
     load_words("words.txt");   
@@ -322,13 +344,6 @@ int main() {
         exit(1);
     }
     srand(time(NULL));
-
-    /* 
-    strcpy(game->answer_word, words[rand() % word_count]);
-
-    printf("\nRandom word selected: %s\n", game->answer_word);
-    */ //test if random word select works ^^
-
 
     //-------------Player (client) connects ---------------------
     for (int i = 0; i < 3; i++) {
@@ -356,7 +371,7 @@ int main() {
     //Parents starts the game
     printf("\nGame starting!\n");
     printf("%s vs %s vs %s \n\n", game->names[0], game->names[1], game->names[2]);
-
+    setWord(game);
     broadcast_board(game);
 
     //send initial turn messages
