@@ -23,6 +23,7 @@
 typedef struct {
     pthread_mutex_t mutex;
     pthread_cond_t turn_cond;
+    pthread_cond_t guess_cond;
 
     char answer_space[ANSWER_SIZE]; // 5 answer spaces. initially is all '_'        
     int client_sockets[3];          // 3 players (or more)
