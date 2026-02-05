@@ -79,13 +79,7 @@ void initGame(GameState *game) {        //done
     game->current_player = 0;
     game->game_over = 0;
 }
-
-void newRound(GameState *game) {
-    setWord(game);
-    initGame(game);
-    broadcast_board(game);
-    pthread_cond_broadcast(&game->turn_cond);
-}
+//delete new round
 
 //------- 4. YUNI ---------
 void updateAnswerSpaces(GameState *game, int client_idx) {
