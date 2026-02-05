@@ -13,6 +13,7 @@
 
 typedef struct {
     char answer_space[ANSWER_SIZE];
+    char answer[ANSWER_SIZE];
     char my_name[NAME_SIZE];
     char guess_letter;           // player's letter guess
     char guess_word[WORD_LEN];    // player's word guess (if player decides to guess a whole word)
@@ -156,10 +157,11 @@ int main() {
         else if (strncmp(buffer, "WRONG:", 6) == 0){
             printf("\nWrong guess..\n");
         }
-        else if (strncmp(buffer, "COMPLETE:", 8) == 0) {  //complete one round
+        else if (strncmp(buffer, "REVEAL:", 7) == 0) {  //complete one round
+            memcpy(state.answer, buffer + 7, ANSWER_SIZE);
             printf("=========================================\n");
-            printf("\t\t\tROUND %d ENDED", state.round);
-            printf("THE ANSWER IS: ");
+            printf("\t\tROUND %d ENDED", state.round);
+            printf("THE ANSWER IS: %c\n", state.answer);
             printf("=========================================\n");
             state.round++;
         } 
@@ -175,6 +177,7 @@ int main() {
     close(sock);
     return 0;
 }
+
 
 
 /*
