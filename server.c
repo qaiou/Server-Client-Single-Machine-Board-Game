@@ -128,6 +128,7 @@ if (game-> round == 5) {
     //prepare next round
     setWord(game);  //select new word
     initGame(game); //reset answer space and lives
+    game->current_player = 0; //reset to player 1 
     return 1; //word complete round finished
  }
 }
