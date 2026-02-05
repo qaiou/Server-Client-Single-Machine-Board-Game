@@ -151,17 +151,17 @@ int main() {
             sprintf(move_msg, "MOVE:%c", letter);
             send(sock, move_msg, strlen(move_msg), 0);
         } 
-        else if (strncmp(buffer, "CORRECT:", 8) == 0){
+        else if (strncmp(buffer, "CORRECT", 7) == 0){
             printf("\nGood Guess!\n");
         }
         else if (strncmp(buffer, "WRONG:", 6) == 0){
             printf("\nWrong guess..\n");
         }
-        else if (strncmp(buffer, "REVEAL:", 7) == 0) {  //complete one round
-            memcpy(state.answer, buffer + 7, ANSWER_SIZE);
+        else if (strncmp(buffer, "REVEAL", 6) == 0) {  //complete one round
+            memcpy(state.answer, buffer + 6, ANSWER_SIZE);
             printf("=========================================\n");
-            printf("\t\tROUND %d ENDED", state.round);
-            printf("THE ANSWER IS: %c\n", state.answer);
+            printf("      ROUND %d ENDED\n", state.round);
+            printf("   THE ANSWER IS: %c\n", state.answer);
             printf("=========================================\n");
             state.round++;
         } 
@@ -177,6 +177,7 @@ int main() {
     close(sock);
     return 0;
 }
+
 
 
 

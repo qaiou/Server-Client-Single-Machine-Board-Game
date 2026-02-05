@@ -20,7 +20,6 @@
 #define MAX_PLAYERS 3
 #define MAX_ROUNDS 5
 
-
 // -------- Shared Memory Game State --------
 typedef struct {
     pthread_mutex_t mutex;
@@ -205,16 +204,17 @@ void handleClient(int me, GameState *g) {
             continue;
         }
 
-        if (applyGuess(g, me)) {
+        if (applyGuess(g, me)) {  //if guess is correect
             sendCorrect(g, me);
             g->scores[me]++;
-        } else {
+        } else {                    //if guess is wrong
             sendWrong(g, me);
             g->lives[me]--;
         }
 
         if (wordIsComplete(g)) {
             g->round++;
+            
             sendReveal(g);
 
             if (g->round >= MAX_ROUNDS) {
