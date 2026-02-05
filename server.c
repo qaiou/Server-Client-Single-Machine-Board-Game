@@ -31,6 +31,7 @@ typedef struct {
     char guess_letter[3];           // player's letter guess
     char guess_word[3][WORD_LEN];    // player's word guess (if player decides to guess a whole word)
     int lives[3];                   // players' lives
+    int scores[3];
     int round;
 
     int current_player;              
@@ -57,7 +58,7 @@ void load_words(const char *filename) {   //done
     fclose(fp);
 }
 
-//------- 6. YUNI ---------
+//------- 6. QAI ---------
 void setWord(GameState *game){
     
     strcpy(game->answer_word, words[rand() % word_count]);
@@ -66,7 +67,7 @@ void setWord(GameState *game){
      //test if random word select works ^^
 }
 
-//-------1. YUNI--------
+//-------1. QAI --------
 void initGame(GameState *game) {        //done
     for (int i = 0; i < strlen(game->answer_word); i++){
         game->answer_space[i] = '_';
@@ -78,7 +79,6 @@ void initGame(GameState *game) {        //done
     game->game_over = 0;
 }
 
-
 void newRound(GameState *game) {
     setWord(game);
     initGame(game);
@@ -86,13 +86,7 @@ void newRound(GameState *game) {
     pthread_cond_broadcast(&game->turn_cond);
 }
 
-int check_winner(GameState *game) {
-}
-
-int checkDraw(GameState *game) {  //if wordIsComplete() = false && all players' lives = 0
-}
-
-//------- 4. QAI ---------
+//------- 4. YUNI ---------
 void updateAnswerSpaces(GameState *game, int client_idx) {
     char answer_str[ANSWER_SIZE + 1];
     memcpy(answer_str, game->answer_space, ANSWER_SIZE);
@@ -123,7 +117,7 @@ int isCorrect(GameState *game, int current) {
     return 0;
 }
 
-//----------- 5. QAI -------------------------
+//----------- 5. YUNI -------------------------
 int wordIsComplete(GameState *game) {
     for (int i = 0; i < strlen(game->answer_word); i++)
         if (game->answer_space[i] == '_')
@@ -312,7 +306,7 @@ int main() {
     printf("Waiting for players to connect...\n\n");
 
     //-------------create and open shared memory object-----------------------
-    shm_fd = shm_open("/tictactoe_shm", O_CREAT | O_RDWR, 0666);
+    shm_fd = shm_open("/wordgame_shm", O_CREAT | O_RDWR, 0666);
     if (shm_fd == -1) {
         perror("shm_open failed");
         exit(EXIT_FAILURE);
@@ -398,10 +392,17 @@ int main() {
     }
 
     munmap(game, sizeof(GameState));
-    shm_unlink("/tictactoe_shm");
+    shm_unlink("/wordgame_shm");
     
     return 0;
 }
+
+/*
+lives
+scores
+5 rounds
+word or letter answer
+*/
 
 
 
@@ -526,3 +527,5 @@ void handle_client(int current, GameState *game) {
     exit(0);
 }
 */
+
+
