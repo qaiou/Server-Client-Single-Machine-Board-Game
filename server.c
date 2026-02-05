@@ -78,6 +78,14 @@ void initGame(GameState *game) {        //done
     game->game_over = 0;
 }
 
+
+void newRound(GameState *game) {
+    setWord(game);
+    initGame(game);
+    broadcast_board(game);
+    pthread_cond_broadcast(&game->turn_cond);
+}
+
 int check_winner(GameState *game) {
 }
 
@@ -187,11 +195,9 @@ void handle_client(int current, GameState *game) {
 
         if (ready == 0) {
             // TIMEOUT
-            if (!game->game_over && current == game->current_player) {
-                printf("%s timed out!\n", game->names[current]);
-                game->current_player = (game->current_player + 1) % 3;
-                pthread_cond_broadcast(&game->turn_cond);
-            }
+            printf("%s timed out!\n", game->names[current]);
+            game->current_player = (game->current_player + 1) % 3;
+            pthread_cond_broadcast(&game->turn_cond);
             pthread_mutex_unlock(&game->mutex);
             continue;
         }
@@ -225,17 +231,32 @@ void handle_client(int current, GameState *game) {
             continue;
         }
 
-        if (isCorrect(game, current))
-            printf("%s got (%c) correct\n", game->names[current], game->guess_letter[current]);
-        else
-            printf("%s got (%c) wrong\n", game->names[current], game->guess_letter[current]);
+        if (isCorrect(game, current)){
+            //log_move(game->names[current], position, game->guess_letter[current]);
+            printf("%s  got (%c) correct \n", game->names[current], game->guess_letter[current]);
+
+            //tambah markah
+            //send signal correct
+        }
+        else{
+            printf("%s  got (%c) wrong \n", game->names[current], game->guess_letter[current]);
+
+            //send signal wrong
+            //tolak markah
+            //tolak nyawa
+        }
 
         if (wordIsComplete(game)) {
-            game->game_over = 1;
-            printf("test end");
+            game->round++;
+            //verify if dah habis semua 5 round
+            //kalau belum, hantar signal COMPLETE to all client & panggil function newRound()
+            //kalau dah, game_over=1, hantar signal END
+
+            printf("test");
         } else {
             game->current_player = (game->current_player + 1) % 3;
         }
+
 
         pthread_cond_broadcast(&game->turn_cond);
         pthread_mutex_unlock(&game->mutex);

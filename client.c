@@ -150,20 +150,20 @@ int main() {
             sprintf(move_msg, "MOVE:%c", letter);
             send(sock, move_msg, strlen(move_msg), 0);
         } 
-        else if (strncmp(buffer, "CORRECT:", 7) == 0){
+        else if (strncmp(buffer, "CORRECT:", 8) == 0){
             printf("\nGood Guess!\n");
         }
-        else if (strncmp(buffer, "WRONG:", 7) == 0){
+        else if (strncmp(buffer, "WRONG:", 6) == 0){
             printf("\nWrong guess..\n");
         }
-        else if (strncmp(buffer, "COMPLETE:", 7) == 0) {  //complete one round
+        else if (strncmp(buffer, "COMPLETE:", 8) == 0) {  //complete one round
             printf("=========================================\n");
             printf("\t\t\tROUND %d ENDED", state.round);
             printf("THE ANSWER IS: ");
             printf("=========================================\n");
             state.round++;
         } 
-        else if (strncmp(buffer, "END", 4) == 0) {    //complete all round
+        else if (strncmp(buffer, "END", 3) == 0) {    //complete all round
             printf("\n");
             printf("=========================================\n");
             printf("              GAME ENDED!\n");
