@@ -101,13 +101,11 @@ int isCorrect(GameState *game, int current) {
         if(game->guess_letter[current] == game->answer_word[i]){
             game->answer_space[i] = game->guess_letter[current];
 
-            //send'correct' message to client
              //update the answer spaces
             broadcast_board(game);
             return 1;
         }
     }
-    //send'worng' message to client
     return 0;
 }
 
@@ -116,21 +114,25 @@ int wordIsComplete(GameState *game) {
     for (int i = 0; i < strlen(game->answer_word); i++) {
         if (game->answer_space[i] == '_') {
             return 0; // word not complete yet
+        }
     }
-}
-//word complete
-game ->round++; //advance round counter
+    //word complete
+    game->round++; //advance round counter
+    //hantar signal complete
+    
+    if (game-> round == 5) {
+        game->game_over = 1;
+        
+        //hantar signal end
 
-if (game-> round == 5) {
-    game->game_over = 1;
-    return 1; //signal completion and game over
-} else {
-    //prepare next round
-    setWord(game);  //select new word
-    initGame(game); //reset answer space and lives
-    game->current_player = 0; //reset to player 1 
-    return 1; //word complete round finished
- }
+        return 1; //signal completion and game over
+    } else {
+        //prepare next round
+        setWord(game);  //select new word
+        initGame(game); //reset answer space and lives
+        game->current_player = 0; //reset to player 1 
+        return 1; //word complete round finished
+    }
 }
 
 
