@@ -119,12 +119,18 @@ int isCorrect(GameState *game, int current) {
 }
 
 //----------- 5. YUNI -------------------------
-int wordIsComplete(GameState *game) {
-    for (int i = 0; i < strlen(game->answer_word); i++)
+int wordIsComplete(GameState *game, int current_round, int total_rounds) {
+    for (int i = 0; i < strlen(game->answer_word); i++) {
         if (game->answer_space[i] == '_')
-            return 0;
-    // send to all client word is complete
-    return 1;
+            return 0; // word not complete yet
+    }
+}
+//word is complete & end the game
+if (current_round == total_rounds) {
+game->game_over = 1;
+} else {
+    return 1; // continue to next round
+}
 }
 
 //--------------- 7. NURA ---------------------
@@ -528,5 +534,6 @@ void handle_client(int current, GameState *game) {
     exit(0);
 }
 */
+
 
 
