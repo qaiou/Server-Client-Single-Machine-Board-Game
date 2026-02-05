@@ -114,17 +114,24 @@ int isCorrect(GameState *game, int current) {
 //----------- 5. YUNI -------------------------
 int wordIsComplete(GameState *game) {
     for (int i = 0; i < strlen(game->answer_word); i++) {
-        if (game->answer_space[i] == '_')
+        if (game->answer_space[i] == '_') {
             return 0; // word not complete yet
     }
 }
-//word is complete & end the game
+//word complete
+game ->round++; //advance round counter
+
 if (game-> round == 5) {
-game->game_over = 1;
+    game->game_over = 1;
+    return 1; //signal completion and game over
 } else {
-    return 1; // continue to next round
+    //prepare next round
+    setWord(game);  //select new word
+    initGame(game); //reset answer space and lives
+    return 1; //word complete round finished
+ }
 }
-}
+
 
 //--------------- 7. NURA ---------------------
 //logging functions
