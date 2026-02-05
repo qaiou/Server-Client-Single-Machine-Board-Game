@@ -22,6 +22,8 @@
 //--------shared memory------------
 typedef struct {
     pthread_mutex_t mutex;
+    pthread_cond_t turn_cond;
+
     char answer_space[ANSWER_SIZE]; // 5 answer spaces. initially is all '_'        
     int client_sockets[3];          // 3 players (or more)
     char names[3][NAME_SIZE];       // players' name
@@ -29,6 +31,7 @@ typedef struct {
     char guess_letter[3];           // player's letter guess
     char guess_word[3][WORD_LEN];    // player's word guess (if player decides to guess a whole word)
     int lives[3];                   // players' lives
+    int round;
 
     int current_player;              
     int game_over;                  // 0 or 1
@@ -64,9 +67,12 @@ void setWord(GameState *game){
 }
 
 //-------1. YUNI--------
-void initAnswerSpaces(GameState *game) {        //done
-    for (int i = 0; i < ANSWER_SIZE; i++){
+void initGame(GameState *game) {        //done
+    for (int i = 0; i < strlen(game->answer_word); i++){
         game->answer_space[i] = '_';
+    }
+    for (int i = 0; i < 3; i++){
+        game->lives[i]=3;
     }
     game->current_player = 0;
     game->game_over = 0;
@@ -95,7 +101,7 @@ void broadcast_board(GameState *game) {
 
 //------- 2. NUHA --------
 int isCorrect(GameState *game, int current) {
-    for (int i = 0; i < WORD_LEN; i++){
+    for (int i = 0; i < strlen(game->answer_word); i++){
         if(game->guess_letter[current] == game->answer_word[i]){
             game->answer_space[i] = game->guess_letter[current];
 
@@ -111,10 +117,10 @@ int isCorrect(GameState *game, int current) {
 
 //----------- 5. QAI -------------------------
 int wordIsComplete(GameState *game) {
-    for (int i = 0; i < WORD_LEN; i++)
+    for (int i = 0; i < strlen(game->answer_word); i++)
         if (game->answer_space[i] == '_')
-            // send to all client word is complete
             return 0;
+    // send to all client word is complete
     return 1;
 }
 
@@ -148,45 +154,43 @@ void handle_timeout(GameState *game, int current) {
 // --------------------------------------------------------
 
 
-//-- when forked, enter this part for each client
 void handle_client(int current, GameState *game) {
     char buffer[256];
 
     while (1) {
-
-        // Only current player is allowed to wait for input
         pthread_mutex_lock(&game->mutex);
+
+        // Sleep until it's my turn or game ends
+        while (!game->game_over && current != game->current_player) {
+            pthread_cond_wait(&game->turn_cond, &game->mutex);
+        }
+
         if (game->game_over) {
             pthread_mutex_unlock(&game->mutex);
             break;
         }
 
-        if (current != game->current_player) {
-            pthread_mutex_unlock(&game->mutex);
-            usleep(100000);
-            continue;
-        }
-
         send_prompt_message(game, current);
         pthread_mutex_unlock(&game->mutex);
 
-        // ---- ROUND ROBIN WITH 10s TIME LIMIT ----
+        // ---- RR 10s TIME LIMIT ----
         fd_set readfds;
         struct timeval tv;
-
         FD_ZERO(&readfds);
         FD_SET(game->client_sockets[current], &readfds);
         tv.tv_sec = 10;
         tv.tv_usec = 0;
 
         int ready = select(game->client_sockets[current] + 1, &readfds, NULL, NULL, &tv);
+
         pthread_mutex_lock(&game->mutex);
 
         if (ready == 0) {
             // TIMEOUT
             if (!game->game_over && current == game->current_player) {
                 printf("%s timed out!\n", game->names[current]);
-                handle_timeout(game, current);
+                game->current_player = (game->current_player + 1) % 3;
+                pthread_cond_broadcast(&game->turn_cond);
             }
             pthread_mutex_unlock(&game->mutex);
             continue;
@@ -211,66 +215,35 @@ void handle_client(int current, GameState *game) {
         if (strncmp(buffer, "MOVE:", 5) != 0)
             continue;
 
-        game->guess_letter[current]=buffer[5];
-
-        //lock before modify
         pthread_mutex_lock(&game->mutex);
-        
+
+        game->guess_letter[current] = buffer[5];
+
         if (!isalpha(game->guess_letter[current])) {
             send(game->client_sockets[current], "INVALID", 7, 0);
+            pthread_mutex_unlock(&game->mutex);
             continue;
         }
 
-        // if correct/ wrongc + add/minus scores/lives
-        if (isCorrect(game, current)){
-            //log_move(game->names[current], position, game->guess_letter[current]);
-            printf("%s  got (%c) correct \n", game->names[current], game->guess_letter[current]);
-
-            //tambah markah
-        }
-        else{
-            printf("%s  got (%c) wrong \n", game->names[current], game->guess_letter[current]);
-
-            //tolak markah
-            //tolak nyawa
-        }
-
-        //check if word is already completed/ draw or win
-        if (wordIsComplete(game)){
-
-            game->game_over=1;
-            
-        }
-
-        // if game not over yet, proceed to next player
-        if (!game->game_over)
-            game->current_player = (game->current_player + 1) % 3;
+        if (isCorrect(game, current))
+            printf("%s got (%c) correct\n", game->names[current], game->guess_letter[current]);
         else
-            break;
-        
+            printf("%s got (%c) wrong\n", game->names[current], game->guess_letter[current]);
+
+        if (wordIsComplete(game)) {
+            game->game_over = 1;
+            printf("test end");
+        } else {
+            game->current_player = (game->current_player + 1) % 3;
+        }
+
+        pthread_cond_broadcast(&game->turn_cond);
         pthread_mutex_unlock(&game->mutex);
 
-       
-        
-        // round finish message to client
-        /*
-        if (winner != -1) {
-            char win_msg[100];
-            sprintf(win_msg, "WINNER:%s", game->names[winner]);
-            for (int i = 0; i < 2; i++)
-                send(game->client_sockets[i], win_msg, strlen(win_msg), 0);
-            //log_winner(game->names[winner], game->answer_space[winner]);
+        if (game->game_over)
             break;
-        }
 
-        if (draw) {
-            for (int i = 0; i < 2; i++)
-                send(game->client_sockets[i], "DRAW", 4, 0);
-            //log_draw();
-            break;
-        }*/
-
-        // ---- ROUND ROBIN SWITCH ----
+        //---RR SWITCH ---
         send_wait_message(game, current);
     }
 
@@ -278,6 +251,7 @@ void handle_client(int current, GameState *game) {
     munmap(game, sizeof(GameState));
     exit(0);
 }
+
 
 
 int main() {
@@ -336,10 +310,14 @@ int main() {
     pthread_mutexattr_init(&attr);
     pthread_mutexattr_setpshared(&attr, PTHREAD_PROCESS_SHARED);
     pthread_mutex_init(&game->mutex, &attr);
+    pthread_condattr_t cattr;
+    pthread_condattr_init(&cattr);
+    pthread_condattr_setpshared(&cattr, PTHREAD_PROCESS_SHARED);
+    pthread_cond_init(&game->turn_cond, &cattr);
 
 
     char first_symbol = '\0';
-    initAnswerSpaces(game);
+    initGame(game);
 
     //--------------- Load words and declare randomizer---------
     load_words("words.txt");   
@@ -403,3 +381,127 @@ int main() {
     
     return 0;
 }
+
+
+
+/*
+//-- when forked, enter this part for each client
+void handle_client(int current, GameState *game) {
+    char buffer[256];
+
+    while (1) {
+
+        pthread_mutex_lock(&game->mutex);
+
+        while (!game->game_over && current != game->current_player) {
+            pthread_cond_wait(&game->turn_cond, &game->mutex);
+        }
+
+        if (game->game_over) {
+            pthread_mutex_unlock(&game->mutex);
+            break;
+        }
+
+        send_prompt_message(game, current);
+        pthread_mutex_unlock(&game->mutex);
+
+        // ---- ROUND ROBIN WITH 10s TIME LIMIT ----
+        fd_set readfds;
+        struct timeval tv;
+
+        FD_ZERO(&readfds);
+        FD_SET(game->client_sockets[current], &readfds);
+        tv.tv_sec = 10;
+        tv.tv_usec = 0;
+
+        int ready = select(game->client_sockets[current] + 1, &readfds, NULL, NULL, &tv);
+        pthread_mutex_lock(&game->mutex);
+
+        if (ready == 0) {
+            
+            if (!game->game_over && current == game->current_player) {
+                printf("%s timed out!\n", game->names[current]);
+                handle_timeout(game, current);
+                pthread_cond_broadcast(&game->turn_cond);
+            }
+            pthread_mutex_unlock(&game->mutex);
+            continue;
+        }
+
+        if (ready < 0) {
+            perror("select");
+            pthread_mutex_unlock(&game->mutex);
+            break;
+        }
+
+        pthread_mutex_unlock(&game->mutex);
+
+        // ---- INPUT RECEIVED ----
+        memset(buffer, 0, sizeof(buffer));
+        int valread = read(game->client_sockets[current], buffer, sizeof(buffer));
+        if (valread <= 0) {
+            printf("Player %s disconnected\n", game->names[current]);
+            break;
+        }
+
+        if (strncmp(buffer, "MOVE:", 5) != 0)
+            continue;
+
+        //lock before modify
+        pthread_mutex_lock(&game->mutex);
+
+        game->guess_letter[current]=buffer[5];
+        
+        if (!isalpha(game->guess_letter[current])) {
+            send(game->client_sockets[current], "INVALID", 7, 0);
+            pthread_mutex_unlock(&game->mutex);
+            continue;
+        }
+
+        // if correct/ wrongc + add/minus scores/lives
+        if (isCorrect(game, current)){
+            //log_move(game->names[current], position, game->guess_letter[current]);
+            printf("%s  got (%c) correct \n", game->names[current], game->guess_letter[current]);
+
+            //tambah markah
+            //send signal correct
+        }
+        else{
+            printf("%s  got (%c) wrong \n", game->names[current], game->guess_letter[current]);
+
+            //send signal wrong
+            //tolak markah
+            //tolak nyawa
+        }
+
+        //check if word is already completed
+        if (wordIsComplete(game)){
+
+            game->game_over=1;
+            
+            //hantar signal COMPLETE to all client
+            game->round++;
+            printf("test");
+        }
+
+        // if game not over yet, proceed to next player
+        if (!game->game_over)
+            game->current_player = (game->current_player + 1) % 3;
+        else{
+            pthread_mutex_unlock(&game->mutex);
+            printf("end\n");
+            break;
+        }
+        
+        pthread_cond_broadcast(&game->turn_cond);
+        pthread_mutex_unlock(&game->mutex);
+
+        // ---- ROUND ROBIN SWITCH ----
+        send_wait_message(game, current);
+    }
+
+    close(game->client_sockets[current]);
+    munmap(game, sizeof(GameState));
+    exit(0);
+}
+*/

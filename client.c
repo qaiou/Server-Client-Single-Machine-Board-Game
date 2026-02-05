@@ -17,6 +17,7 @@ typedef struct {
     char guess_letter;           // player's letter guess
     char guess_word[WORD_LEN];    // player's word guess (if player decides to guess a whole word)
     int lives;                   // player's lives
+    int round;
 } ClientState;
 
 void displayAnswerSpace(ClientState *s) {
@@ -81,6 +82,7 @@ int main() {
     }
 
     int game_active = 1;
+    state.round = 1;
     while (game_active) {
         memset(buffer, 0, 256);
         int valread = read(sock, buffer, 256);
@@ -134,8 +136,49 @@ int main() {
         } 
         else if (strncmp(buffer, "INVALID", 7) == 0) {
             printf("\n*** Invalid move! Thats not a letter\n");
+            printf("Input next letter: ");
+            fflush(stdout);
+
+            char letter;
+            if (scanf(" %c", &letter) != 1) {
+                while (getchar() != '\n');
+                continue;
+            }
+            while (getchar() != '\n');
+
+            char move_msg[20];
+            sprintf(move_msg, "MOVE:%c", letter);
+            send(sock, move_msg, strlen(move_msg), 0);
         } 
-        else if (strncmp(buffer, "WINNER:", 7) == 0) {
+        else if (strncmp(buffer, "CORRECT:", 7) == 0){
+            printf("\nGood Guess!\n");
+        }
+        else if (strncmp(buffer, "WRONG:", 7) == 0){
+            printf("\nWrong guess..\n");
+        }
+        else if (strncmp(buffer, "COMPLETE:", 7) == 0) {  //complete one round
+            printf("=========================================\n");
+            printf("\t\t\tROUND %d ENDED", state.round);
+            printf("THE ANSWER IS: ");
+            printf("=========================================\n");
+            state.round++;
+        } 
+        else if (strncmp(buffer, "END", 4) == 0) {    //complete all round
+            printf("\n");
+            printf("=========================================\n");
+            printf("              GAME ENDED!\n");
+            printf("=========================================\n");
+            game_active=0;
+        }
+    }
+
+    close(sock);
+    return 0;
+}
+
+
+/*
+ else if (strncmp(buffer, "COMPLETE0:", 7) == 0) {
             char winner_name[NAME_SIZE];
             strcpy(winner_name, buffer + 7);
             printf("\n");
@@ -155,8 +198,5 @@ int main() {
             printf("=========================================\n");
             game_active = 0;
         }
-    }
 
-    close(sock);
-    return 0;
-}
+*/
