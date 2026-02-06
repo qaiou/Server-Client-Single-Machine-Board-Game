@@ -43,6 +43,7 @@ typedef struct {
 char words[MAX_WORDS][WORD_LEN];
 int wordCount = 0;
 
+// -------- Utilities --------
 void loadWords(const char *filename) {
     FILE *fp = fopen(filename, "r");
     if (!fp) {
@@ -57,13 +58,13 @@ void loadWords(const char *filename) {
     fclose(fp);
 }
 
-void sendToClient(GameState *g, int idx, const char *msg) {
+void sendLine(GameState *g, int idx, const char *msg) {
     send(g->clientSockets[idx], msg, strlen(msg), 0);
 }
 
 void broadcast(GameState *g, const char *msg) {
     for (int i = 0; i < MAX_PLAYERS; i++)
-        sendToClient(g, i, msg);
+        sendLine(g, i, msg);
 }
 
 // -------- Game Logic --------
@@ -86,7 +87,7 @@ void initRound(GameState *g) {
 
 void sendBoard(GameState *g) {
     char msg[64];
-    sprintf(msg, "BOARD:%s", g->answerSpace);
+    sprintf(msg, "BOARD:%s\n", g->answerSpace);
     broadcast(g, msg);
 }
 
@@ -97,9 +98,7 @@ int applyGuess(GameState *g, int player) {
             g->answerSpace[i] = g->guessLetter[player];
             correct = 1;
         }
-    }
-    if (correct)
-        sendBoard(g);
+    }  
     return correct;
 }
 
@@ -111,35 +110,33 @@ int wordIsComplete(GameState *g) {
 }
 
 // -------- Protocol Signals --------
-void sendPrompt(GameState *g, int idx) { sendToClient(g, idx, "PROMPT"); }
-void sendWait(GameState *g, int idx)   { sendToClient(g, idx, "WAIT"); }
-void sendInvalid(GameState *g, int idx){ sendToClient(g, idx, "INVALID"); }
-void sendCorrect(GameState *g, int idx){ sendToClient(g, idx, "CORRECT"); }
-void sendWrong(GameState *g, int idx)  { sendToClient(g, idx, "WRONG"); }
+void sendPrompt(GameState *g, int idx)  { sendLine(g, idx, "PROMPT\n"); }
+void sendWait(GameState *g, int idx)    { sendLine(g, idx, "WAIT\n"); }
+void sendInvalid(GameState *g, int idx) { sendLine(g, idx, "INVALID\n"); }
+void sendCorrect(GameState *g, int idx) { sendLine(g, idx, "CORRECT\n"); }
+void sendWrong(GameState *g, int idx)   { sendLine(g, idx, "WRONG\n"); }
+
+void sendReveal(GameState *g) {
+    char msg[64];
+    sprintf(msg, "REVEAL:%s\n", g->answerWord);
+    broadcast(g, msg);
+}
+
+void sendEnd(GameState *g) {
+    broadcast(g, "END\n");
+}
 
 void startNewRound(GameState *g) {
     chooseRandomWord(g);
     initRound(g);
     sendBoard(g);
 
-    // Force turn ownership
     sendPrompt(g, g->currentPlayer);
-    for (int i = 0; i < MAX_PLAYERS; i++) {
+    for (int i = 0; i < MAX_PLAYERS; i++)
         if (i != g->currentPlayer)
             sendWait(g, i);
-    }
 
     pthread_cond_broadcast(&g->turnCond);
-}
-
-void sendReveal(GameState *g) {
-    char msg[64];
-    sprintf(msg, "REVEAL:%s", g->answerWord);
-    broadcast(g, msg);
-}
-
-void sendEnd(GameState *g) {
-    broadcast(g, "END");
 }
 
 // -------- Client Handler --------
@@ -172,7 +169,7 @@ void handleClient(int me, GameState *g) {
         pthread_mutex_lock(&g->mutex);
 
         if (ready == 0) {
-            printf("%s timed out\n", g->names[me]);
+            printf("[SERVER] %s timed out\n", g->names[me]);
             g->currentPlayer = (g->currentPlayer + 1) % MAX_PLAYERS;
             pthread_cond_broadcast(&g->turnCond);
             pthread_mutex_unlock(&g->mutex);
@@ -188,7 +185,7 @@ void handleClient(int me, GameState *g) {
         pthread_mutex_unlock(&g->mutex);
 
         memset(buffer, 0, sizeof(buffer));
-        int n = read(g->clientSockets[me], buffer, sizeof(buffer));
+        int n = recv(g->clientSockets[me], buffer, sizeof(buffer) - 1, 0);
         if (n <= 0) break;
 
         if (strncmp(buffer, "MOVE:", 5) != 0)
@@ -204,17 +201,18 @@ void handleClient(int me, GameState *g) {
             continue;
         }
 
-        if (applyGuess(g, me)) {  //if guess is correect
+        if (applyGuess(g, me)) {
             sendCorrect(g, me);
+            sendBoard(g);
             g->scores[me]++;
-        } else {                    //if guess is wrong
+        } else {
             sendWrong(g, me);
+            sendBoard(g);
             g->lives[me]--;
         }
 
         if (wordIsComplete(g)) {
             g->round++;
-            
             sendReveal(g);
 
             if (g->round >= MAX_ROUNDS) {
@@ -297,7 +295,7 @@ int main() {
         printf("Waiting for player %d...\n", i + 1);
         g->clientSockets[i] = accept(serverFd, (struct sockaddr *)&address, &addrlen);
         char buf[256] = {0};
-        read(g->clientSockets[i], buf, sizeof(buf));
+        recv(g->clientSockets[i], buf, sizeof(buf) - 1, 0);
         if (strncmp(buf, "NAME:", 5) == 0)
             strncpy(g->names[i], buf + 5, NAME_SIZE - 1);
 
@@ -309,7 +307,7 @@ int main() {
     initRound(g);
     sendBoard(g);
 
-    sendPrompt(g, 0);
+    //sendPrompt(g, 0);
     sendWait(g, 1);
     sendWait(g, 2);
 
