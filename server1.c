@@ -272,7 +272,7 @@ void closeLog(GameState *g) {
 }
 
 // ========================================
-// FILE & NETWORK UTILITIES - YUNIE
+// FILE & NETWORK UTILITIES - YUNIE (FIXED)
 // ========================================
 void loadWords(const char *filename) {
     FILE *fp = fopen(filename, "r");
@@ -288,8 +288,11 @@ void loadWords(const char *filename) {
     fclose(fp);
 }
 
+// ✅ FIXED: Add newline to all messages
 void sendToClient(GameState *g, int idx, const char *msg) {
-    send(g->clientSockets[idx], msg, strlen(msg), 0);
+    char buffer[512];
+    snprintf(buffer, sizeof(buffer), "%s\n", msg);  // Add \n here!
+    send(g->clientSockets[idx], buffer, strlen(buffer), 0);
 }
 
 void broadcast(GameState *g, const char *msg) {
@@ -567,7 +570,7 @@ void handleClient(int me, GameState *g) {
 }
 
 // ========================================
-// MAIN FUNCTION - QAI & YUNIE
+// MAIN FUNCTION - QAI & YUNIE (FIXED)
 // ========================================
 int main() {
     signal(SIGCHLD, SIG_IGN);
@@ -648,9 +651,10 @@ int main() {
     sendBoard(g);
     sendGameState(g);
 
-    sendPrompt(g, 0);
-    sendWait(g, 1);
-    sendWait(g, 2);
+    // ✅ FIXED: Removed duplicate PROMPT/WAIT - handleClient() will send them
+    // sendPrompt(g, 0);
+    // sendWait(g, 1);
+    // sendWait(g, 2);
 
     for (int i = 0; i < MAX_PLAYERS; i++) {
         if (fork() == 0) {
