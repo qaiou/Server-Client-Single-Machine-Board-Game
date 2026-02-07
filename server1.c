@@ -1,670 +1,709 @@
 #include <stdio.h>
-#include <pthread.h>
-#include <sys/select.h>
-#include <sys/mman.h>
-#include <sys/stat.h>
-#include <fcntl.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <pthread.h>
 #include <arpa/inet.h>
-#include <time.h>
 #include <ctype.h>
-#include <signal.h>
+#include <time.h>
+#include <sys/select.h>
+#include <stdarg.h>
 
 #define PORT 8080
-#define ANSWER_SIZE 6
+#define MAX_CLIENTS 3
+#define WORD_LEN 20
 #define NAME_SIZE 50
-#define MAX_WORDS 110
-#define WORD_LEN 8
-#define MAX_PLAYERS 3
-#define MAX_ROUNDS 5
-#define LOG_FILE "game_log.txt"
-#define SCORE_FILE "scores.txt"
+#define ANSWER_SIZE 50
+#define TOTAL_ROUNDS 5
+#define TIMEOUT_SECONDS 15
+#define WORD_DATABASE_SIZE 10
 
-// ========================================
-// SHARED DATA STRUCTURES - QAI
-// ========================================
+// ============================================
+// NURA - Logging structures and mutex
+// ============================================
 typedef struct {
-    pthread_mutex_t mutex;
-    pthread_cond_t turnCond;
+    char message[512];
+    time_t timestamp;
+} LogEntry;
 
-    char answerSpace[ANSWER_SIZE];
-    char answerWord[WORD_LEN];
+typedef struct {
+    LogEntry entries[1000];
+    int count;
+    pthread_mutex_t lock;
+} LogBuffer;
 
-    int clientSockets[MAX_PLAYERS];
-    char names[MAX_PLAYERS][NAME_SIZE];
+LogBuffer log_buffer;
+FILE *log_file;
+pthread_t logging_thread;
+int logging_active = 1;
 
-    char guessLetter[MAX_PLAYERS];
-    char guessWord[MAX_PLAYERS][WORD_LEN];
-    int lives[MAX_PLAYERS];
-    int scores[MAX_PLAYERS];
+// ============================================
+// Game structures
+// ============================================
+typedef struct {
+    int socket;
+    char name[NAME_SIZE];
+    int score;
+    int lives;
+    int is_eliminated;
+    int ready;
+    int timed_out;
+} Player;
 
-    int currentPlayer;
+typedef struct {
+    char word[WORD_LEN];
+    char answer_space[ANSWER_SIZE];
+    int current_player;
     int round;
-    int gameOver;
-    
-    FILE *logFile;  // NURA - Log file pointer
+    Player players[MAX_CLIENTS];
+    int player_count;
+    pthread_mutex_t lock;
+    int game_started;
+    int game_finished;
 } GameState;
 
-char words[MAX_WORDS][WORD_LEN];
-int wordCount = 0;
+GameState game;
 
-// ========================================
-// LOGGING FUNCTIONS - NURA (Part 7)
-// ========================================
-void initLog(GameState *g) {
-    g->logFile = fopen(LOG_FILE, "w");
-    if (!g->logFile) {
+// ============================================
+// QAISARA - Word database
+// ============================================
+const char *word_database[WORD_DATABASE_SIZE] = {
+    "LEMON", "APPLE", "GRAPE", "MANGO", "PEACH",
+    "ORANGE", "BANANA", "CHERRY", "MELON", "PAPAYA"
+};
+
+// ============================================
+// NURA - Function 7: Logging functions
+// ============================================
+void add_log_entry(const char *format, ...) {
+    pthread_mutex_lock(&log_buffer.lock);
+    
+    if (log_buffer.count < 1000) {
+        va_list args;
+        va_start(args, format);
+        vsnprintf(log_buffer.entries[log_buffer.count].message, 
+                  512, format, args);
+        va_end(args);
+        
+        log_buffer.entries[log_buffer.count].timestamp = time(NULL);
+        log_buffer.count++;
+    }
+    
+    pthread_mutex_unlock(&log_buffer.lock);
+}
+
+void *logging_thread_func(void *arg) {
+    log_file = fopen("server_log.txt", "w");
+    if (!log_file) {
         perror("Failed to open log file");
-        exit(1);
+        return NULL;
     }
     
-    time_t now = time(NULL);
-    char *timeStr = ctime(&now);
-    timeStr[strcspn(timeStr, "\n")] = 0;
+    fprintf(log_file, "=== GAME SERVER LOG ===\n\n");
+    fflush(log_file);
     
-    fprintf(g->logFile, "========================================\n");
-    fprintf(g->logFile, "   WORD GUESSING GAME - SESSION LOG\n");
-    fprintf(g->logFile, "========================================\n");
-    fprintf(g->logFile, "Game Started: %s\n", timeStr);
-    fprintf(g->logFile, "Max Rounds: %d\n", MAX_ROUNDS);
-    fprintf(g->logFile, "Number of Players: %d\n", MAX_PLAYERS);
-    fprintf(g->logFile, "========================================\n\n");
-    fflush(g->logFile);
-}
-
-void logPlayers(GameState *g) {
-    fprintf(g->logFile, "REGISTERED PLAYERS:\n");
-    for (int i = 0; i < MAX_PLAYERS; i++) {
-        fprintf(g->logFile, "  Player %d: %s (Lives: %d, Score: %d)\n", 
-                i + 1, g->names[i], g->lives[i], g->scores[i]);
-    }
-    fprintf(g->logFile, "\n");
-    fflush(g->logFile);
-}
-
-void logRoundStart(GameState *g) {
-    fprintf(g->logFile, "========================================\n");
-    fprintf(g->logFile, "ROUND %d START\n", g->round + 1);
-    fprintf(g->logFile, "========================================\n");
-    fprintf(g->logFile, "Word to guess: %s (Length: %d)\n", g->answerWord, (int)strlen(g->answerWord));
-    fprintf(g->logFile, "Initial board: %s\n", g->answerSpace);
-    fprintf(g->logFile, "\nPlayer Status:\n");
-    for (int i = 0; i < MAX_PLAYERS; i++) {
-        fprintf(g->logFile, "  %s - Lives: %d, Score: %d\n", 
-                g->names[i], g->lives[i], g->scores[i]);
-    }
-    fprintf(g->logFile, "\n");
-    fflush(g->logFile);
-}
-
-void logLetterGuess(GameState *g, int player, char guess, int correct) {
-    time_t now = time(NULL);
-    char *timeStr = ctime(&now);
-    timeStr[strcspn(timeStr, "\n")] = 0;
+    int last_processed = 0;
     
-    fprintf(g->logFile, "[%s] Turn: %s (LETTER GUESS)\n", timeStr, g->names[player]);
-    fprintf(g->logFile, "  Guessed: '%c'\n", guess);
-    fprintf(g->logFile, "  Result: %s\n", correct ? "CORRECT (+1 point)" : "WRONG (-1 life)");
-    fprintf(g->logFile, "  Board: %s\n", g->answerSpace);
-    fprintf(g->logFile, "  Lives remaining: %d\n", g->lives[player]);
-    fprintf(g->logFile, "  Score: %d\n\n", g->scores[player]);
-    fflush(g->logFile);
-}
-
-void logWordGuess(GameState *g, int player, const char *guess, int correct) {
-    time_t now = time(NULL);
-    char *timeStr = ctime(&now);
-    timeStr[strcspn(timeStr, "\n")] = 0;
-    
-    fprintf(g->logFile, "[%s] Turn: %s (WORD GUESS)\n", timeStr, g->names[player]);
-    fprintf(g->logFile, "  Guessed word: '%s'\n", guess);
-    if (correct) {
-        fprintf(g->logFile, "  Result: CORRECT! (+3 points, round ends)\n");
-    } else {
-        fprintf(g->logFile, "  Result: WRONG! (ELIMINATED - lost all lives)\n");
-    }
-    fprintf(g->logFile, "  Lives remaining: %d\n", g->lives[player]);
-    fprintf(g->logFile, "  Score: %d\n\n", g->scores[player]);
-    fflush(g->logFile);
-}
-
-void logTimeout(GameState *g, int player) {
-    time_t now = time(NULL);
-    char *timeStr = ctime(&now);
-    timeStr[strcspn(timeStr, "\n")] = 0;
-    
-    fprintf(g->logFile, "[%s] TIMEOUT: %s failed to respond within 15 seconds (-1 point)\n", 
-            timeStr, g->names[player]);
-    fprintf(g->logFile, "  Score: %d\n\n", g->scores[player]);
-    fflush(g->logFile);
-}
-
-void logInvalidGuess(GameState *g, int player, const char *guess) {
-    time_t now = time(NULL);
-    char *timeStr = ctime(&now);
-    timeStr[strcspn(timeStr, "\n")] = 0;
-    
-    fprintf(g->logFile, "[%s] INVALID GUESS: %s entered '%s'\n\n", 
-            timeStr, g->names[player], guess);
-    fflush(g->logFile);
-}
-
-void logRoundEnd(GameState *g, int wordComplete) {
-    fprintf(g->logFile, "----------------------------------------\n");
-    fprintf(g->logFile, "ROUND %d END\n", g->round);
-    fprintf(g->logFile, "----------------------------------------\n");
-    
-    if (wordComplete) {
-        fprintf(g->logFile, "Status: Word COMPLETED\n");
-        fprintf(g->logFile, "Answer: %s\n", g->answerWord);
-    } else {
-        fprintf(g->logFile, "Status: Round ended\n");
-        fprintf(g->logFile, "Final board: %s\n", g->answerSpace);
+    while (logging_active || last_processed < log_buffer.count) {
+        pthread_mutex_lock(&log_buffer.lock);
+        
+        while (last_processed < log_buffer.count) {
+            LogEntry *entry = &log_buffer.entries[last_processed];
+            char *time_str = ctime(&entry->timestamp);
+            time_str[strlen(time_str) - 1] = '\0';
+            
+            fprintf(log_file, "[%s] %s\n", time_str, entry->message);
+            fflush(log_file);
+            
+            last_processed++;
+        }
+        
+        pthread_mutex_unlock(&log_buffer.lock);
+        
+        usleep(100000); // 100ms
     }
     
-    fprintf(g->logFile, "\nRound Scores:\n");
-    for (int i = 0; i < MAX_PLAYERS; i++) {
-        fprintf(g->logFile, "  %s: %d points (Lives: %d)\n", 
-                g->names[i], g->scores[i], g->lives[i]);
-    }
-    fprintf(g->logFile, "\n");
-    fflush(g->logFile);
+    fclose(log_file);
+    return NULL;
 }
 
-void logGameEnd(GameState *g) {
-    time_t now = time(NULL);
-    char *timeStr = ctime(&now);
-    timeStr[strcspn(timeStr, "\n")] = 0;
+// ============================================
+// Communication functions
+// ============================================
+void send_to_client(int socket, const char *msg) {
+    char buffer[512];
+    snprintf(buffer, sizeof(buffer), "%s\n", msg);
+    send(socket, buffer, strlen(buffer), 0);
+    add_log_entry("Sent to socket %d: %s", socket, msg);
+}
+
+void broadcast(const char *msg) {
+    pthread_mutex_lock(&game.lock);
+    for (int i = 0; i < game.player_count; i++) {
+        send_to_client(game.players[i].socket, msg);
+    }
+    pthread_mutex_unlock(&game.lock);
+    add_log_entry("Broadcast: %s", msg);
+}
+
+void broadcast_board() {
+    char msg[100];
+    snprintf(msg, sizeof(msg), "BOARD:%s", game.answer_space);
+    broadcast(msg);
+}
+
+void send_state_to_player(int player_idx) {
+    char msg[100];
+    snprintf(msg, sizeof(msg), "STATE:R%d|L%d|S%d", 
+             game.round, 
+             game.players[player_idx].lives, 
+             game.players[player_idx].score);
+    send_to_client(game.players[player_idx].socket, msg);
+}
+
+void broadcast_all_states() {
+    for (int i = 0; i < game.player_count; i++) {
+        send_state_to_player(i);
+    }
+}
+
+// ============================================
+// QAI - Function 1: void answerSpaces()
+// ============================================
+void answerSpaces() {
+    int len = strlen(game.word);
+    for (int i = 0; i < len; i++) {
+        game.answer_space[i] = '_';
+    }
+    game.answer_space[len] = '\0';
     
-    fprintf(g->logFile, "========================================\n");
-    fprintf(g->logFile, "         GAME ENDED\n");
-    fprintf(g->logFile, "========================================\n");
-    fprintf(g->logFile, "Game Ended: %s\n", timeStr);
-    fprintf(g->logFile, "Total Rounds Played: %d\n\n", g->round);
+    add_log_entry("Answer spaces initialized for word: %s (length: %d)", 
+                  game.word, len);
+}
+
+// ============================================
+// QAI - Function 6: char[] getword()
+// ============================================
+void getword() {
+    srand(time(NULL) + game.round);
+    int index = rand() % WORD_DATABASE_SIZE;
+    strcpy(game.word, word_database[index]);
     
-    fprintf(g->logFile, "FINAL SCORES:\n");
+    add_log_entry("Selected word: %s for round %d", game.word, game.round);
+}
+
+// ============================================
+// YUNIE - Function 2: Boolean isCorrect()
+// ============================================
+int isCorrect(char letter) {
+    letter = toupper(letter);
     
-    int maxScore = g->scores[0];
-    int winner = 0;
-    int isDraw = 0;
+    if (!isalpha(letter)) {
+        add_log_entry("Invalid character: %c", letter);
+        return -1; // Invalid input
+    }
     
-    for (int i = 1; i < MAX_PLAYERS; i++) {
-        if (g->scores[i] > maxScore) {
-            maxScore = g->scores[i];
-            winner = i;
-            isDraw = 0;
-        } else if (g->scores[i] == maxScore && i != winner) {
-            isDraw = 1;
+    int found = 0;
+    for (int i = 0; i < strlen(game.word); i++) {
+        if (game.word[i] == letter && game.answer_space[i] == '_') {
+            found = 1;
+            break;
         }
     }
     
-    for (int i = 0; i < MAX_PLAYERS; i++) {
-        fprintf(g->logFile, "  %d. %s: %d points\n", 
-                i + 1, g->names[i], g->scores[i]);
-    }
-    
-    fprintf(g->logFile, "\n");
-    if (isDraw) {
-        fprintf(g->logFile, "Result: DRAW!\n");
-    } else {
-        fprintf(g->logFile, "WINNER: %s with %d points!\n", g->names[winner], maxScore);
-    }
-    fprintf(g->logFile, "========================================\n");
-    fflush(g->logFile);
+    add_log_entry("Letter %c is %s", letter, found ? "CORRECT" : "WRONG");
+    return found;
 }
 
-void saveScores(GameState *g) {
-    FILE *scoreFile = fopen(SCORE_FILE, "w");
-    if (!scoreFile) {
-        perror("Failed to open scores file");
+// ============================================
+// NUHA - Function 3: void updateAnswerSpaces()
+// ============================================
+void updateAnswerSpaces(char letter) {
+    letter = toupper(letter);
+    
+    int updated = 0;
+    for (int i = 0; i < strlen(game.word); i++) {
+        if (game.word[i] == letter && game.answer_space[i] == '_') {
+            game.answer_space[i] = letter;
+            updated++;
+        }
+    }
+    
+    add_log_entry("Updated answer spaces with letter %c (%d positions)", 
+                  letter, updated);
+}
+
+// ============================================
+// NUHA - Function 4: Boolean wordIsComplete()
+// ============================================
+int wordIsComplete() {
+    int complete = (strchr(game.answer_space, '_') == NULL);
+    
+    if (complete) {
+        add_log_entry("Word is complete: %s", game.answer_space);
+    }
+    
+    return complete;
+}
+
+// ============================================
+// Game helper functions
+// ============================================
+void initialize_round() {
+    getword(); // QAI - Function 6
+    answerSpaces(); // QAI - Function 1
+    
+    add_log_entry("Round %d initialized", game.round);
+}
+
+int count_active_players() {
+    int count = 0;
+    for (int i = 0; i < game.player_count; i++) {
+        if (!game.players[i].is_eliminated) {
+            count++;
+        }
+    }
+    return count;
+}
+
+void show_round_scores() {
+    char msg[512];
+    snprintf(msg, sizeof(msg), "ROUND_SCORES:");
+    
+    for (int i = 0; i < game.player_count; i++) {
+        char player_info[100];
+        if (game.players[i].is_eliminated) {
+            snprintf(player_info, sizeof(player_info), "%s: ELIMINATED", 
+                     game.players[i].name);
+        } else {
+            snprintf(player_info, sizeof(player_info), "%s: %d points (%d lives)", 
+                     game.players[i].name, 
+                     game.players[i].score, 
+                     game.players[i].lives);
+        }
+        
+        if (i > 0) strcat(msg, "|");
+        strcat(msg, player_info);
+    }
+    
+    broadcast(msg);
+    add_log_entry("Round %d scores displayed", game.round);
+}
+
+void save_final_scores() {
+    FILE *f = fopen("scores.txt", "w");
+    if (!f) return;
+    
+    fprintf(f, "=== FINAL GAME SCORES ===\n\n");
+    
+    Player sorted[MAX_CLIENTS];
+    memcpy(sorted, game.players, sizeof(Player) * game.player_count);
+    
+    for (int i = 0; i < game.player_count - 1; i++) {
+        for (int j = i + 1; j < game.player_count; j++) {
+            if (sorted[j].score > sorted[i].score) {
+                Player temp = sorted[i];
+                sorted[i] = sorted[j];
+                sorted[j] = temp;
+            }
+        }
+    }
+    
+    for (int i = 0; i < game.player_count; i++) {
+        fprintf(f, "%d. %s - %d points (%d lives remaining)\n", 
+                i + 1, sorted[i].name, sorted[i].score, sorted[i].lives);
+    }
+    
+    fclose(f);
+    add_log_entry("Final scores saved");
+}
+
+// ============================================
+// Timeout monitoring
+// ============================================
+void *timeout_monitor(void *arg) {
+    int player_idx = *((int *)arg);
+    free(arg);
+    
+    sleep(TIMEOUT_SECONDS);
+    
+    pthread_mutex_lock(&game.lock);
+    
+    if (!game.players[player_idx].ready && !game.players[player_idx].timed_out) {
+        game.players[player_idx].timed_out = 1;
+        game.players[player_idx].score--;
+        
+        add_log_entry("Player %s timed out", game.players[player_idx].name);
+        
+        send_to_client(game.players[player_idx].socket, "TIMEOUT");
+        send_state_to_player(player_idx);
+        
+        game.players[player_idx].ready = 1;
+    }
+    
+    pthread_mutex_unlock(&game.lock);
+    return NULL;
+}
+
+// ============================================
+// YUNIE - Function 5: Handle player move with scoring
+// ============================================
+void handle_player_move(int player_idx, const char *move) {
+    pthread_mutex_lock(&game.lock);
+    
+    Player *p = &game.players[player_idx];
+    
+    if (p->timed_out) {
+        p->ready = 1;
+        pthread_mutex_unlock(&game.lock);
         return;
     }
     
-    time_t now = time(NULL);
-    char *timeStr = ctime(&now);
-    timeStr[strcspn(timeStr, "\n")] = 0;
-    
-    fprintf(scoreFile, "========================================\n");
-    fprintf(scoreFile, "   WORD GUESSING GAME - FINAL SCORES\n");
-    fprintf(scoreFile, "========================================\n");
-    fprintf(scoreFile, "Date: %s\n", timeStr);
-    fprintf(scoreFile, "Rounds Played: %d\n\n", g->round);
-    
-    int maxScore = g->scores[0];
-    int winner = 0;
-    int isDraw = 0;
-    
-    for (int i = 1; i < MAX_PLAYERS; i++) {
-        if (g->scores[i] > maxScore) {
-            maxScore = g->scores[i];
-            winner = i;
-            isDraw = 0;
-        } else if (g->scores[i] == maxScore && i != winner) {
-            isDraw = 1;
+    if (strncmp(move, "LETTER:", 7) == 0) {
+        char letter = move[7];
+        
+        int result = isCorrect(letter); // YUNIE - Function 2
+        
+        if (result == -1) {
+            send_to_client(p->socket, "INVALID");
+            p->ready = 1;
+            pthread_mutex_unlock(&game.lock);
+            return;
+        }
+        
+        if (result == 1) {
+            // Correct guess
+            p->score++; // YUNIE - +1 mark for correct letter
+            updateAnswerSpaces(letter); // NUHA - Function 3
+            send_to_client(p->socket, "CORRECT");
+            add_log_entry("Player %s guessed letter %c correctly (+1 point)", 
+                          p->name, letter);
+        } else {
+            // Wrong guess
+            p->lives--; // YUNIE - -1 life for wrong letter
+            send_to_client(p->socket, "WRONG");
+            add_log_entry("Player %s guessed letter %c incorrectly (-1 life)", 
+                          p->name, letter);
+            
+            if (p->lives <= 0) {
+                p->is_eliminated = 1;
+                send_to_client(p->socket, "ELIMINATED");
+                add_log_entry("Player %s eliminated (no lives)", p->name);
+            }
+        }
+        
+        broadcast_board();
+        broadcast_all_states();
+    }
+    else if (strncmp(move, "WORD:", 5) == 0) {
+        char word[WORD_LEN];
+        strcpy(word, move + 5);
+        
+        for (int i = 0; word[i]; i++) {
+            word[i] = toupper(word[i]);
+        }
+        
+        if (strcmp(word, game.word) == 0) {
+            // Correct word
+            p->score += 3; // YUNIE - +3 marks for correct word
+            strcpy(game.answer_space, game.word);
+            send_to_client(p->socket, "CORRECT");
+            add_log_entry("Player %s guessed word correctly (+3 points)", p->name);
+            
+            broadcast_board();
+            broadcast_all_states();
+        } else {
+            // Wrong word - ELIMINATION
+            p->is_eliminated = 1;
+            p->lives = 0;
+            send_to_client(p->socket, "ELIMINATED");
+            add_log_entry("Player %s guessed word incorrectly - ELIMINATED", p->name);
+            
+            send_state_to_player(player_idx);
         }
     }
     
-    fprintf(scoreFile, "FINAL STANDINGS:\n");
-    fprintf(scoreFile, "----------------------------------------\n");
-    for (int i = 0; i < MAX_PLAYERS; i++) {
-        fprintf(scoreFile, "%d. %-20s %d points\n", 
-                i + 1, g->names[i], g->scores[i]);
-    }
+    p->ready = 1;
+    pthread_mutex_unlock(&game.lock);
+}
+
+// ============================================
+// QAISARA - Round Robin Scheduler
+// ============================================
+int get_next_player_round_robin() {
+    int start_player = game.current_player;
+    int next_player = (game.current_player + 1) % game.player_count;
     
-    fprintf(scoreFile, "\n");
-    if (isDraw) {
-        fprintf(scoreFile, "Result: DRAW - Multiple players tied!\n");
-    } else {
-        fprintf(scoreFile, "🏆 WINNER: %s with %d points!\n", g->names[winner], maxScore);
-    }
-    fprintf(scoreFile, "========================================\n");
-    
-    fclose(scoreFile);
-    printf("Scores saved to %s\n", SCORE_FILE);
-}
-
-void closeLog(GameState *g) {
-    if (g->logFile) {
-        fclose(g->logFile);
-    }
-}
-
-// ========================================
-// FILE & NETWORK UTILITIES - YUNIE (FIXED)
-// ========================================
-void loadWords(const char *filename) {
-    FILE *fp = fopen(filename, "r");
-    if (!fp) {
-        perror("Failed to open words file");
-        exit(1);
-    }
-
-    while (fgets(words[wordCount], WORD_LEN, fp) && wordCount < MAX_WORDS) {
-        words[wordCount][strcspn(words[wordCount], "\n")] = 0;
-        wordCount++;
-    }
-    fclose(fp);
-}
-
-// ✅ FIXED: Add newline to all messages
-void sendToClient(GameState *g, int idx, const char *msg) {
-    char buffer[512];
-    snprintf(buffer, sizeof(buffer), "%s\n", msg);  // Add \n here!
-    send(g->clientSockets[idx], buffer, strlen(buffer), 0);
-}
-
-void broadcast(GameState *g, const char *msg) {
-    for (int i = 0; i < MAX_PLAYERS; i++)
-        sendToClient(g, i, msg);
-}
-
-// ========================================
-// GAME LOGIC - NUHA
-// ========================================
-void chooseRandomWord(GameState *g) {
-    strcpy(g->answerWord, words[rand() % wordCount]);
-    printf("\n New word: %s\n", g->answerWord);
-}
-
-void initRound(GameState *g) {
-    int len = strlen(g->answerWord);
-    for (int i = 0; i < len; i++)
-        g->answerSpace[i] = '_';
-    g->answerSpace[len] = '\0';
-
-    for (int i = 0; i < MAX_PLAYERS; i++)
-        g->lives[i] = 3;
-
-    g->currentPlayer = 0;
-}
-
-void sendBoard(GameState *g) {
-    char msg[64];
-    sprintf(msg, "BOARD:%s", g->answerSpace);
-    broadcast(g, msg);
-}
-
-void sendGameState(GameState *g) {
-    char msg[256];
-    for (int i = 0; i < MAX_PLAYERS; i++) {
-        sprintf(msg, "STATE:R%d|L%d|S%d", g->round + 1, g->lives[i], g->scores[i]);
-        sendToClient(g, i, msg);
-    }
-}
-
-int applyLetterGuess(GameState *g, int player) {
-    int correct = 0;
-    char letter = tolower(g->guessLetter[player]);
-    
-    for (int i = 0; i < strlen(g->answerWord); i++) {
-        if (letter == tolower(g->answerWord[i])) {
-            g->answerSpace[i] = g->answerWord[i];
-            correct = 1;
+    // Round-robin: find next active (non-eliminated) player
+    while (next_player != start_player) {
+        if (!game.players[next_player].is_eliminated) {
+            add_log_entry("Round-robin: Next player is %s (index %d)", 
+                          game.players[next_player].name, next_player);
+            return next_player;
         }
-    }
-    if (correct)
-        sendBoard(g);
-    return correct;
-}
-
-int checkWordGuess(GameState *g, int player) {
-    char playerWord[WORD_LEN];
-    strcpy(playerWord, g->guessWord[player]);
-    
-    for (int i = 0; playerWord[i]; i++) {
-        playerWord[i] = tolower(playerWord[i]);
+        next_player = (next_player + 1) % game.player_count;
     }
     
-    char correctWord[WORD_LEN];
-    strcpy(correctWord, g->answerWord);
-    for (int i = 0; correctWord[i]; i++) {
-        correctWord[i] = tolower(correctWord[i]);
+    // Check if start_player is still active
+    if (!game.players[start_player].is_eliminated) {
+        return start_player;
     }
     
-    return strcmp(playerWord, correctWord) == 0;
+    // No active players
+    return -1;
 }
 
-int wordIsComplete(GameState *g) {
-    for (int i = 0; i < strlen(g->answerWord); i++)
-        if (g->answerSpace[i] == '_')
-            return 0;
-    return 1;
-}
-
-void sendPrompt(GameState *g, int idx) { sendToClient(g, idx, "PROMPT"); }
-void sendWait(GameState *g, int idx)   { sendToClient(g, idx, "WAIT"); }
-void sendInvalid(GameState *g, int idx){ sendToClient(g, idx, "INVALID"); }
-void sendCorrect(GameState *g, int idx){ sendToClient(g, idx, "CORRECT"); }
-void sendWrong(GameState *g, int idx)  { sendToClient(g, idx, "WRONG"); }
-void sendEliminated(GameState *g, int idx) { sendToClient(g, idx, "ELIMINATED"); }
-
-void startNewRound(GameState *g) {
-    chooseRandomWord(g);
-    initRound(g);
-    logRoundStart(g);
-    sendBoard(g);
-    sendGameState(g);
-
-    sendPrompt(g, g->currentPlayer);
-    for (int i = 0; i < MAX_PLAYERS; i++) {
-        if (i != g->currentPlayer)
-            sendWait(g, i);
-    }
-
-    pthread_cond_broadcast(&g->turnCond);
-}
-
-void sendReveal(GameState *g) {
-    char msg[64];
-    sprintf(msg, "REVEAL:%s", g->answerWord);
-    broadcast(g, msg);
-}
-
-void sendEnd(GameState *g) {
-    broadcast(g, "END");
-}
-
-// ========================================
-// CLIENT HANDLER - QAI
-// ========================================
-void handleClient(int me, GameState *g) {
+// ============================================
+// Client handler
+// ============================================
+void *client_handler(void *arg) {
+    int player_idx = *((int *)arg);
+    free(arg);
+    
+    int sock = game.players[player_idx].socket;
     char buffer[256];
-
-    while (1) {
-        pthread_mutex_lock(&g->mutex);
-        while (!g->gameOver && g->currentPlayer != me)
-            pthread_cond_wait(&g->turnCond, &g->mutex);
-
-        if (g->gameOver) {
-            pthread_mutex_unlock(&g->mutex);
-            break;
-        }
-
-        if (g->lives[me] <= 0) {
-            g->currentPlayer = (g->currentPlayer + 1) % MAX_PLAYERS;
-            pthread_cond_broadcast(&g->turnCond);
-            pthread_mutex_unlock(&g->mutex);
-            continue;
-        }
-
-        sendPrompt(g, me);
-        pthread_mutex_unlock(&g->mutex);
-
-        fd_set readfds;
-        struct timeval tv;
-        FD_ZERO(&readfds);
-        FD_SET(g->clientSockets[me], &readfds);
-        tv.tv_sec = 15; //timer 15s
-        tv.tv_usec = 0;
-
-        int ready = select(g->clientSockets[me] + 1, &readfds, NULL, NULL, &tv);
-
-        pthread_mutex_lock(&g->mutex);
-
-        if (ready == 0) {
-            printf("%s timed out\n", g->names[me]);
-            g->scores[me] -= 1;
-            logTimeout(g, me);
-            sendGameState(g);
-            g->currentPlayer = (g->currentPlayer + 1) % MAX_PLAYERS;
-            pthread_cond_broadcast(&g->turnCond);
-            pthread_mutex_unlock(&g->mutex);
-            continue;
-        }
-
-        if (ready < 0) {
-            perror("select");
-            pthread_mutex_unlock(&g->mutex);
-            break;
-        }
-
-        pthread_mutex_unlock(&g->mutex);
-
-        memset(buffer, 0, sizeof(buffer));
-        int n = read(g->clientSockets[me], buffer, sizeof(buffer));
-        if (n <= 0) break;
-
-        pthread_mutex_lock(&g->mutex);
-
-        if (strncmp(buffer, "LETTER:", 7) == 0) {
-            g->guessLetter[me] = buffer[7];
-
-            if (!isalpha(g->guessLetter[me])) {
-                logInvalidGuess(g, me, buffer + 7);
-                sendInvalid(g, me);
-                pthread_mutex_unlock(&g->mutex);
-                continue;
-            }
-
-            int correct = applyLetterGuess(g, me);
+    
+    // Wait for name
+    memset(buffer, 0, sizeof(buffer));
+    int valread = recv(sock, buffer, sizeof(buffer), 0);
+    if (valread <= 0 || strncmp(buffer, "NAME:", 5) != 0) {
+        close(sock);
+        return NULL;
+    }
+    
+    buffer[strcspn(buffer, "\r\n")] = 0;
+    strcpy(game.players[player_idx].name, buffer + 5);
+    game.players[player_idx].lives = 3;
+    game.players[player_idx].score = 0;
+    game.players[player_idx].is_eliminated = 0;
+    
+    add_log_entry("Player %s joined (socket %d)", 
+                  game.players[player_idx].name, sock);
+    
+    // Wait for game to start
+    while (!game.game_started) {
+        usleep(100000);
+    }
+    
+    // Send initial game state
+    sleep(1);
+    broadcast_board();
+    send_state_to_player(player_idx);
+    
+    // Main game loop - only current player processes
+    while (!game.game_finished) {
+        pthread_mutex_lock(&game.lock);
+        
+        if (game.current_player == player_idx && !game.players[player_idx].is_eliminated) {
+            game.players[player_idx].ready = 0;
+            game.players[player_idx].timed_out = 0;
             
-            if (correct) {
-                sendCorrect(g, me);
-                g->scores[me] += 1;
-            } else {
-                sendWrong(g, me);
-                g->lives[me] -= 1;
-            }
+            // Broadcast turn
+            char turn_msg[100];
+            snprintf(turn_msg, sizeof(turn_msg), "TURN:%s", 
+                     game.players[player_idx].name);
+            broadcast(turn_msg);
             
-            logLetterGuess(g, me, g->guessLetter[me], correct);
-            sendGameState(g);
-
-            if (wordIsComplete(g)) {
-                logRoundEnd(g, 1);
-                g->round++;
-                
-                sendReveal(g);
-
-                if (g->round >= MAX_ROUNDS) {
-                    logGameEnd(g);
-                    saveScores(g);
-                    g->gameOver = 1;
-                    sendEnd(g);
-                    pthread_cond_broadcast(&g->turnCond);
-                    pthread_mutex_unlock(&g->mutex);
-                    break;
+            pthread_mutex_unlock(&game.lock);
+            
+            sleep(1);
+            
+            // Prompt current player
+            send_to_client(sock, "PROMPT");
+            
+            // Send wait to others
+            for (int i = 0; i < game.player_count; i++) {
+                if (i != player_idx) {
+                    send_to_client(game.players[i].socket, "WAIT");
                 }
-
-                startNewRound(g);
-                pthread_mutex_unlock(&g->mutex);
-                continue;
             }
-
-            g->currentPlayer = (g->currentPlayer + 1) % MAX_PLAYERS;
-            pthread_cond_broadcast(&g->turnCond);
-            pthread_mutex_unlock(&g->mutex);
-        }
-        else if (strncmp(buffer, "WORD:", 5) == 0) {
-            strncpy(g->guessWord[me], buffer + 5, WORD_LEN - 1);
-            g->guessWord[me][WORD_LEN - 1] = '\0';
-            g->guessWord[me][strcspn(g->guessWord[me], "\n")] = 0;
-
-            int correct = checkWordGuess(g, me);
             
-            if (correct) {
-                g->scores[me] += 3;
-                strcpy(g->answerSpace, g->answerWord);
-                sendBoard(g);
-                sendCorrect(g, me);
-                logWordGuess(g, me, g->guessWord[me], 1);
-                sendGameState(g);
-                
-                logRoundEnd(g, 1);
-                g->round++;
-                
-                sendReveal(g);
-
-                if (g->round >= MAX_ROUNDS) {
-                    logGameEnd(g);
-                    saveScores(g);
-                    g->gameOver = 1;
-                    sendEnd(g);
-                    pthread_cond_broadcast(&g->turnCond);
-                    pthread_mutex_unlock(&g->mutex);
-                    break;
-                }
-
-                startNewRound(g);
-                pthread_mutex_unlock(&g->mutex);
-                continue;
-            } else {
-                g->lives[me] = 0;
-                sendEliminated(g, me);
-                logWordGuess(g, me, g->guessWord[me], 0);
-                sendGameState(g);
+            // Start timeout thread
+            pthread_t timeout_thread;
+            int *idx = malloc(sizeof(int));
+            *idx = player_idx;
+            pthread_create(&timeout_thread, NULL, timeout_monitor, idx);
+            pthread_detach(timeout_thread);
+            
+            // Wait for move
+            memset(buffer, 0, sizeof(buffer));
+            valread = recv(sock, buffer, sizeof(buffer), 0);
+            
+            if (valread > 0) {
+                buffer[strcspn(buffer, "\r\n")] = 0;
+                handle_player_move(player_idx, buffer);
             }
-
-            g->currentPlayer = (g->currentPlayer + 1) % MAX_PLAYERS;
-            pthread_cond_broadcast(&g->turnCond);
-            pthread_mutex_unlock(&g->mutex);
-        }
-        else {
-            pthread_mutex_unlock(&g->mutex);
+            
+            // Wait until ready
+            while (!game.players[player_idx].ready) {
+                usleep(50000);
+            }
+            
+            pthread_mutex_lock(&game.lock);
+            
+            // NUHA - Function 4: Check if word is complete
+            if (wordIsComplete() || count_active_players() <= 0) {
+                char reveal_msg[100];
+                snprintf(reveal_msg, sizeof(reveal_msg), "REVEAL:%s", game.word);
+                broadcast(reveal_msg);
+                
+                pthread_mutex_unlock(&game.lock);
+                sleep(2);
+                pthread_mutex_lock(&game.lock);
+                
+                show_round_scores();
+                
+                pthread_mutex_unlock(&game.lock);
+                sleep(3);
+                pthread_mutex_lock(&game.lock);
+                
+                game.round++;
+                if (game.round <= TOTAL_ROUNDS) {
+                    initialize_round();
+                    broadcast_board();
+                    broadcast_all_states();
+                    game.current_player = 0; // Reset to player 1
+                } else {
+                    game.game_finished = 1;
+                }
+            } else {
+                // QAISARA - Round-robin to next player
+                int next = get_next_player_round_robin();
+                if (next >= 0) {
+                    game.current_player = next;
+                } else {
+                    game.game_finished = 1;
+                }
+            }
+            
+            pthread_mutex_unlock(&game.lock);
+        } else {
+            pthread_mutex_unlock(&game.lock);
+            usleep(200000);
         }
     }
-
-    close(g->clientSockets[me]);
-    exit(0);
+    
+    // Game ended
+    pthread_mutex_lock(&game.lock);
+    static int end_sent = 0;
+    if (!end_sent) {
+        broadcast("END");
+        save_final_scores();
+        end_sent = 1;
+    }
+    pthread_mutex_unlock(&game.lock);
+    
+    add_log_entry("Player %s finished game", game.players[player_idx].name);
+    
+    // Keep connection open for a bit
+    sleep(3);
+    close(sock);
+    
+    return NULL;
 }
 
-// ========================================
-// MAIN FUNCTION - QAI & YUNIE (FIXED)
-// ========================================
+// ============================================
+// Main function
+// ============================================
 int main() {
-    signal(SIGCHLD, SIG_IGN);
-
-    int serverFd;
+    int server_fd, new_socket;
     struct sockaddr_in address;
-    socklen_t addrlen = sizeof(address);
-    GameState *g = NULL;
-    int shmFd;
-
-    if ((serverFd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
+    int addrlen = sizeof(address);
+    
+    // NURA - Initialize logging
+    log_buffer.count = 0;
+    pthread_mutex_init(&log_buffer.lock, NULL);
+    pthread_mutex_init(&game.lock, NULL);
+    
+    // NURA - Start logging thread
+    pthread_create(&logging_thread, NULL, logging_thread_func, NULL);
+    
+    add_log_entry("Server starting...");
+    
+    // Initialize game
+    game.player_count = 0;
+    game.current_player = 0;
+    game.round = 1;
+    game.game_started = 0;
+    game.game_finished = 0;
+    
+    // Create socket
+    if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
         perror("socket failed");
         exit(EXIT_FAILURE);
     }
-
+    
     int opt = 1;
-    setsockopt(serverFd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
-
+    setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
+    
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY;
     address.sin_port = htons(PORT);
-
-    if (bind(serverFd, (struct sockaddr *)&address, sizeof(address)) < 0) {
+    
+    if (bind(server_fd, (struct sockaddr *)&address, sizeof(address)) < 0) {
         perror("bind failed");
         exit(EXIT_FAILURE);
     }
-    if (listen(serverFd, MAX_PLAYERS) < 0) {
-        perror("listen failed");
+    
+    if (listen(server_fd, 3) < 0) {
+        perror("listen");
         exit(EXIT_FAILURE);
     }
-
-    printf("Server listening on port %d...\n", PORT);
-
-    shmFd = shm_open("/wordgame_shm", O_CREAT | O_RDWR, 0666);
-    ftruncate(shmFd, sizeof(GameState));
-    g = mmap(NULL, sizeof(GameState), PROT_READ | PROT_WRITE, MAP_SHARED, shmFd, 0);
-
-    pthread_mutexattr_t mattr;
-    pthread_mutexattr_init(&mattr);
-    pthread_mutexattr_setpshared(&mattr, PTHREAD_PROCESS_SHARED);
-    pthread_mutex_init(&g->mutex, &mattr);
-
-    pthread_condattr_t cattr;
-    pthread_condattr_init(&cattr);
-    pthread_condattr_setpshared(&cattr, PTHREAD_PROCESS_SHARED);
-    pthread_cond_init(&g->turnCond, &cattr);
-
-    g->round = 0;
-    g->gameOver = 0;
-
-    for (int i = 0; i < MAX_PLAYERS; i++) {
-        g->scores[i] = 0;
-        g->lives[i] = 3;
-    }
-
-    loadWords("words.txt");
-    srand(time(NULL));
     
-    initLog(g);
-
-    for (int i = 0; i < MAX_PLAYERS; i++) {
-        printf("Waiting for player %d...\n", i + 1);
-        g->clientSockets[i] = accept(serverFd, (struct sockaddr *)&address, &addrlen);
-        char buf[256] = {0};
-        read(g->clientSockets[i], buf, sizeof(buf));
-        if (strncmp(buf, "NAME:", 5) == 0)
-            strncpy(g->names[i], buf + 5, NAME_SIZE - 1);
-
-        printf("Player %d: %s\n", i + 1, g->names[i]);
-    }
-
-    logPlayers(g);
-
-    printf("\nGame starting!\n");
-    chooseRandomWord(g);
-    initRound(g);
-    logRoundStart(g);
-    sendBoard(g);
-    sendGameState(g);
-
-    // ✅ FIXED: Removed duplicate PROMPT/WAIT - handleClient() will send them
-    // sendPrompt(g, 0);
-    // sendWait(g, 1);
-    // sendWait(g, 2);
-
-    for (int i = 0; i < MAX_PLAYERS; i++) {
-        if (fork() == 0) {
-            close(serverFd);
-            handleClient(i, g);
+    printf("Server listening on port %d\n", PORT);
+    printf("Waiting for %d players to connect...\n", MAX_CLIENTS);
+    add_log_entry("Server listening on port %d", PORT);
+    
+    // Accept connections
+    while (game.player_count < MAX_CLIENTS) {
+        if ((new_socket = accept(server_fd, (struct sockaddr *)&address, 
+                                (socklen_t *)&addrlen)) < 0) {
+            perror("accept");
+            continue;
         }
+        
+        game.players[game.player_count].socket = new_socket;
+        
+        int *idx = malloc(sizeof(int));
+        *idx = game.player_count;
+        
+        pthread_t thread_id;
+        pthread_create(&thread_id, NULL, client_handler, idx);
+        pthread_detach(thread_id);
+        
+        game.player_count++;
+        printf("Player %d connected\n", game.player_count);
+        add_log_entry("Player %d connected", game.player_count);
     }
-
-    while (1) pause();
     
-    closeLog(g);
+    sleep(2);
+    
+    // Start game
+    printf("\nAll players connected! Starting game...\n");
+    add_log_entry("Starting game with %d players", game.player_count);
+    
+    initialize_round();
+    game.game_started = 1;
+    
+    // Wait for game to finish
+    while (!game.game_finished) {
+        sleep(1);
+    }
+    
+    printf("\nGame finished! Cleaning up...\n");
+    sleep(5);
+    
+    close(server_fd);
+    
+    // NURA - Stop logging thread
+    logging_active = 0;
+    pthread_join(logging_thread, NULL);
+    
+    pthread_mutex_destroy(&log_buffer.lock);
+    pthread_mutex_destroy(&game.lock);
+    
+    printf("Server shutting down.\n");
+    add_log_entry("Server shutdown complete");
+    
     return 0;
 }

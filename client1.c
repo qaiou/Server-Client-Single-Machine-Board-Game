@@ -5,22 +5,24 @@
 #include <arpa/inet.h>
 #include <ctype.h>
 #include <sys/select.h>
+#include <sys/time.h>
 
 #define PORT 8080
-#define ANSWER_SIZE 6
+#define ANSWER_SIZE 50
 #define NAME_SIZE 50
-#define WORD_LEN 8
-#define MAX_RETRIES 3  // Maximum 3 retries for invalid choice
+#define WORD_LEN 20
+#define MAX_RETRIES 3
 
 typedef struct {
     char answer_space[ANSWER_SIZE];
     char my_name[NAME_SIZE];
+    char current_turn_player[NAME_SIZE];
     int round;
     int lives;
     int score;
+    int needs_display;
 } ClientState;
 
-// ---- Line-based receive (TCP safe) ----
 int recvLine(int sock, char *buf, int max) {
     int i = 0;
     char c;
@@ -35,19 +37,19 @@ int recvLine(int sock, char *buf, int max) {
 }
 
 void displayGameState(ClientState *s) {
-    printf("\n ╔════════════════════════════════════════╗\n");
-    printf("  ║        WORD GUESSING GAME              ║\n");
-    printf("  ╠════════════════════════════════════════╣\n");
-    printf("  ║ Player: %-30s                 ║\n", s->my_name);
-    printf("  ║ Round:  %-30d                 ║\n", s->round);
-    printf("  ║ Lives:  %-30d                 ║\n", s->lives);
-    printf("  ║ Score:  %-30d                 ║\n", s->score);
-    printf("  ╠════════════════════════════════════════╣\n");
-    printf("  ║ Word:   ");
+    printf("\n╔════════════════════════════════════════╗\n");
+    printf("║        WORD GUESSING GAME              ║\n");
+    printf("╠════════════════════════════════════════╣\n");
+    printf("║ Player: %-30s ║\n", s->my_name);
+    printf("║ Round:  %-30d ║\n", s->round);
+    printf("║ Lives:  %-30d ║\n", s->lives);
+    printf("║ Score:  %-30d ║\n", s->score);
+    printf("╠════════════════════════════════════════╣\n");
+    printf("║ Word:   ");
     for (int i = 0; i < strlen(s->answer_space); i++)
         printf("%c ", s->answer_space[i]);
-    printf("%-*s       ║\n", (int)(24 - strlen(s->answer_space) * 2), "");
-    printf("  ╚════════════════════════════════════════╝\n");
+    printf("%-*s ║\n", (int)(24 - strlen(s->answer_space) * 2), "");
+    printf("╚════════════════════════════════════════╝\n");
 }
 
 void clear_screen() {
@@ -56,14 +58,56 @@ void clear_screen() {
 
 void displayMenu() {
     printf("\n┌────────────────────────────────────────────────────────────────┐\n");
-    printf("  │  Choose your move:                                             │\n");
-    printf("  │  1. Guess a LETTER (+1 Mark if correct, -1 Life if wrong)      │\n");
-    printf("  │  2. Guess the WORD (+3 Marks if correct, Elimination if wrong) │\n");
-    printf("  │                                                                │\n");
-    printf("  │  [WARNING: Timeout/No input after 15 seconds = -1 Mark!]       │\n");
-    printf("  └────────────────────────────────────────────────────────────────┘\n");
+    printf("│  Choose your move:                                             │\n");
+    printf("│  1. Guess a LETTER (+1 Mark if correct, -1 Life if wrong)      │\n");
+    printf("│  2. Guess the WORD (+3 Marks if correct, ELIMINATION if wrong) │\n");
+    printf("│                                                                │\n");
+    printf("│  [WARNING: Timeout after 15 seconds = -1 Mark!]                │\n");
+    printf("└────────────────────────────────────────────────────────────────┘\n");
     printf("Your choice (1 or 2): ");
     fflush(stdout);
+}
+
+void display_timer(int seconds) {
+    printf("\rTime remaining: %2d seconds", seconds);
+    fflush(stdout);
+}
+
+int get_input_with_timer(char *buffer, int max_len, int timeout) {
+    fd_set readfds;
+    struct timeval tv;
+    
+    printf("\n");
+    
+    for (int i = timeout; i > 0; i--) {
+        FD_ZERO(&readfds);
+        FD_SET(STDIN_FILENO, &readfds);
+        tv.tv_sec = 1;
+        tv.tv_usec = 0;
+        
+        display_timer(i);
+        
+        int ready = select(STDIN_FILENO + 1, &readfds, NULL, NULL, &tv);
+        
+        if (ready > 0) {
+            if (fgets(buffer, max_len, stdin) != NULL) {
+                buffer[strcspn(buffer, "\n")] = '\0';
+                printf("\n");
+                return 1;
+            }
+        } else if (ready < 0) {
+            perror("select");
+            return 0;
+        }
+    }
+    
+    printf("\n\n*** TIME'S UP! ***\n");
+    fflush(stdout);
+    
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+    
+    return 0;
 }
 
 int main() {
@@ -72,10 +116,12 @@ int main() {
     ClientState state;
     char buffer[256] = {0};
 
-    // Initialize state
+    memset(&state, 0, sizeof(state));
     state.round = 1;
     state.lives = 3;
     state.score = 0;
+    state.needs_display = 1;
+    strcpy(state.current_turn_player, "Waiting...");
 
     if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         printf("Socket creation error\n");
@@ -99,7 +145,6 @@ int main() {
     printf("║   Connected to Word Guessing Server    ║\n");
     printf("╚════════════════════════════════════════╝\n\n");
 
-    // User register name
     printf("Enter your name: ");
     fflush(stdout);
     fgets(state.my_name, NAME_SIZE, stdin);
@@ -109,15 +154,7 @@ int main() {
     sprintf(name_msg, "NAME:%s", state.my_name);
     send(sock, name_msg, strlen(name_msg), 0);
 
-    printf("\n  Waiting for game to start...\n");
-
-    // Receive initial board
-    recvLine(sock, buffer, sizeof(buffer));
-    if (strncmp(buffer, "BOARD:", 6) == 0) {
-        strcpy(state.answer_space, buffer + 6);
-        clear_screen();
-        displayGameState(&state);
-    }
+    printf("\nWaiting for game to start...\n");
 
     int game_active = 1;
     int is_eliminated = 0;
@@ -126,42 +163,54 @@ int main() {
         memset(buffer, 0, sizeof(buffer));
         int valread = recvLine(sock, buffer, sizeof(buffer));
         if (valread <= 0) {
-            printf("\n  Disconnected from server\n");
+            printf("\nDisconnected from server\n");
             break;
         }
 
-        // Handle PROMPT - your turn
+        if (strncmp(buffer, "TURN:", 5) == 0) {
+            strcpy(state.current_turn_player, buffer + 5);
+            if (strcmp(state.current_turn_player, state.my_name) != 0 && !is_eliminated) {
+                clear_screen();
+                displayGameState(&state);
+                printf("\n*** %s's TURN... ***\n", state.current_turn_player);
+                printf("Waiting for %s to make a move...\n", state.current_turn_player);
+            }
+            state.needs_display = 0;
+            continue;
+        }
+
         if (strcmp(buffer, "PROMPT") == 0) {
-            // If eliminated, just wait for next message instead of continue loop
             if (is_eliminated) {
-                printf("\n   You are eliminated. Skipping turn...\n");
-                continue;  // will go back to recvLine() and get next message
+                printf("\nYou are eliminated. Skipping turn...\n");
+                continue;
             }
 
-            printf("\n\n");
+            clear_screen();
+            displayGameState(&state);
+            
+            printf("\n");
             printf("═══════════════════════════════════════\n");
             printf("║          YOUR TURN!                 ║\n");
             printf("═══════════════════════════════════════\n");
 
-            // STEP 1: User enter choice  with 3 retry limit (timer does not start here yet)
+            displayMenu();
+            
             int valid_choice = 0;
             int choice;
             int retry_count = 0;
             
             while (!valid_choice && retry_count < MAX_RETRIES) {
-                displayMenu();
-                
                 if (scanf("%d", &choice) != 1) {
-                    // Not a number - clear input buffer
                     while (getchar() != '\n');
                     retry_count++;
-                    printf("\n  Invalid input! Please enter a NUMBER (1 or 2). ");
+                    printf("\nInvalid input! Please enter a NUMBER (1 or 2). ");
                     printf("(Attempt %d/%d)\n", retry_count, MAX_RETRIES);
                     
                     if (retry_count >= MAX_RETRIES) {
-                        printf("\n  Too many invalid attempts! Turn forfeited.\n");
+                        printf("\nToo many invalid attempts! Turn forfeited.\n");
                         break;
                     }
+                    printf("\nYour choice (1 or 2): ");
                     continue;
                 }
                 while (getchar() != '\n');
@@ -169,145 +218,122 @@ int main() {
                 if (choice == 1 || choice == 2) {
                     valid_choice = 1;
                 } else {
-                    // Invalid number
                     retry_count++;
-                    printf("\n  Invalid choice! Must be 1 or 2 (you entered: %d). ", choice);
+                    printf("\nInvalid choice! Must be 1 or 2 (you entered: %d). ", choice);
                     printf("(Attempt %d/%d)\n", retry_count, MAX_RETRIES);
                     
                     if (retry_count >= MAX_RETRIES) {
-                        printf("\n  Too many invalid attempts! Turn forfeited.\n");
+                        printf("\nToo many invalid attempts! Turn forfeited.\n");
                         break;
                     }
+                    printf("\nYour choice (1 or 2): ");
                 }
             }
 
-            // If max retries reached, skip this turn
             if (!valid_choice) {
-                printf("\n Turn skipped due to repeated invalid input.\n");
+                printf("\nTurn skipped due to repeated invalid input.\n");
                 continue;
             }
 
-            // STEP 2: NOW start the 15-second timer for the actual guess
-            printf("\n  You have 15 seconds to enter your guess!\n");
-            
-            if (choice == 1) {
-                // Letter guess with timer
-                printf("Enter a letter: ");
-                fflush(stdout);
-                
-                fd_set readfds;
-                struct timeval tv;
-                FD_ZERO(&readfds);
-                FD_SET(STDIN_FILENO, &readfds);
-                tv.tv_sec = 15;  // 15s timer starts NOW
-                tv.tv_usec = 0;
-
-                int ready = select(STDIN_FILENO + 1, &readfds, NULL, NULL, &tv);
-
-                if (ready == 0) {
-                    printf("\n\n   *** TIME'S UP! (-1 point penalty) ***\n");
-                    fflush(stdout);
-                    // Clear any pending input
-                    int c;
-                    while ((c = getchar()) != '\n' && c != EOF);
-                    continue;  // Skip to next iteration
-                }
-
-                if (ready < 0) {
-                    perror("select");
-                    continue;
-                }
-                
-                char letter;
-                if (scanf(" %c", &letter) != 1) {
-                    while (getchar() != '\n');
-                    printf("\n Invalid input! Turn wasted.\n");
-                    continue;
-                }
-                while (getchar() != '\n');
-
-                char move_msg[20];
-                sprintf(move_msg, "LETTER:%c", letter);
-                send(sock, move_msg, strlen(move_msg), 0);
-
-            } else if (choice == 2) {
-                // Word guess with timer
-                printf("Enter the complete word: ");
-                fflush(stdout);
-                
-                fd_set readfds;
-                struct timeval tv;
-                FD_ZERO(&readfds);
-                FD_SET(STDIN_FILENO, &readfds);
-                tv.tv_sec = 15;  // 15s timer starts NOW
-                tv.tv_usec = 0;
-
-                int ready = select(STDIN_FILENO + 1, &readfds, NULL, NULL, &tv);
-
-                if (ready == 0) {
-                    printf("\n\n   *** TIME'S UP! (-1 point penalty) ***\n");
-                    fflush(stdout);
-                    // Clear any pending input
-                    int c;
-                    while ((c = getchar()) != '\n' && c != EOF);
-                    continue;  // Skip to next iteration
-                }
-
-                if (ready < 0) {
-                    perror("select");
-                    continue;
-                }
-                
-                char word[WORD_LEN];
-                if (fgets(word, WORD_LEN, stdin) == NULL) {
-                    printf("\n Invalid input! Turn wasted.\n");
-                    continue;
-                }
-                word[strcspn(word, "\n")] = 0;
-
-                char move_msg[20];
-                sprintf(move_msg, "WORD:%s", word);
-                send(sock, move_msg, strlen(move_msg), 0);
-            }
-        }
-        // Handle WAIT - opponent's turn
-        else if (strcmp(buffer, "WAIT") == 0) {
-            if (!is_eliminated) {
-                printf("\n Waiting for opponent's move...\n");
-                fflush(stdout);
-            }
-        }
-        // Handle BOARD update
-        else if (strncmp(buffer, "BOARD:", 6) == 0) {
-            strcpy(state.answer_space, buffer + 6);
             clear_screen();
             displayGameState(&state);
+            
+            if (choice == 1) {
+                printf("\nEnter a letter: ");
+                fflush(stdout);
+                
+                char input[10];
+                if (get_input_with_timer(input, sizeof(input), 15)) {
+                    if (strlen(input) == 1 && isalpha(input[0])) {
+                        char move_msg[20];
+                        sprintf(move_msg, "LETTER:%c", input[0]);
+                        send(sock, move_msg, strlen(move_msg), 0);
+                    } else {
+                        printf("\nInvalid input! Turn wasted.\n");
+                    }
+                }
+
+            } else if (choice == 2) {
+                printf("\nEnter the complete word: ");
+                fflush(stdout);
+                
+                char word[WORD_LEN];
+                if (get_input_with_timer(word, sizeof(word), 15)) {
+                    char move_msg[30];
+                    sprintf(move_msg, "WORD:%s", word);
+                    send(sock, move_msg, strlen(move_msg), 0);
+                }
+            }
+            
+            state.needs_display = 1;
         }
-        // Handle STATE update (Round|Lives|Score)
+        else if (strcmp(buffer, "TIMEOUT") == 0) {
+            clear_screen();
+            printf("\n");
+            printf("╔═══════════════════════════════════════╗\n");
+            printf("║                                       ║\n");
+            printf("║         ⏰ YOU TIMED OUT! ⏰          ║\n");
+            printf("║                                       ║\n");
+            printf("║     Penalty: -1 point applied         ║\n");
+            printf("║                                       ║\n");
+            printf("╚═══════════════════════════════════════╝\n");
+            sleep(2);
+            state.needs_display = 1;
+        }
+        else if (strcmp(buffer, "WAIT") == 0) {
+            continue;
+        }
+        else if (strncmp(buffer, "BOARD:", 6) == 0) {
+            strcpy(state.answer_space, buffer + 6);
+            state.needs_display = 1;
+        }
         else if (strncmp(buffer, "STATE:", 6) == 0) {
             sscanf(buffer + 6, "R%d|L%d|S%d", &state.round, &state.lives, &state.score);
-            displayGameState(&state);
+            state.needs_display = 1;
             
-            // Check if we just got eliminated via STATE update
             if (state.lives <= 0 && !is_eliminated) {
                 is_eliminated = 1;
             }
         }
-        // Handle INVALID guess
+        else if (strncmp(buffer, "ROUND_SCORES:", 13) == 0) {
+            clear_screen();
+            printf("\n");
+            printf("╔═════════════════════════════════════════════════════════╗\n");
+            printf("║                   ROUND %d SUMMARY                       ║\n", state.round);
+            printf("╠═════════════════════════════════════════════════════════╣\n");
+            
+            char scores_copy[256];
+            strcpy(scores_copy, buffer + 13);
+            char *token = strtok(scores_copy, "|");
+            int player_num = 1;
+            
+            while (token != NULL && player_num <= 3) {
+                printf("║ Player %d: %-45s ║\n", player_num, token);
+                token = strtok(NULL, "|");
+                player_num++;
+            }
+            
+            printf("╚═════════════════════════════════════════════════════════╝\n");
+            printf("\nPress Enter to continue to next round...");
+            fflush(stdout);
+            getchar();
+            state.needs_display = 1;
+        }
         else if (strcmp(buffer, "INVALID") == 0) {
-            printf("\n *** Invalid move! That's not a valid letter ***\n");
+            printf("\n*** Invalid move! That's not a valid letter ***\n");
+            sleep(1);
+            state.needs_display = 1;
         }
-        // Handle CORRECT guess
         else if (strcmp(buffer, "CORRECT") == 0) {
-            clear_screen();
-            printf("\n *** CORRECT! Good guess! ***\n");
+            printf("\n✅ *** CORRECT! Good guess! *** ✅\n");
+            sleep(1);
+            state.needs_display = 1;
         }
-        // Handle WRONG guess
         else if (strcmp(buffer, "WRONG") == 0) {
-            clear_screen();
-            printf("\n *** WRONG! Try again... ***\n");
+            printf("\n❌ *** WRONG! Try again... *** ❌\n");
+            sleep(1);
+            state.needs_display = 1;
         }
-        // Handle ELIMINATED (wrong word guess)
         else if (strcmp(buffer, "ELIMINATED") == 0) {
             clear_screen();
             printf("\n");
@@ -320,8 +346,8 @@ int main() {
             printf("╚═══════════════════════════════════════╝\n");
             is_eliminated = 1;
             state.lives = 0;
+            state.needs_display = 0;
         }
-        // Handle REVEAL (round end)
         else if (strncmp(buffer, "REVEAL:", 7) == 0) {
             clear_screen();
             printf("\n");
@@ -329,18 +355,18 @@ int main() {
             printf("║                                       ║\n");
             printf("║             ROUND %d ENDED            ║\n", state.round);
             printf("║                                       ║\n");
-            printf("║    THE ANSWER WAS: %-18s              ║\n", buffer + 7);
+            printf("║    THE ANSWER WAS: %-18s ║\n", buffer + 7);
             printf("║                                       ║\n");
             printf("╚═══════════════════════════════════════╝\n");
+            state.needs_display = 0;
         }
-        // Handle END (game over)
         else if (strcmp(buffer, "END") == 0) {
             printf("\n");
             printf("╔═══════════════════════════════════════╗\n");
             printf("║                                       ║\n");
             printf("║            GAME ENDED!                ║\n");
             printf("║                                       ║\n");
-            printf("║         Final Score: %-19d          ║\n", state.score);
+            printf("║         Final Score: %-16d ║\n", state.score);
             printf("║                                       ║\n");
             printf("║     Check scores.txt for rankings!    ║\n");
             printf("║                                       ║\n");
