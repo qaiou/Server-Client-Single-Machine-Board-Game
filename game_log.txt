@@ -1,56 +1,56 @@
-[Mon Jan 19 22:44:03 2026] jajaj (O) moved to position 6
-[Mon Jan 19 22:44:19 2026] fdsgfds (X) moved to position 0
-[Mon Jan 19 22:44:25 2026] jajaj (O) moved to position 1
-[Mon Jan 19 22:44:31 2026] fdsgfds (X) moved to position 2
-[Mon Jan 19 22:45:03 2026] jajaj (O) moved to position 4
-[Mon Jan 19 22:45:10 2026] fdsgfds (X) moved to position 3
-[Mon Jan 19 22:45:20 2026] jajaj (O) moved to position 7
-[Tue Jan 20 01:56:23 2026] hhfh (X) moved to position 1
-[Tue Jan 20 04:25:28 2026] wfew (X) moved to position 4
-[Tue Jan 20 04:30:35 2026] wwwew (X) moved to position 4
-[Tue Jan 20 04:36:43 2026] yaaya (X) moved to position 5
-[Tue Jan 20 06:16:16 2026] oko (X) moved to position 7
-[Tue Jan 20 06:16:24 2026] ko (O) moved to position 8
-[Tue Jan 20 06:21:15 2026] ioo (X) moved to position 2
-[Tue Jan 20 06:21:18 2026] ppp (O) moved to position 6
-[Tue Jan 20 06:21:33 2026] ioo (X) moved to position 5
-[Tue Jan 20 13:24:23 2026] yaya (X) moved to position 4
-[Tue Jan 20 13:24:29 2026] yoyo (O) moved to position 1
-[Tue Jan 20 13:24:57 2026] yaya (X) moved to position 3
-[Tue Jan 20 13:25:07 2026] yoyo (O) moved to position 5
-[Tue Jan 20 13:25:16 2026] yaya (X) moved to position 8
-[Tue Jan 20 13:25:22 2026] yoyo (O) moved to position 0
-[Tue Jan 20 13:25:31 2026] yaya (X) moved to position 2
-[Tue Jan 20 13:25:53 2026] yoyo (O) moved to position 6
-[Tue Jan 20 13:26:00 2026] yaya (X) moved to position 7
-[Sun Feb  1 05:39:04 2026] fff (X) moved to position 4
-[Sun Feb  1 05:39:28 2026] ddd (O) moved to position 8
-[Sun Feb  1 05:47:37 2026] fff (X) moved to position 4
-[Sun Feb  1 05:48:03 2026] ddd (O) moved to position 8
-[Sun Feb  1 05:48:03 2026] fff (X) moved to position 6
-[Sun Feb  1 05:48:06 2026] ddd (O) moved to position 2
-[Sun Feb  1 05:48:09 2026] fff (X) moved to position 3
-[Sun Feb  1 05:48:40 2026] ddd (O) moved to position 1
-[Sun Feb  1 05:48:57 2026] ddd (O) moved to position 0
-[Sun Feb  1 05:55:07 2026] fff (X) moved to position 2
-[Sun Feb  1 05:55:22 2026] fff (X) moved to position 8
-[Sun Feb  1 05:55:26 2026] ddd (O) moved to position 1
-[Sun Feb  1 05:55:41 2026] ddd (O) moved to position 0
-[Sun Feb  1 06:01:57 2026] ddd (O) moved to position 1
-[Sun Feb  1 06:02:02 2026] fff (X) moved to position 0
-[Sun Feb  1 06:02:16 2026] fff (X) moved to position 2
-[Sun Feb  1 06:02:24 2026] ddd (O) moved to position 4
-[Sun Feb  1 06:02:38 2026] ddd (O) moved to position 8
-[Sun Feb  1 06:02:43 2026] fff (X) moved to position 6
-[Sun Feb  1 06:02:52 2026] ddd (O) moved to position 3
-[Sun Feb  1 06:02:56 2026] fff (X) moved to position 5
-[Sun Feb  1 06:03:00 2026] ddd (O) moved to position 7
-[Sun Feb  1 06:05:00 2026] fff (X) moved to position 8
-[Sun Feb  1 07:16:42 2026] hana (O) moved to position 8
-[Sun Feb  1 07:16:45 2026] yolo (X) moved to position 1
-[Sun Feb  1 07:16:48 2026] hana (O) moved to position 2
-[Sun Feb  1 07:17:01 2026] hana (O) moved to position 3
-[Sun Feb  1 07:17:10 2026] yolo (X) moved to position 7
-[Sun Feb  1 07:17:18 2026] hana (O) moved to position 4
-[Sun Feb  1 07:17:24 2026] yolo (X) moved to position 0
-[Sun Feb  1 07:17:29 2026] hana (O) moved to position 5
+========================================
+   WORD GUESSING GAME - SESSION LOG
+========================================
+Game Started: Sat Feb  7 12:03:55 2026
+Max Rounds: 5
+Number of Players: 3
+========================================
+
+REGISTERED PLAYERS:
+  Player 1: 1 (Lives: 3, Score: 0)
+  Player 2: 2 (Lives: 3, Score: 0)
+  Player 3: 3 (Lives: 3, Score: 0)
+
+========================================
+ROUND 1 START
+========================================
+Word to guess: henry (Length: 5)
+Initial board: _____
+
+Player Status:
+  1 - Lives: 3, Score: 0
+  2 - Lives: 3, Score: 0
+  3 - Lives: 3, Score: 0
+
+[Sat Feb  7 12:04:56 2026] TIMEOUT: 1 failed to respond within 10 seconds (-1 point)
+  Score: -1
+
+[Sat Feb  7 12:05:06 2026] TIMEOUT: 2 failed to respond within 10 seconds (-1 point)
+  Score: -1
+
+[Sat Feb  7 12:05:16 2026] TIMEOUT: 3 failed to respond within 10 seconds (-1 point)
+  Score: -1
+
+[Sat Feb  7 12:05:24 2026] Turn: 1 (LETTER GUESS)
+  Guessed: 'g'
+  Result: WRONG (-1 life)
+  Board: _____
+  Lives remaining: 2
+  Score: -1
+
+[Sat Feb  7 12:05:34 2026] TIMEOUT: 2 failed to respond within 10 seconds (-1 point)
+  Score: -2
+
+[Sat Feb  7 12:05:34 2026] Turn: 3 (LETTER GUESS)
+  Guessed: 'a'
+  Result: WRONG (-1 life)
+  Board: _____
+  Lives remaining: 2
+  Score: -1
+
+[Sat Feb  7 12:05:44 2026] TIMEOUT: 1 failed to respond within 10 seconds (-1 point)
+  Score: -2
+
+[Sat Feb  7 12:05:54 2026] TIMEOUT: 2 failed to respond within 10 seconds (-1 point)
+  Score: -3
+
