@@ -135,7 +135,7 @@ void logTimeout(GameState *g, int player) {
     char *timeStr = ctime(&now);
     timeStr[strcspn(timeStr, "\n")] = 0;
     
-    fprintf(g->logFile, "[%s] TIMEOUT: %s failed to respond within 10 seconds (-1 point)\n", 
+    fprintf(g->logFile, "[%s] TIMEOUT: %s failed to respond within 15 seconds (-1 point)\n", 
             timeStr, g->names[player]);
     fprintf(g->logFile, "  Score: %d\n\n", g->scores[player]);
     fflush(g->logFile);
@@ -436,7 +436,7 @@ void handleClient(int me, GameState *g) {
         struct timeval tv;
         FD_ZERO(&readfds);
         FD_SET(g->clientSockets[me], &readfds);
-        tv.tv_sec = 10;
+        tv.tv_sec = 15; //timer 15s
         tv.tv_usec = 0;
 
         int ready = select(g->clientSockets[me] + 1, &readfds, NULL, NULL, &tv);
