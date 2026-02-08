@@ -1,0 +1,11 @@
+=== GAME FINAL RESULTS ===
+Date: Sun Feb  8 22:35:14 2026
+
+Total Rounds: 5
+
+RANKINGS:
+1. john - -3 points
+2. bella - -6 points
+3. ali - -8 points
+
+WINNER: john with -3 points!

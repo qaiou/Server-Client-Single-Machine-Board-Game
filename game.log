@@ -1,0 +1,1942 @@
+
+=== GAME SESSION STARTED ===
+Time: Sun Feb  8 15:03:52 2026
+
+[Sun Feb  8 15:03:52 2026] scores.txt not found, will create new file
+[Sun Feb  8 15:03:52 2026] Server initialized
+[Sun Feb  8 15:03:52 2026] Server listening on port 8080
+[Sun Feb  8 15:04:13 2026] Connection 1 accepted
+[Sun Feb  8 15:04:18 2026] Player 1 connected (slot 0)
+[Sun Feb  8 15:04:27 2026] Connection 2 accepted
+[Sun Feb  8 15:04:33 2026] Player 2 connected (slot 1)
+[Sun Feb  8 15:04:41 2026] Connection 3 accepted
+[Sun Feb  8 15:04:43 2026] Player 3 connected (slot 2)
+[Sun Feb  8 15:04:45 2026] Round 1: Selected word LEMON
+[Sun Feb  8 15:04:45 2026] Round 1 initialized - ALL players reset to 3 lives, not eliminated
+[Sun Feb  8 15:04:45 2026] Round Robin scheduler started
+[Sun Feb  8 15:04:45 2026] Game started with 3 players
+[Sun Feb  8 15:04:46 2026] Broadcast board: _____
+[Sun Feb  8 15:04:46 2026] Sent state to 2: R1 L3 S0 E0
+[Sun Feb  8 15:04:46 2026] Broadcast board: _____
+[Sun Feb  8 15:04:46 2026] Sent state to 1: R1 L3 S0 E0
+[Sun Feb  8 15:04:46 2026] Broadcast board: _____
+[Sun Feb  8 15:04:46 2026] Sent state to 3: R1 L3 S0 E0
+[Sun Feb  8 15:05:02 2026] 1: timed out (-1 pt, total -1)
+[Sun Feb  8 15:05:02 2026] Sent state to 1: R1 L3 S-1 E0
+[Sun Feb  8 15:05:02 2026] Turn complete for 1
+[Sun Feb  8 15:05:02 2026] Turn advanced to 2
+[Sun Feb  8 15:05:19 2026] 2: timed out (-1 pt, total -1)
+[Sun Feb  8 15:05:19 2026] Sent state to 2: R1 L3 S-1 E0
+[Sun Feb  8 15:05:19 2026] Turn complete for 2
+[Sun Feb  8 15:05:19 2026] Turn advanced to 3
+[Sun Feb  8 15:05:35 2026] 3: timed out (-1 pt, total -1)
+[Sun Feb  8 15:05:35 2026] Sent state to 3: R1 L3 S-1 E0
+[Sun Feb  8 15:05:35 2026] Turn complete for 3
+[Sun Feb  8 15:05:35 2026] Turn advanced to 1
+[Sun Feb  8 15:05:36 2026] 1: received move LETTER:h
+[Sun Feb  8 15:05:36 2026] 1 handling move: LETTER:h
+[Sun Feb  8 15:05:36 2026] 1: wrong letter h (-1 life, 2 left)
+[Sun Feb  8 15:05:36 2026] Sent state to 1: R1 L2 S-1 E0
+[Sun Feb  8 15:05:36 2026] Sent state to 2: R1 L3 S-1 E0
+[Sun Feb  8 15:05:36 2026] Sent state to 3: R1 L3 S-1 E0
+[Sun Feb  8 15:05:36 2026] Turn complete for 1
+[Sun Feb  8 15:05:36 2026] Turn advanced to 2
+[Sun Feb  8 15:05:37 2026] 2: received move LETTER:k
+[Sun Feb  8 15:05:37 2026] 2 handling move: LETTER:k
+[Sun Feb  8 15:05:37 2026] 2: wrong letter k (-1 life, 2 left)
+[Sun Feb  8 15:05:37 2026] Sent state to 1: R1 L2 S-1 E0
+[Sun Feb  8 15:05:37 2026] Sent state to 2: R1 L2 S-1 E0
+[Sun Feb  8 15:05:37 2026] Sent state to 3: R1 L3 S-1 E0
+[Sun Feb  8 15:05:37 2026] Turn complete for 2
+[Sun Feb  8 15:05:37 2026] Turn advanced to 3
+[Sun Feb  8 15:05:51 2026] 3: received move WORD:word
+[Sun Feb  8 15:05:51 2026] 3 handling move: WORD:word
+[Sun Feb  8 15:05:51 2026] 3: wrong word guess - eliminated from round 1
+[Sun Feb  8 15:05:51 2026] Sent state to 3: R1 L0 S-1 E1
+[Sun Feb  8 15:05:51 2026] Turn complete for 3
+[Sun Feb  8 15:05:51 2026] Turn advanced to 1
+[Sun Feb  8 15:06:07 2026] 1: received move LETTER:m
+[Sun Feb  8 15:06:07 2026] 1 handling move: LETTER:m
+[Sun Feb  8 15:06:07 2026] 1: correct letter m (+1 pt, total 0)
+[Sun Feb  8 15:06:07 2026] Broadcast board: __M__
+[Sun Feb  8 15:06:07 2026] Sent state to 1: R1 L2 S0 E0
+[Sun Feb  8 15:06:07 2026] Sent state to 2: R1 L2 S-1 E0
+[Sun Feb  8 15:06:07 2026] Sent state to 3: R1 L0 S-1 E1
+[Sun Feb  8 15:06:07 2026] Turn complete for 1
+[Sun Feb  8 15:06:07 2026] Turn advanced to 2
+[Sun Feb  8 15:06:18 2026] 2: received move LETTER:w
+[Sun Feb  8 15:06:18 2026] 2 handling move: LETTER:w
+[Sun Feb  8 15:06:18 2026] 2: wrong letter w (-1 life, 1 left)
+[Sun Feb  8 15:06:18 2026] Sent state to 1: R1 L2 S0 E0
+[Sun Feb  8 15:06:18 2026] Sent state to 2: R1 L1 S-1 E0
+[Sun Feb  8 15:06:18 2026] Sent state to 3: R1 L0 S-1 E1
+[Sun Feb  8 15:06:18 2026] Turn complete for 2
+[Sun Feb  8 15:06:18 2026] Turn advanced to 1
+[Sun Feb  8 15:06:34 2026] 1: timed out (-1 pt, total -1)
+[Sun Feb  8 15:06:34 2026] Sent state to 1: R1 L2 S-1 E0
+[Sun Feb  8 15:06:34 2026] Turn complete for 1
+[Sun Feb  8 15:06:34 2026] Turn advanced to 2
+[Sun Feb  8 15:06:50 2026] 2: timed out (-1 pt, total -2)
+[Sun Feb  8 15:06:50 2026] Sent state to 2: R1 L1 S-2 E0
+[Sun Feb  8 15:06:50 2026] Turn complete for 2
+[Sun Feb  8 15:06:50 2026] Turn advanced to 1
+[Sun Feb  8 15:06:51 2026] 1: received move LETTER:p
+[Sun Feb  8 15:06:51 2026] 1 handling move: LETTER:p
+[Sun Feb  8 15:06:51 2026] 1: wrong letter p (-1 life, 1 left)
+[Sun Feb  8 15:06:51 2026] Sent state to 1: R1 L1 S-1 E0
+[Sun Feb  8 15:06:51 2026] Sent state to 2: R1 L1 S-2 E0
+[Sun Feb  8 15:06:51 2026] Sent state to 3: R1 L0 S-1 E1
+[Sun Feb  8 15:06:51 2026] Turn complete for 1
+[Sun Feb  8 15:06:51 2026] Turn advanced to 2
+[Sun Feb  8 15:07:05 2026] 2: received move LETTER:o
+[Sun Feb  8 15:07:05 2026] 2 handling move: LETTER:o
+[Sun Feb  8 15:07:05 2026] 2: correct letter o (+1 pt, total -1)
+[Sun Feb  8 15:07:05 2026] Broadcast board: __MO_
+[Sun Feb  8 15:07:05 2026] Sent state to 1: R1 L1 S-1 E0
+[Sun Feb  8 15:07:05 2026] Sent state to 2: R1 L1 S-1 E0
+[Sun Feb  8 15:07:05 2026] Sent state to 3: R1 L0 S-1 E1
+[Sun Feb  8 15:07:05 2026] Turn complete for 2
+[Sun Feb  8 15:07:05 2026] Turn advanced to 1
+[Sun Feb  8 15:07:21 2026] 1: timed out (-1 pt, total -2)
+[Sun Feb  8 15:07:21 2026] Sent state to 1: R1 L1 S-2 E0
+[Sun Feb  8 15:07:21 2026] Turn complete for 1
+[Sun Feb  8 15:07:21 2026] Turn advanced to 2
+[Sun Feb  8 15:07:22 2026] 2: received move LETTER:u
+[Sun Feb  8 15:07:22 2026] 2 handling move: LETTER:u
+[Sun Feb  8 15:07:22 2026] 2: wrong letter u (-1 life, 0 left)
+[Sun Feb  8 15:07:22 2026] 2: eliminated (no lives left in round 1)
+[Sun Feb  8 15:07:22 2026] Sent state to 1: R1 L1 S-2 E0
+[Sun Feb  8 15:07:22 2026] Sent state to 2: R1 L0 S-1 E1
+[Sun Feb  8 15:07:22 2026] Sent state to 3: R1 L0 S-1 E1
+[Sun Feb  8 15:07:22 2026] Turn complete for 2
+[Sun Feb  8 15:07:22 2026] Turn advanced to 1
+[Sun Feb  8 15:07:30 2026] 1: received move LETTER:u
+[Sun Feb  8 15:07:30 2026] 1 handling move: LETTER:u
+[Sun Feb  8 15:07:30 2026] 1: wrong letter u (-1 life, 0 left)
+[Sun Feb  8 15:07:30 2026] 1: eliminated (no lives left in round 1)
+[Sun Feb  8 15:07:30 2026] Sent state to 1: R1 L0 S-2 E1
+[Sun Feb  8 15:07:30 2026] Sent state to 2: R1 L0 S-1 E1
+[Sun Feb  8 15:07:30 2026] Sent state to 3: R1 L0 S-1 E1
+[Sun Feb  8 15:07:30 2026] Turn complete for 1
+[Sun Feb  8 15:07:30 2026] Round 1 complete
+[Sun Feb  8 15:07:37 2026] Starting round 2/5
+[Sun Feb  8 15:07:37 2026] Round 2: Selected word LEMON
+[Sun Feb  8 15:07:37 2026] Round 2 initialized - ALL players reset to 3 lives, not eliminated
+[Sun Feb  8 15:07:38 2026] Broadcast board: _____
+[Sun Feb  8 15:07:38 2026] Sent state to 1: R2 L3 S-2 E0
+[Sun Feb  8 15:07:38 2026] Sent state to 2: R2 L3 S-1 E0
+[Sun Feb  8 15:07:38 2026] Sent state to 3: R2 L3 S-1 E0
+[Sun Feb  8 15:07:38 2026] Round 2 ready
+[Sun Feb  8 15:07:53 2026] 1: timed out (-1 pt, total -3)
+[Sun Feb  8 15:07:53 2026] Sent state to 1: R2 L3 S-3 E0
+[Sun Feb  8 15:07:53 2026] Turn complete for 1
+[Sun Feb  8 15:07:53 2026] Turn advanced to 2
+[Sun Feb  8 15:07:55 2026] 2: received move LETTER:n
+[Sun Feb  8 15:07:55 2026] 2 handling move: LETTER:n
+[Sun Feb  8 15:07:55 2026] 2: correct letter n (+1 pt, total 0)
+[Sun Feb  8 15:07:55 2026] Broadcast board: ____N
+[Sun Feb  8 15:07:55 2026] Sent state to 1: R2 L3 S-3 E0
+[Sun Feb  8 15:07:55 2026] Sent state to 2: R2 L3 S0 E0
+[Sun Feb  8 15:07:55 2026] Sent state to 3: R2 L3 S-1 E0
+[Sun Feb  8 15:07:55 2026] Turn complete for 2
+[Sun Feb  8 15:07:55 2026] Turn advanced to 3
+[Sun Feb  8 15:08:11 2026] 3: timed out (-1 pt, total -2)
+[Sun Feb  8 15:08:11 2026] Sent state to 3: R2 L3 S-2 E0
+[Sun Feb  8 15:08:11 2026] Turn complete for 3
+[Sun Feb  8 15:08:11 2026] Turn advanced to 1
+[Sun Feb  8 15:08:27 2026] 1: timed out (-1 pt, total -4)
+[Sun Feb  8 15:08:27 2026] Sent state to 1: R2 L3 S-4 E0
+[Sun Feb  8 15:08:27 2026] Turn complete for 1
+[Sun Feb  8 15:08:27 2026] Turn advanced to 2
+[Sun Feb  8 15:08:28 2026] 2: received move LETTER:h
+[Sun Feb  8 15:08:28 2026] 2 handling move: LETTER:h
+[Sun Feb  8 15:08:28 2026] 2: wrong letter h (-1 life, 2 left)
+[Sun Feb  8 15:08:28 2026] Sent state to 1: R2 L3 S-4 E0
+[Sun Feb  8 15:08:28 2026] Sent state to 2: R2 L2 S0 E0
+[Sun Feb  8 15:08:28 2026] Sent state to 3: R2 L3 S-2 E0
+[Sun Feb  8 15:08:28 2026] Turn complete for 2
+[Sun Feb  8 15:08:28 2026] Turn advanced to 3
+[Sun Feb  8 15:08:44 2026] 3: timed out (-1 pt, total -3)
+[Sun Feb  8 15:08:44 2026] Sent state to 3: R2 L3 S-3 E0
+[Sun Feb  8 15:08:44 2026] Turn complete for 3
+[Sun Feb  8 15:08:44 2026] Turn advanced to 1
+[Sun Feb  8 15:08:45 2026] 1: received move LETTER:e
+[Sun Feb  8 15:08:45 2026] 1 handling move: LETTER:e
+[Sun Feb  8 15:08:45 2026] 1: correct letter e (+1 pt, total -3)
+[Sun Feb  8 15:08:46 2026] Broadcast board: _E__N
+[Sun Feb  8 15:08:46 2026] Sent state to 1: R2 L3 S-3 E0
+[Sun Feb  8 15:08:46 2026] Sent state to 2: R2 L2 S0 E0
+[Sun Feb  8 15:08:46 2026] Sent state to 3: R2 L3 S-3 E0
+[Sun Feb  8 15:08:46 2026] Turn complete for 1
+[Sun Feb  8 15:08:46 2026] Turn advanced to 2
+[Sun Feb  8 15:09:02 2026] 2: timed out (-1 pt, total -1)
+[Sun Feb  8 15:09:02 2026] Sent state to 2: R2 L2 S-1 E0
+[Sun Feb  8 15:09:02 2026] Turn complete for 2
+[Sun Feb  8 15:09:02 2026] Turn advanced to 3
+[Sun Feb  8 15:09:18 2026] 3: timed out (-1 pt, total -4)
+[Sun Feb  8 15:09:18 2026] Sent state to 3: R2 L3 S-4 E0
+[Sun Feb  8 15:09:18 2026] Turn complete for 3
+[Sun Feb  8 15:09:18 2026] Turn advanced to 1
+[Sun Feb  8 15:09:19 2026] 1: received move LETTER:l
+[Sun Feb  8 15:09:19 2026] 1 handling move: LETTER:l
+[Sun Feb  8 15:09:19 2026] 1: correct letter l (+1 pt, total -2)
+[Sun Feb  8 15:09:19 2026] Broadcast board: LE__N
+[Sun Feb  8 15:09:19 2026] Sent state to 1: R2 L3 S-2 E0
+[Sun Feb  8 15:09:19 2026] Sent state to 2: R2 L2 S-1 E0
+[Sun Feb  8 15:09:19 2026] Sent state to 3: R2 L3 S-4 E0
+[Sun Feb  8 15:09:19 2026] Turn complete for 1
+[Sun Feb  8 15:09:19 2026] Turn advanced to 2
+[Sun Feb  8 15:09:35 2026] 2: timed out (-1 pt, total -2)
+[Sun Feb  8 15:09:35 2026] Sent state to 2: R2 L2 S-2 E0
+[Sun Feb  8 15:09:35 2026] Turn complete for 2
+[Sun Feb  8 15:09:35 2026] Turn advanced to 3
+[Sun Feb  8 15:09:52 2026] 3: timed out (-1 pt, total -5)
+[Sun Feb  8 15:09:52 2026] Sent state to 3: R2 L3 S-5 E0
+[Sun Feb  8 15:09:52 2026] Turn complete for 3
+[Sun Feb  8 15:09:52 2026] Turn advanced to 1
+[Sun Feb  8 15:10:05 2026] 1: received move LETTER:j
+[Sun Feb  8 15:10:05 2026] 1 handling move: LETTER:j
+[Sun Feb  8 15:10:05 2026] 1: wrong letter j (-1 life, 2 left)
+[Sun Feb  8 15:10:05 2026] Sent state to 1: R2 L2 S-2 E0
+[Sun Feb  8 15:10:05 2026] Sent state to 2: R2 L2 S-2 E0
+[Sun Feb  8 15:10:05 2026] Sent state to 3: R2 L3 S-5 E0
+[Sun Feb  8 15:10:05 2026] Turn complete for 1
+[Sun Feb  8 15:10:05 2026] Turn advanced to 2
+[Sun Feb  8 15:10:21 2026] 2: timed out (-1 pt, total -3)
+[Sun Feb  8 15:10:21 2026] Sent state to 2: R2 L2 S-3 E0
+[Sun Feb  8 15:10:21 2026] Turn complete for 2
+[Sun Feb  8 15:10:21 2026] Turn advanced to 3
+[Sun Feb  8 15:10:37 2026] 3: timed out (-1 pt, total -6)
+[Sun Feb  8 15:10:37 2026] Sent state to 3: R2 L3 S-6 E0
+[Sun Feb  8 15:10:37 2026] Turn complete for 3
+[Sun Feb  8 15:10:37 2026] Turn advanced to 1
+[Sun Feb  8 15:10:53 2026] 1: timed out (-1 pt, total -3)
+[Sun Feb  8 15:10:53 2026] Sent state to 1: R2 L2 S-3 E0
+[Sun Feb  8 15:10:53 2026] Turn complete for 1
+[Sun Feb  8 15:10:53 2026] Turn advanced to 2
+[Sun Feb  8 15:10:54 2026] 2: received move LETTER:j
+[Sun Feb  8 15:10:54 2026] 2 handling move: LETTER:j
+[Sun Feb  8 15:10:54 2026] 2: wrong letter j (-1 life, 1 left)
+[Sun Feb  8 15:10:54 2026] Sent state to 1: R2 L2 S-3 E0
+[Sun Feb  8 15:10:54 2026] Sent state to 2: R2 L1 S-3 E0
+[Sun Feb  8 15:10:54 2026] Sent state to 3: R2 L3 S-6 E0
+[Sun Feb  8 15:10:54 2026] Turn complete for 2
+[Sun Feb  8 15:10:54 2026] Turn advanced to 3
+[Sun Feb  8 15:11:10 2026] 3: timed out (-1 pt, total -7)
+[Sun Feb  8 15:11:10 2026] Sent state to 3: R2 L3 S-7 E0
+[Sun Feb  8 15:11:10 2026] Turn complete for 3
+[Sun Feb  8 15:11:10 2026] Turn advanced to 1
+[Sun Feb  8 15:11:26 2026] 1: timed out (-1 pt, total -4)
+[Sun Feb  8 15:11:26 2026] Sent state to 1: R2 L2 S-4 E0
+[Sun Feb  8 15:11:26 2026] Turn complete for 1
+[Sun Feb  8 15:11:26 2026] Turn advanced to 2
+[Sun Feb  8 15:11:42 2026] 2: timed out (-1 pt, total -4)
+[Sun Feb  8 15:11:42 2026] Sent state to 2: R2 L1 S-4 E0
+[Sun Feb  8 15:11:42 2026] Turn complete for 2
+[Sun Feb  8 15:11:42 2026] Turn advanced to 3
+[Sun Feb  8 15:11:59 2026] 3: timed out (-1 pt, total -8)
+[Sun Feb  8 15:11:59 2026] Sent state to 3: R2 L3 S-8 E0
+[Sun Feb  8 15:11:59 2026] Turn complete for 3
+[Sun Feb  8 15:11:59 2026] Turn advanced to 1
+[Sun Feb  8 15:12:15 2026] 1: timed out (-1 pt, total -5)
+[Sun Feb  8 15:12:15 2026] Sent state to 1: R2 L2 S-5 E0
+[Sun Feb  8 15:12:15 2026] Turn complete for 1
+[Sun Feb  8 15:12:15 2026] Turn advanced to 2
+[Sun Feb  8 15:12:31 2026] 2: timed out (-1 pt, total -5)
+[Sun Feb  8 15:12:31 2026] Sent state to 2: R2 L1 S-5 E0
+[Sun Feb  8 15:12:31 2026] Turn complete for 2
+[Sun Feb  8 15:12:31 2026] Turn advanced to 3
+[Sun Feb  8 15:12:47 2026] 3: timed out (-1 pt, total -9)
+[Sun Feb  8 15:12:47 2026] Sent state to 3: R2 L3 S-9 E0
+[Sun Feb  8 15:12:47 2026] Turn complete for 3
+[Sun Feb  8 15:12:47 2026] Turn advanced to 1
+[Sun Feb  8 15:13:03 2026] 1: timed out (-1 pt, total -6)
+[Sun Feb  8 15:13:03 2026] Sent state to 1: R2 L2 S-6 E0
+[Sun Feb  8 15:13:03 2026] Turn complete for 1
+[Sun Feb  8 15:13:03 2026] Turn advanced to 2
+[Sun Feb  8 15:13:19 2026] 2: timed out (-1 pt, total -6)
+[Sun Feb  8 15:13:19 2026] Sent state to 2: R2 L1 S-6 E0
+[Sun Feb  8 15:13:19 2026] Turn complete for 2
+[Sun Feb  8 15:13:19 2026] Turn advanced to 3
+[Sun Feb  8 15:13:36 2026] Player 3 disconnected
+[Sun Feb  8 15:13:36 2026] Turn complete for 3
+[Sun Feb  8 15:13:36 2026] Turn advanced to 1
+[Sun Feb  8 15:13:37 2026] Player 1 disconnected
+[Sun Feb  8 15:13:37 2026] Turn complete for 1
+[Sun Feb  8 15:13:37 2026] Turn advanced to 2
+
+=== GAME SESSION STARTED ===
+Time: Sun Feb  8 15:18:49 2026
+
+[Sun Feb  8 15:18:49 2026] scores.txt not found, will create new file
+[Sun Feb  8 15:18:49 2026] Server initialized
+[Sun Feb  8 15:18:49 2026] Server listening on port 8080
+[Sun Feb  8 15:19:40 2026] Connection 1 accepted
+[Sun Feb  8 15:19:49 2026] Player 1 connected (slot 0)
+[Sun Feb  8 15:19:59 2026] Connection 2 accepted
+[Sun Feb  8 15:20:04 2026] Player 2 connected (slot 1)
+[Sun Feb  8 15:20:24 2026] Connection 3 accepted
+[Sun Feb  8 15:20:27 2026] Player 3 connected (slot 2)
+[Sun Feb  8 15:20:29 2026] Round 1: Selected word MELON
+[Sun Feb  8 15:20:29 2026] Round 1 initialized - ALL players reset to 3 lives, not eliminated
+[Sun Feb  8 15:20:29 2026] Round Robin scheduler started
+[Sun Feb  8 15:20:29 2026] Game started with 3 players
+[Sun Feb  8 15:20:30 2026] Broadcast board: _____
+[Sun Feb  8 15:20:30 2026] Sent state to 3: R1 L3 S0 E0
+[Sun Feb  8 15:20:30 2026] Broadcast board: _____
+[Sun Feb  8 15:20:30 2026] Sent state to 2: R1 L3 S0 E0
+[Sun Feb  8 15:20:30 2026] Broadcast board: _____
+[Sun Feb  8 15:20:30 2026] Sent state to 1: R1 L3 S0 E0
+[Sun Feb  8 15:20:46 2026] 1: timed out (-1 pt, total -1)
+[Sun Feb  8 15:20:46 2026] Sent state to 1: R1 L3 S-1 E0
+[Sun Feb  8 15:20:46 2026] Turn complete for 1
+[Sun Feb  8 15:20:46 2026] Turn advanced to 2
+[Sun Feb  8 15:21:02 2026] 2: timed out (-1 pt, total -1)
+[Sun Feb  8 15:21:02 2026] Sent state to 2: R1 L3 S-1 E0
+[Sun Feb  8 15:21:02 2026] Turn complete for 2
+[Sun Feb  8 15:21:02 2026] Turn advanced to 3
+[Sun Feb  8 15:21:18 2026] 3: timed out (-1 pt, total -1)
+[Sun Feb  8 15:21:18 2026] Sent state to 3: R1 L3 S-1 E0
+[Sun Feb  8 15:21:18 2026] Turn complete for 3
+[Sun Feb  8 15:21:18 2026] Turn advanced to 1
+[Sun Feb  8 15:21:23 2026] 1: received move LETTER:m
+[Sun Feb  8 15:21:23 2026] 1 handling move: LETTER:m
+[Sun Feb  8 15:21:23 2026] 1: correct letter m (+1 pt, total 0)
+[Sun Feb  8 15:21:23 2026] Broadcast board: M____
+[Sun Feb  8 15:21:23 2026] Sent state to 1: R1 L3 S0 E0
+[Sun Feb  8 15:21:23 2026] Sent state to 2: R1 L3 S-1 E0
+[Sun Feb  8 15:21:23 2026] Sent state to 3: R1 L3 S-1 E0
+[Sun Feb  8 15:21:23 2026] Turn complete for 1
+[Sun Feb  8 15:21:23 2026] Turn advanced to 2
+[Sun Feb  8 15:21:33 2026] 2: received move LETTER:h
+[Sun Feb  8 15:21:33 2026] 2 handling move: LETTER:h
+[Sun Feb  8 15:21:33 2026] 2: wrong letter h (-1 life, 2 left)
+[Sun Feb  8 15:21:33 2026] Sent state to 1: R1 L3 S0 E0
+[Sun Feb  8 15:21:33 2026] Sent state to 2: R1 L2 S-1 E0
+[Sun Feb  8 15:21:33 2026] Sent state to 3: R1 L3 S-1 E0
+[Sun Feb  8 15:21:33 2026] Turn complete for 2
+[Sun Feb  8 15:21:33 2026] Turn advanced to 3
+[Sun Feb  8 15:21:38 2026] 3: received move LETTER:p
+[Sun Feb  8 15:21:38 2026] 3 handling move: LETTER:p
+[Sun Feb  8 15:21:38 2026] 3: wrong letter p (-1 life, 2 left)
+[Sun Feb  8 15:21:38 2026] Sent state to 1: R1 L3 S0 E0
+[Sun Feb  8 15:21:38 2026] Sent state to 2: R1 L2 S-1 E0
+[Sun Feb  8 15:21:38 2026] Sent state to 3: R1 L2 S-1 E0
+[Sun Feb  8 15:21:38 2026] Turn complete for 3
+[Sun Feb  8 15:21:38 2026] Turn advanced to 1
+[Sun Feb  8 15:21:49 2026] 1: received move LETTER:n
+[Sun Feb  8 15:21:49 2026] 1 handling move: LETTER:n
+[Sun Feb  8 15:21:49 2026] 1: correct letter n (+1 pt, total 1)
+[Sun Feb  8 15:21:49 2026] Broadcast board: M___N
+[Sun Feb  8 15:21:49 2026] Sent state to 1: R1 L3 S1 E0
+[Sun Feb  8 15:21:49 2026] Sent state to 2: R1 L2 S-1 E0
+[Sun Feb  8 15:21:49 2026] Sent state to 3: R1 L2 S-1 E0
+[Sun Feb  8 15:21:49 2026] Turn complete for 1
+[Sun Feb  8 15:21:49 2026] Turn advanced to 2
+[Sun Feb  8 15:22:05 2026] 2: timed out (-1 pt, total -2)
+[Sun Feb  8 15:22:05 2026] Sent state to 2: R1 L2 S-2 E0
+[Sun Feb  8 15:22:05 2026] Turn complete for 2
+[Sun Feb  8 15:22:05 2026] Turn advanced to 3
+[Sun Feb  8 15:22:21 2026] 3: timed out (-1 pt, total -2)
+[Sun Feb  8 15:22:21 2026] Sent state to 3: R1 L2 S-2 E0
+[Sun Feb  8 15:22:21 2026] Turn complete for 3
+[Sun Feb  8 15:22:21 2026] Turn advanced to 1
+[Sun Feb  8 15:22:37 2026] 1: timed out (-1 pt, total 0)
+[Sun Feb  8 15:22:37 2026] Sent state to 1: R1 L3 S0 E0
+[Sun Feb  8 15:22:37 2026] Turn complete for 1
+[Sun Feb  8 15:22:37 2026] Turn advanced to 2
+[Sun Feb  8 15:22:53 2026] 2: timed out (-1 pt, total -3)
+[Sun Feb  8 15:22:53 2026] Sent state to 2: R1 L2 S-3 E0
+[Sun Feb  8 15:22:53 2026] Turn complete for 2
+[Sun Feb  8 15:22:53 2026] Turn advanced to 3
+[Sun Feb  8 15:22:54 2026] 3: received move WORD:worm
+[Sun Feb  8 15:22:54 2026] 3 handling move: WORD:worm
+[Sun Feb  8 15:22:54 2026] 3: wrong word guess - eliminated from round 1
+[Sun Feb  8 15:22:54 2026] Sent state to 3: R1 L0 S-2 E1
+[Sun Feb  8 15:22:54 2026] Turn complete for 3
+[Sun Feb  8 15:22:54 2026] Turn advanced to 1
+[Sun Feb  8 15:22:55 2026] 1: received move LETTER:s
+[Sun Feb  8 15:22:55 2026] 1 handling move: LETTER:s
+[Sun Feb  8 15:22:55 2026] 1: wrong letter s (-1 life, 2 left)
+[Sun Feb  8 15:22:55 2026] Sent state to 1: R1 L2 S0 E0
+[Sun Feb  8 15:22:55 2026] Sent state to 2: R1 L2 S-3 E0
+[Sun Feb  8 15:22:55 2026] Sent state to 3: R1 L0 S-2 E1
+[Sun Feb  8 15:22:55 2026] Turn complete for 1
+[Sun Feb  8 15:22:55 2026] Turn advanced to 2
+[Sun Feb  8 15:23:11 2026] 2: timed out (-1 pt, total -4)
+[Sun Feb  8 15:23:11 2026] Sent state to 2: R1 L2 S-4 E0
+[Sun Feb  8 15:23:11 2026] Turn complete for 2
+[Sun Feb  8 15:23:11 2026] Turn advanced to 1
+[Sun Feb  8 15:23:18 2026] 1: received move LETTER:j
+[Sun Feb  8 15:23:18 2026] 1 handling move: LETTER:j
+[Sun Feb  8 15:23:18 2026] 1: wrong letter j (-1 life, 1 left)
+[Sun Feb  8 15:23:18 2026] Sent state to 1: R1 L1 S0 E0
+[Sun Feb  8 15:23:18 2026] Sent state to 2: R1 L2 S-4 E0
+[Sun Feb  8 15:23:18 2026] Sent state to 3: R1 L0 S-2 E1
+[Sun Feb  8 15:23:18 2026] Turn complete for 1
+[Sun Feb  8 15:23:18 2026] Turn advanced to 2
+[Sun Feb  8 15:23:23 2026] 2: received move LETTER:o
+[Sun Feb  8 15:23:23 2026] 2 handling move: LETTER:o
+[Sun Feb  8 15:23:23 2026] 2: correct letter o (+1 pt, total -3)
+[Sun Feb  8 15:23:23 2026] Broadcast board: M__ON
+[Sun Feb  8 15:23:23 2026] Sent state to 1: R1 L1 S0 E0
+[Sun Feb  8 15:23:23 2026] Sent state to 2: R1 L2 S-3 E0
+[Sun Feb  8 15:23:23 2026] Sent state to 3: R1 L0 S-2 E1
+[Sun Feb  8 15:23:23 2026] Turn complete for 2
+[Sun Feb  8 15:23:23 2026] Turn advanced to 1
+[Sun Feb  8 15:23:39 2026] 1: timed out (-1 pt, total -1)
+[Sun Feb  8 15:23:39 2026] Sent state to 1: R1 L1 S-1 E0
+[Sun Feb  8 15:23:39 2026] Turn complete for 1
+[Sun Feb  8 15:23:39 2026] Turn advanced to 2
+[Sun Feb  8 15:23:54 2026] 2: received move LETTER:e
+[Sun Feb  8 15:23:54 2026] 2 handling move: LETTER:e
+[Sun Feb  8 15:23:54 2026] 2: correct letter e (+1 pt, total -2)
+[Sun Feb  8 15:23:54 2026] Broadcast board: ME_ON
+[Sun Feb  8 15:23:54 2026] Sent state to 1: R1 L1 S-1 E0
+[Sun Feb  8 15:23:54 2026] Sent state to 2: R1 L2 S-2 E0
+[Sun Feb  8 15:23:54 2026] Sent state to 3: R1 L0 S-2 E1
+[Sun Feb  8 15:23:54 2026] Turn complete for 2
+[Sun Feb  8 15:23:54 2026] Turn advanced to 1
+[Sun Feb  8 15:23:55 2026] 1: received move LETTER:u
+[Sun Feb  8 15:23:55 2026] 1 handling move: LETTER:u
+[Sun Feb  8 15:23:55 2026] 1: wrong letter u (-1 life, 0 left)
+[Sun Feb  8 15:23:55 2026] 1: eliminated (no lives left in round 1)
+[Sun Feb  8 15:23:55 2026] Sent state to 1: R1 L0 S-1 E1
+[Sun Feb  8 15:23:55 2026] Sent state to 2: R1 L2 S-2 E0
+[Sun Feb  8 15:23:55 2026] Sent state to 3: R1 L0 S-2 E1
+[Sun Feb  8 15:23:55 2026] Turn complete for 1
+[Sun Feb  8 15:23:55 2026] Turn advanced to 2
+[Sun Feb  8 15:24:11 2026] 2: received move LETTER:b
+[Sun Feb  8 15:24:11 2026] 2 handling move: LETTER:b
+[Sun Feb  8 15:24:11 2026] 2: wrong letter b (-1 life, 1 left)
+[Sun Feb  8 15:24:11 2026] Sent state to 1: R1 L0 S-1 E1
+[Sun Feb  8 15:24:11 2026] Sent state to 2: R1 L1 S-2 E0
+[Sun Feb  8 15:24:11 2026] Sent state to 3: R1 L0 S-2 E1
+[Sun Feb  8 15:24:11 2026] Turn complete for 2
+[Sun Feb  8 15:24:11 2026] Turn advanced to 2
+[Sun Feb  8 15:24:27 2026] 2: timed out (-1 pt, total -3)
+[Sun Feb  8 15:24:27 2026] Sent state to 2: R1 L1 S-3 E0
+[Sun Feb  8 15:24:27 2026] Turn complete for 2
+[Sun Feb  8 15:24:27 2026] Turn advanced to 2
+[Sun Feb  8 15:24:43 2026] 2: timed out (-1 pt, total -4)
+[Sun Feb  8 15:24:43 2026] Sent state to 2: R1 L1 S-4 E0
+[Sun Feb  8 15:24:43 2026] Turn complete for 2
+[Sun Feb  8 15:24:43 2026] Turn advanced to 2
+[Sun Feb  8 15:24:59 2026] 2: timed out (-1 pt, total -5)
+[Sun Feb  8 15:24:59 2026] Sent state to 2: R1 L1 S-5 E0
+[Sun Feb  8 15:24:59 2026] Turn complete for 2
+[Sun Feb  8 15:24:59 2026] Turn advanced to 2
+[Sun Feb  8 15:25:16 2026] 2: timed out (-1 pt, total -6)
+[Sun Feb  8 15:25:16 2026] Sent state to 2: R1 L1 S-6 E0
+[Sun Feb  8 15:25:16 2026] Turn complete for 2
+[Sun Feb  8 15:25:16 2026] Turn advanced to 2
+[Sun Feb  8 15:25:27 2026] 2: received move LETTER:l
+[Sun Feb  8 15:25:27 2026] 2 handling move: LETTER:l
+[Sun Feb  8 15:25:27 2026] 2: correct letter l (+1 pt, total -5)
+[Sun Feb  8 15:25:28 2026] Broadcast board: MELON
+[Sun Feb  8 15:25:28 2026] Sent state to 1: R1 L0 S-1 E1
+[Sun Feb  8 15:25:28 2026] Sent state to 2: R1 L1 S-5 E0
+[Sun Feb  8 15:25:28 2026] Sent state to 3: R1 L0 S-2 E1
+[Sun Feb  8 15:25:28 2026] Turn complete for 2
+[Sun Feb  8 15:25:28 2026] Round 1 complete
+[Sun Feb  8 15:25:35 2026] Starting round 2/5
+[Sun Feb  8 15:25:35 2026] Round 2: Selected word BANANA
+[Sun Feb  8 15:25:35 2026] Round 2 initialized - ALL players reset to 3 lives, not eliminated
+[Sun Feb  8 15:25:36 2026] Broadcast board: ______
+[Sun Feb  8 15:25:36 2026] Sent state to 1: R2 L3 S-1 E0
+[Sun Feb  8 15:25:36 2026] Sent state to 2: R2 L3 S-5 E0
+[Sun Feb  8 15:25:36 2026] Sent state to 3: R2 L3 S-2 E0
+[Sun Feb  8 15:25:36 2026] Round 2 ready
+[Sun Feb  8 15:25:36 2026] 1: received move LETTER:i
+[Sun Feb  8 15:25:36 2026] 1 handling move: LETTER:i
+[Sun Feb  8 15:25:36 2026] 1: wrong letter i (-1 life, 2 left)
+[Sun Feb  8 15:25:36 2026] Sent state to 1: R2 L2 S-1 E0
+[Sun Feb  8 15:25:36 2026] Sent state to 2: R2 L3 S-5 E0
+[Sun Feb  8 15:25:36 2026] Sent state to 3: R2 L3 S-2 E0
+[Sun Feb  8 15:25:36 2026] Turn complete for 1
+[Sun Feb  8 15:25:36 2026] Turn advanced to 2
+[Sun Feb  8 15:25:44 2026] 2: received move LETTER:l
+[Sun Feb  8 15:25:44 2026] 2 handling move: LETTER:l
+[Sun Feb  8 15:25:44 2026] 2: wrong letter l (-1 life, 2 left)
+[Sun Feb  8 15:25:44 2026] Sent state to 1: R2 L2 S-1 E0
+[Sun Feb  8 15:25:44 2026] Sent state to 2: R2 L2 S-5 E0
+[Sun Feb  8 15:25:44 2026] Sent state to 3: R2 L3 S-2 E0
+[Sun Feb  8 15:25:44 2026] Turn complete for 2
+[Sun Feb  8 15:25:44 2026] Turn advanced to 3
+[Sun Feb  8 15:25:45 2026] 3: received move LETTER:a
+[Sun Feb  8 15:25:45 2026] 3 handling move: LETTER:a
+[Sun Feb  8 15:25:45 2026] 3: correct letter a (+1 pt, total -1)
+[Sun Feb  8 15:25:45 2026] Broadcast board: _A_A_A
+[Sun Feb  8 15:25:45 2026] Sent state to 1: R2 L2 S-1 E0
+[Sun Feb  8 15:25:45 2026] Sent state to 2: R2 L2 S-5 E0
+[Sun Feb  8 15:25:45 2026] Sent state to 3: R2 L3 S-1 E0
+[Sun Feb  8 15:25:45 2026] Turn complete for 3
+[Sun Feb  8 15:25:45 2026] Turn advanced to 1
+[Sun Feb  8 15:26:01 2026] 1: timed out (-1 pt, total -2)
+[Sun Feb  8 15:26:01 2026] Sent state to 1: R2 L2 S-2 E0
+[Sun Feb  8 15:26:01 2026] Turn complete for 1
+[Sun Feb  8 15:26:01 2026] Turn advanced to 2
+[Sun Feb  8 15:26:03 2026] 2: received move LETTER:l
+[Sun Feb  8 15:26:03 2026] 2 handling move: LETTER:l
+[Sun Feb  8 15:26:03 2026] 2: wrong letter l (-1 life, 1 left)
+[Sun Feb  8 15:26:03 2026] Sent state to 1: R2 L2 S-2 E0
+[Sun Feb  8 15:26:03 2026] Sent state to 2: R2 L1 S-5 E0
+[Sun Feb  8 15:26:03 2026] Sent state to 3: R2 L3 S-1 E0
+[Sun Feb  8 15:26:03 2026] Turn complete for 2
+[Sun Feb  8 15:26:03 2026] Turn advanced to 3
+[Sun Feb  8 15:26:19 2026] 3: timed out (-1 pt, total -2)
+[Sun Feb  8 15:26:19 2026] Sent state to 3: R2 L3 S-2 E0
+[Sun Feb  8 15:26:19 2026] Turn complete for 3
+[Sun Feb  8 15:26:19 2026] Turn advanced to 1
+[Sun Feb  8 15:26:35 2026] 1: timed out (-1 pt, total -3)
+[Sun Feb  8 15:26:35 2026] Sent state to 1: R2 L2 S-3 E0
+[Sun Feb  8 15:26:35 2026] Turn complete for 1
+[Sun Feb  8 15:26:35 2026] Turn advanced to 2
+[Sun Feb  8 15:26:36 2026] 2: received move LETTER:l
+[Sun Feb  8 15:26:36 2026] 2 handling move: LETTER:l
+[Sun Feb  8 15:26:36 2026] 2: wrong letter l (-1 life, 0 left)
+[Sun Feb  8 15:26:36 2026] 2: eliminated (no lives left in round 2)
+[Sun Feb  8 15:26:36 2026] Sent state to 1: R2 L2 S-3 E0
+[Sun Feb  8 15:26:36 2026] Sent state to 2: R2 L0 S-5 E1
+[Sun Feb  8 15:26:36 2026] Sent state to 3: R2 L3 S-2 E0
+[Sun Feb  8 15:26:36 2026] Turn complete for 2
+[Sun Feb  8 15:26:36 2026] Turn advanced to 3
+[Sun Feb  8 15:26:52 2026] 3: timed out (-1 pt, total -3)
+[Sun Feb  8 15:26:52 2026] Sent state to 3: R2 L3 S-3 E0
+[Sun Feb  8 15:26:52 2026] Turn complete for 3
+[Sun Feb  8 15:26:52 2026] Turn advanced to 1
+[Sun Feb  8 15:27:02 2026] 1: received move LETTER:p
+[Sun Feb  8 15:27:02 2026] 1 handling move: LETTER:p
+[Sun Feb  8 15:27:02 2026] 1: wrong letter p (-1 life, 1 left)
+[Sun Feb  8 15:27:02 2026] Sent state to 1: R2 L1 S-3 E0
+[Sun Feb  8 15:27:02 2026] Sent state to 2: R2 L0 S-5 E1
+[Sun Feb  8 15:27:02 2026] Sent state to 3: R2 L3 S-3 E0
+[Sun Feb  8 15:27:02 2026] Turn complete for 1
+[Sun Feb  8 15:27:02 2026] Turn advanced to 3
+[Sun Feb  8 15:27:07 2026] 3: received move LETTER:r
+[Sun Feb  8 15:27:07 2026] 3 handling move: LETTER:r
+[Sun Feb  8 15:27:07 2026] 3: wrong letter r (-1 life, 2 left)
+[Sun Feb  8 15:27:07 2026] Sent state to 1: R2 L1 S-3 E0
+[Sun Feb  8 15:27:07 2026] Sent state to 2: R2 L0 S-5 E1
+[Sun Feb  8 15:27:07 2026] Sent state to 3: R2 L2 S-3 E0
+[Sun Feb  8 15:27:07 2026] Turn complete for 3
+[Sun Feb  8 15:27:07 2026] Turn advanced to 1
+[Sun Feb  8 15:27:22 2026] 1: received move LETTER:t
+[Sun Feb  8 15:27:22 2026] 1 handling move: LETTER:t
+[Sun Feb  8 15:27:22 2026] 1: wrong letter t (-1 life, 0 left)
+[Sun Feb  8 15:27:22 2026] 1: eliminated (no lives left in round 2)
+[Sun Feb  8 15:27:22 2026] Sent state to 1: R2 L0 S-3 E1
+[Sun Feb  8 15:27:22 2026] Sent state to 2: R2 L0 S-5 E1
+[Sun Feb  8 15:27:22 2026] Sent state to 3: R2 L2 S-3 E0
+[Sun Feb  8 15:27:22 2026] Turn complete for 1
+[Sun Feb  8 15:27:22 2026] Turn advanced to 3
+[Sun Feb  8 15:27:34 2026] 3: received move LETTER:b
+[Sun Feb  8 15:27:34 2026] 3 handling move: LETTER:b
+[Sun Feb  8 15:27:34 2026] 3: correct letter b (+1 pt, total -2)
+[Sun Feb  8 15:27:34 2026] Broadcast board: BA_A_A
+[Sun Feb  8 15:27:34 2026] Sent state to 1: R2 L0 S-3 E1
+[Sun Feb  8 15:27:34 2026] Sent state to 2: R2 L0 S-5 E1
+[Sun Feb  8 15:27:34 2026] Sent state to 3: R2 L2 S-2 E0
+[Sun Feb  8 15:27:34 2026] Turn complete for 3
+[Sun Feb  8 15:27:34 2026] Turn advanced to 3
+[Sun Feb  8 15:27:50 2026] 3: timed out (-1 pt, total -3)
+[Sun Feb  8 15:27:50 2026] Sent state to 3: R2 L2 S-3 E0
+[Sun Feb  8 15:27:50 2026] Turn complete for 3
+[Sun Feb  8 15:27:50 2026] Turn advanced to 3
+[Sun Feb  8 15:27:56 2026] 3: received move LETTER:n
+[Sun Feb  8 15:27:56 2026] 3 handling move: LETTER:n
+[Sun Feb  8 15:27:56 2026] 3: correct letter n (+1 pt, total -2)
+[Sun Feb  8 15:27:56 2026] Broadcast board: BANANA
+[Sun Feb  8 15:27:56 2026] Sent state to 1: R2 L0 S-3 E1
+[Sun Feb  8 15:27:56 2026] Sent state to 2: R2 L0 S-5 E1
+[Sun Feb  8 15:27:56 2026] Sent state to 3: R2 L2 S-2 E0
+[Sun Feb  8 15:27:56 2026] Turn complete for 3
+[Sun Feb  8 15:27:56 2026] Round 2 complete
+[Sun Feb  8 15:28:03 2026] Starting round 3/5
+[Sun Feb  8 15:28:03 2026] Round 3: Selected word CHERRY
+[Sun Feb  8 15:28:03 2026] Round 3 initialized - ALL players reset to 3 lives, not eliminated
+[Sun Feb  8 15:28:04 2026] Broadcast board: ______
+[Sun Feb  8 15:28:04 2026] Sent state to 1: R3 L3 S-3 E0
+[Sun Feb  8 15:28:04 2026] Sent state to 2: R3 L3 S-5 E0
+[Sun Feb  8 15:28:04 2026] Sent state to 3: R3 L3 S-2 E0
+[Sun Feb  8 15:28:04 2026] Round 3 ready
+[Sun Feb  8 15:28:04 2026] 1: received move LETTER:l
+[Sun Feb  8 15:28:04 2026] 1 handling move: LETTER:l
+[Sun Feb  8 15:28:04 2026] 1: wrong letter l (-1 life, 2 left)
+[Sun Feb  8 15:28:04 2026] Sent state to 1: R3 L2 S-3 E0
+[Sun Feb  8 15:28:04 2026] Sent state to 2: R3 L3 S-5 E0
+[Sun Feb  8 15:28:04 2026] Sent state to 3: R3 L3 S-2 E0
+[Sun Feb  8 15:28:04 2026] Turn complete for 1
+[Sun Feb  8 15:28:04 2026] Turn advanced to 2
+[Sun Feb  8 15:28:05 2026] 2: received move LETTER:e
+[Sun Feb  8 15:28:05 2026] 2 handling move: LETTER:e
+[Sun Feb  8 15:28:05 2026] 2: correct letter e (+1 pt, total -4)
+[Sun Feb  8 15:28:05 2026] Broadcast board: __E___
+[Sun Feb  8 15:28:05 2026] Sent state to 1: R3 L2 S-3 E0
+[Sun Feb  8 15:28:05 2026] Sent state to 2: R3 L3 S-4 E0
+[Sun Feb  8 15:28:05 2026] Sent state to 3: R3 L3 S-2 E0
+[Sun Feb  8 15:28:05 2026] Turn complete for 2
+[Sun Feb  8 15:28:05 2026] Turn advanced to 3
+[Sun Feb  8 15:28:22 2026] 3: timed out (-1 pt, total -3)
+[Sun Feb  8 15:28:22 2026] Sent state to 3: R3 L3 S-3 E0
+[Sun Feb  8 15:28:22 2026] Turn complete for 3
+[Sun Feb  8 15:28:22 2026] Turn advanced to 1
+[Sun Feb  8 15:28:23 2026] 1: received move LETTER:n
+[Sun Feb  8 15:28:23 2026] 1 handling move: LETTER:n
+[Sun Feb  8 15:28:23 2026] 1: wrong letter n (-1 life, 1 left)
+[Sun Feb  8 15:28:23 2026] Sent state to 1: R3 L1 S-3 E0
+[Sun Feb  8 15:28:23 2026] Sent state to 2: R3 L3 S-4 E0
+[Sun Feb  8 15:28:23 2026] Sent state to 3: R3 L3 S-3 E0
+[Sun Feb  8 15:28:23 2026] Turn complete for 1
+[Sun Feb  8 15:28:23 2026] Turn advanced to 2
+[Sun Feb  8 15:28:39 2026] 2: timed out (-1 pt, total -5)
+[Sun Feb  8 15:28:39 2026] Sent state to 2: R3 L3 S-5 E0
+[Sun Feb  8 15:28:39 2026] Turn complete for 2
+[Sun Feb  8 15:28:39 2026] Turn advanced to 3
+[Sun Feb  8 15:28:55 2026] 3: timed out (-1 pt, total -4)
+[Sun Feb  8 15:28:55 2026] Sent state to 3: R3 L3 S-4 E0
+[Sun Feb  8 15:28:55 2026] Turn complete for 3
+[Sun Feb  8 15:28:55 2026] Turn advanced to 1
+[Sun Feb  8 15:29:11 2026] 1: timed out (-1 pt, total -4)
+[Sun Feb  8 15:29:11 2026] Sent state to 1: R3 L1 S-4 E0
+[Sun Feb  8 15:29:11 2026] Turn complete for 1
+[Sun Feb  8 15:29:11 2026] Turn advanced to 2
+[Sun Feb  8 15:29:28 2026] 2: timed out (-1 pt, total -6)
+[Sun Feb  8 15:29:28 2026] Sent state to 2: R3 L3 S-6 E0
+[Sun Feb  8 15:29:28 2026] Turn complete for 2
+[Sun Feb  8 15:29:28 2026] Turn advanced to 3
+[Sun Feb  8 15:29:44 2026] 3: timed out (-1 pt, total -5)
+[Sun Feb  8 15:29:44 2026] Sent state to 3: R3 L3 S-5 E0
+[Sun Feb  8 15:29:44 2026] Turn complete for 3
+[Sun Feb  8 15:29:44 2026] Turn advanced to 1
+[Sun Feb  8 15:30:00 2026] 1: timed out (-1 pt, total -5)
+[Sun Feb  8 15:30:00 2026] Sent state to 1: R3 L1 S-5 E0
+[Sun Feb  8 15:30:00 2026] Turn complete for 1
+[Sun Feb  8 15:30:00 2026] Turn advanced to 2
+[Sun Feb  8 15:30:13 2026] 2: received move LETTER:g
+[Sun Feb  8 15:30:13 2026] 2 handling move: LETTER:g
+[Sun Feb  8 15:30:13 2026] 2: wrong letter g (-1 life, 2 left)
+[Sun Feb  8 15:30:13 2026] Sent state to 1: R3 L1 S-5 E0
+[Sun Feb  8 15:30:13 2026] Sent state to 2: R3 L2 S-6 E0
+[Sun Feb  8 15:30:13 2026] Sent state to 3: R3 L3 S-5 E0
+[Sun Feb  8 15:30:13 2026] Turn complete for 2
+[Sun Feb  8 15:30:13 2026] Turn advanced to 3
+[Sun Feb  8 15:30:22 2026] 3: received move LETTER:d
+[Sun Feb  8 15:30:22 2026] 3 handling move: LETTER:d
+[Sun Feb  8 15:30:22 2026] 3: wrong letter d (-1 life, 2 left)
+[Sun Feb  8 15:30:22 2026] Sent state to 1: R3 L1 S-5 E0
+[Sun Feb  8 15:30:22 2026] Sent state to 2: R3 L2 S-6 E0
+[Sun Feb  8 15:30:22 2026] Sent state to 3: R3 L2 S-5 E0
+[Sun Feb  8 15:30:22 2026] Turn complete for 3
+[Sun Feb  8 15:30:22 2026] Turn advanced to 1
+[Sun Feb  8 15:30:23 2026] 1: received move LETTER:j
+[Sun Feb  8 15:30:23 2026] 1 handling move: LETTER:j
+[Sun Feb  8 15:30:23 2026] 1: wrong letter j (-1 life, 0 left)
+[Sun Feb  8 15:30:23 2026] 1: eliminated (no lives left in round 3)
+[Sun Feb  8 15:30:23 2026] Sent state to 1: R3 L0 S-5 E1
+[Sun Feb  8 15:30:23 2026] Sent state to 2: R3 L2 S-6 E0
+[Sun Feb  8 15:30:23 2026] Sent state to 3: R3 L2 S-5 E0
+[Sun Feb  8 15:30:23 2026] Turn complete for 1
+[Sun Feb  8 15:30:23 2026] Turn advanced to 2
+[Sun Feb  8 15:30:39 2026] 2: timed out (-1 pt, total -7)
+[Sun Feb  8 15:30:39 2026] Sent state to 2: R3 L2 S-7 E0
+[Sun Feb  8 15:30:39 2026] Turn complete for 2
+[Sun Feb  8 15:30:39 2026] Turn advanced to 3
+[Sun Feb  8 15:30:40 2026] 3: received move LETTER:b
+[Sun Feb  8 15:30:40 2026] 3 handling move: LETTER:b
+[Sun Feb  8 15:30:40 2026] 3: wrong letter b (-1 life, 1 left)
+[Sun Feb  8 15:30:40 2026] Sent state to 1: R3 L0 S-5 E1
+[Sun Feb  8 15:30:40 2026] Sent state to 2: R3 L2 S-7 E0
+[Sun Feb  8 15:30:40 2026] Sent state to 3: R3 L1 S-5 E0
+[Sun Feb  8 15:30:40 2026] Turn complete for 3
+[Sun Feb  8 15:30:40 2026] Turn advanced to 2
+[Sun Feb  8 15:30:57 2026] 2: timed out (-1 pt, total -8)
+[Sun Feb  8 15:30:57 2026] Sent state to 2: R3 L2 S-8 E0
+[Sun Feb  8 15:30:57 2026] Turn complete for 2
+[Sun Feb  8 15:30:57 2026] Turn advanced to 3
+[Sun Feb  8 15:30:58 2026] 3: received move LETTER:d
+[Sun Feb  8 15:30:58 2026] 3 handling move: LETTER:d
+[Sun Feb  8 15:30:58 2026] 3: wrong letter d (-1 life, 0 left)
+[Sun Feb  8 15:30:58 2026] 3: eliminated (no lives left in round 3)
+[Sun Feb  8 15:30:58 2026] Sent state to 1: R3 L0 S-5 E1
+[Sun Feb  8 15:30:58 2026] Sent state to 2: R3 L2 S-8 E0
+[Sun Feb  8 15:30:58 2026] Sent state to 3: R3 L0 S-5 E1
+[Sun Feb  8 15:30:58 2026] Turn complete for 3
+[Sun Feb  8 15:30:58 2026] Turn advanced to 2
+[Sun Feb  8 15:31:14 2026] 2: timed out (-1 pt, total -9)
+[Sun Feb  8 15:31:14 2026] Sent state to 2: R3 L2 S-9 E0
+[Sun Feb  8 15:31:14 2026] Turn complete for 2
+[Sun Feb  8 15:31:14 2026] Turn advanced to 2
+[Sun Feb  8 15:31:30 2026] 2: timed out (-1 pt, total -10)
+[Sun Feb  8 15:31:30 2026] Sent state to 2: R3 L2 S-10 E0
+[Sun Feb  8 15:31:30 2026] Turn complete for 2
+[Sun Feb  8 15:31:30 2026] Turn advanced to 2
+[Sun Feb  8 15:31:46 2026] 2: timed out (-1 pt, total -11)
+[Sun Feb  8 15:31:46 2026] Sent state to 2: R3 L2 S-11 E0
+[Sun Feb  8 15:31:47 2026] Turn complete for 2
+[Sun Feb  8 15:31:47 2026] Turn advanced to 2
+[Sun Feb  8 15:32:03 2026] 2: timed out (-1 pt, total -12)
+[Sun Feb  8 15:32:03 2026] Sent state to 2: R3 L2 S-12 E0
+[Sun Feb  8 15:32:03 2026] Turn complete for 2
+[Sun Feb  8 15:32:03 2026] Turn advanced to 2
+[Sun Feb  8 15:32:11 2026] 2: received move LETTER:j
+[Sun Feb  8 15:32:11 2026] 2 handling move: LETTER:j
+[Sun Feb  8 15:32:11 2026] 2: wrong letter j (-1 life, 1 left)
+[Sun Feb  8 15:32:11 2026] Sent state to 1: R3 L0 S-5 E1
+[Sun Feb  8 15:32:11 2026] Sent state to 2: R3 L1 S-12 E0
+[Sun Feb  8 15:32:11 2026] Sent state to 3: R3 L0 S-5 E1
+[Sun Feb  8 15:32:11 2026] Turn complete for 2
+[Sun Feb  8 15:32:11 2026] Turn advanced to 2
+[Sun Feb  8 15:32:27 2026] 2: received move LETTER:d
+[Sun Feb  8 15:32:27 2026] 2 handling move: LETTER:d
+[Sun Feb  8 15:32:27 2026] 2: wrong letter d (-1 life, 0 left)
+[Sun Feb  8 15:32:27 2026] 2: eliminated (no lives left in round 3)
+[Sun Feb  8 15:32:27 2026] Sent state to 1: R3 L0 S-5 E1
+[Sun Feb  8 15:32:27 2026] Sent state to 2: R3 L0 S-12 E1
+[Sun Feb  8 15:32:27 2026] Sent state to 3: R3 L0 S-5 E1
+[Sun Feb  8 15:32:27 2026] Turn complete for 2
+[Sun Feb  8 15:32:27 2026] Round 3 complete
+[Sun Feb  8 15:32:34 2026] Starting round 4/5
+[Sun Feb  8 15:32:34 2026] Round 4: Selected word MELON
+[Sun Feb  8 15:32:34 2026] Round 4 initialized - ALL players reset to 3 lives, not eliminated
+[Sun Feb  8 15:32:35 2026] Broadcast board: _____
+[Sun Feb  8 15:32:35 2026] Sent state to 1: R4 L3 S-5 E0
+[Sun Feb  8 15:32:35 2026] Sent state to 2: R4 L3 S-12 E0
+[Sun Feb  8 15:32:35 2026] Sent state to 3: R4 L3 S-5 E0
+[Sun Feb  8 15:32:35 2026] Round 4 ready
+[Sun Feb  8 15:32:35 2026] 1: received move LETTER:b
+[Sun Feb  8 15:32:35 2026] 1 handling move: LETTER:b
+[Sun Feb  8 15:32:35 2026] 1: wrong letter b (-1 life, 2 left)
+[Sun Feb  8 15:32:35 2026] Sent state to 1: R4 L2 S-5 E0
+[Sun Feb  8 15:32:35 2026] Sent state to 2: R4 L3 S-12 E0
+[Sun Feb  8 15:32:35 2026] Sent state to 3: R4 L3 S-5 E0
+[Sun Feb  8 15:32:35 2026] Turn complete for 1
+[Sun Feb  8 15:32:35 2026] Turn advanced to 2
+[Sun Feb  8 15:32:51 2026] 2: timed out (-1 pt, total -13)
+[Sun Feb  8 15:32:51 2026] Sent state to 2: R4 L3 S-13 E0
+[Sun Feb  8 15:32:51 2026] Turn complete for 2
+[Sun Feb  8 15:32:51 2026] Turn advanced to 3
+[Sun Feb  8 15:32:52 2026] 3: received move LETTER:u
+[Sun Feb  8 15:32:52 2026] 3 handling move: LETTER:u
+[Sun Feb  8 15:32:52 2026] 3: wrong letter u (-1 life, 2 left)
+[Sun Feb  8 15:32:52 2026] Sent state to 1: R4 L2 S-5 E0
+[Sun Feb  8 15:32:52 2026] Sent state to 2: R4 L3 S-13 E0
+[Sun Feb  8 15:32:52 2026] Sent state to 3: R4 L2 S-5 E0
+[Sun Feb  8 15:32:52 2026] Turn complete for 3
+[Sun Feb  8 15:32:52 2026] Turn advanced to 1
+[Sun Feb  8 15:32:56 2026] 1: received move LETTER:X
+[Sun Feb  8 15:32:56 2026] 1 handling move: LETTER:X
+[Sun Feb  8 15:32:56 2026] 1: wrong letter X (-1 life, 1 left)
+[Sun Feb  8 15:32:56 2026] Sent state to 1: R4 L1 S-5 E0
+[Sun Feb  8 15:32:56 2026] Sent state to 2: R4 L3 S-13 E0
+[Sun Feb  8 15:32:56 2026] Sent state to 3: R4 L2 S-5 E0
+[Sun Feb  8 15:32:56 2026] Turn complete for 1
+[Sun Feb  8 15:32:56 2026] Turn advanced to 2
+[Sun Feb  8 15:33:03 2026] 2: received move LETTER:t
+[Sun Feb  8 15:33:03 2026] 2 handling move: LETTER:t
+[Sun Feb  8 15:33:03 2026] 2: wrong letter t (-1 life, 2 left)
+[Sun Feb  8 15:33:03 2026] Sent state to 1: R4 L1 S-5 E0
+[Sun Feb  8 15:33:03 2026] Sent state to 2: R4 L2 S-13 E0
+[Sun Feb  8 15:33:03 2026] Sent state to 3: R4 L2 S-5 E0
+[Sun Feb  8 15:33:03 2026] Turn complete for 2
+[Sun Feb  8 15:33:03 2026] Turn advanced to 3
+[Sun Feb  8 15:33:08 2026] 3: received move LETTER:d
+[Sun Feb  8 15:33:08 2026] 3 handling move: LETTER:d
+[Sun Feb  8 15:33:08 2026] 3: wrong letter d (-1 life, 1 left)
+[Sun Feb  8 15:33:08 2026] Sent state to 1: R4 L1 S-5 E0
+[Sun Feb  8 15:33:08 2026] Sent state to 2: R4 L2 S-13 E0
+[Sun Feb  8 15:33:08 2026] Sent state to 3: R4 L1 S-5 E0
+[Sun Feb  8 15:33:08 2026] Turn complete for 3
+[Sun Feb  8 15:33:08 2026] Turn advanced to 1
+[Sun Feb  8 15:33:18 2026] 1: received move LETTER:c
+[Sun Feb  8 15:33:18 2026] 1 handling move: LETTER:c
+[Sun Feb  8 15:33:18 2026] 1: wrong letter c (-1 life, 0 left)
+[Sun Feb  8 15:33:18 2026] 1: eliminated (no lives left in round 4)
+[Sun Feb  8 15:33:18 2026] Sent state to 1: R4 L0 S-5 E1
+[Sun Feb  8 15:33:18 2026] Sent state to 2: R4 L2 S-13 E0
+[Sun Feb  8 15:33:18 2026] Sent state to 3: R4 L1 S-5 E0
+[Sun Feb  8 15:33:18 2026] Turn complete for 1
+[Sun Feb  8 15:33:18 2026] Turn advanced to 2
+[Sun Feb  8 15:33:31 2026] 2: received move LETTER:r
+[Sun Feb  8 15:33:31 2026] 2 handling move: LETTER:r
+[Sun Feb  8 15:33:31 2026] 2: wrong letter r (-1 life, 1 left)
+[Sun Feb  8 15:33:31 2026] Sent state to 1: R4 L0 S-5 E1
+[Sun Feb  8 15:33:31 2026] Sent state to 2: R4 L1 S-13 E0
+[Sun Feb  8 15:33:31 2026] Sent state to 3: R4 L1 S-5 E0
+[Sun Feb  8 15:33:31 2026] Turn complete for 2
+[Sun Feb  8 15:33:31 2026] Turn advanced to 3
+[Sun Feb  8 15:33:47 2026] 3: timed out (-1 pt, total -6)
+[Sun Feb  8 15:33:47 2026] Sent state to 3: R4 L1 S-6 E0
+[Sun Feb  8 15:33:48 2026] Turn complete for 3
+[Sun Feb  8 15:33:48 2026] Turn advanced to 2
+[Sun Feb  8 15:33:49 2026] 2: received move LETTER:f
+[Sun Feb  8 15:33:49 2026] 2 handling move: LETTER:f
+[Sun Feb  8 15:33:49 2026] 2: wrong letter f (-1 life, 0 left)
+[Sun Feb  8 15:33:49 2026] 2: eliminated (no lives left in round 4)
+[Sun Feb  8 15:33:49 2026] Sent state to 1: R4 L0 S-5 E1
+[Sun Feb  8 15:33:49 2026] Sent state to 2: R4 L0 S-13 E1
+[Sun Feb  8 15:33:49 2026] Sent state to 3: R4 L1 S-6 E0
+[Sun Feb  8 15:33:49 2026] Turn complete for 2
+[Sun Feb  8 15:33:49 2026] Turn advanced to 3
+[Sun Feb  8 15:34:05 2026] 3: timed out (-1 pt, total -7)
+[Sun Feb  8 15:34:05 2026] Sent state to 3: R4 L1 S-7 E0
+[Sun Feb  8 15:34:05 2026] Turn complete for 3
+[Sun Feb  8 15:34:05 2026] Turn advanced to 3
+[Sun Feb  8 15:34:21 2026] 3: timed out (-1 pt, total -8)
+[Sun Feb  8 15:34:21 2026] Sent state to 3: R4 L1 S-8 E0
+[Sun Feb  8 15:34:21 2026] Turn complete for 3
+[Sun Feb  8 15:34:21 2026] Turn advanced to 3
+[Sun Feb  8 15:34:37 2026] 3: timed out (-1 pt, total -9)
+[Sun Feb  8 15:34:37 2026] Sent state to 3: R4 L1 S-9 E0
+[Sun Feb  8 15:34:37 2026] Turn complete for 3
+[Sun Feb  8 15:34:37 2026] Turn advanced to 3
+[Sun Feb  8 15:34:53 2026] 3: timed out (-1 pt, total -10)
+[Sun Feb  8 15:34:53 2026] Sent state to 3: R4 L1 S-10 E0
+[Sun Feb  8 15:34:53 2026] Turn complete for 3
+[Sun Feb  8 15:34:53 2026] Turn advanced to 3
+[Sun Feb  8 15:35:10 2026] 3: timed out (-1 pt, total -11)
+[Sun Feb  8 15:35:10 2026] Sent state to 3: R4 L1 S-11 E0
+[Sun Feb  8 15:35:10 2026] Turn complete for 3
+[Sun Feb  8 15:35:10 2026] Turn advanced to 3
+[Sun Feb  8 15:35:24 2026] 3: received move LETTER:d
+[Sun Feb  8 15:35:24 2026] 3 handling move: LETTER:d
+[Sun Feb  8 15:35:24 2026] 3: wrong letter d (-1 life, 0 left)
+[Sun Feb  8 15:35:24 2026] 3: eliminated (no lives left in round 4)
+[Sun Feb  8 15:35:24 2026] Sent state to 1: R4 L0 S-5 E1
+[Sun Feb  8 15:35:24 2026] Sent state to 2: R4 L0 S-13 E1
+[Sun Feb  8 15:35:24 2026] Sent state to 3: R4 L0 S-11 E1
+[Sun Feb  8 15:35:24 2026] Turn complete for 3
+[Sun Feb  8 15:35:24 2026] Round 4 complete
+[Sun Feb  8 15:35:31 2026] Starting round 5/5
+[Sun Feb  8 15:35:31 2026] Round 5: Selected word LEMON
+[Sun Feb  8 15:35:31 2026] Round 5 initialized - ALL players reset to 3 lives, not eliminated
+[Sun Feb  8 15:35:32 2026] Broadcast board: _____
+[Sun Feb  8 15:35:32 2026] Sent state to 1: R5 L3 S-5 E0
+[Sun Feb  8 15:35:32 2026] Sent state to 2: R5 L3 S-13 E0
+[Sun Feb  8 15:35:32 2026] Sent state to 3: R5 L3 S-11 E0
+[Sun Feb  8 15:35:32 2026] Round 5 ready
+[Sun Feb  8 15:35:32 2026] 1: received move LETTER:u
+[Sun Feb  8 15:35:32 2026] 1 handling move: LETTER:u
+[Sun Feb  8 15:35:32 2026] 1: wrong letter u (-1 life, 2 left)
+[Sun Feb  8 15:35:32 2026] Sent state to 1: R5 L2 S-5 E0
+[Sun Feb  8 15:35:32 2026] Sent state to 2: R5 L3 S-13 E0
+[Sun Feb  8 15:35:32 2026] Sent state to 3: R5 L3 S-11 E0
+[Sun Feb  8 15:35:32 2026] Turn complete for 1
+[Sun Feb  8 15:35:32 2026] Turn advanced to 2
+[Sun Feb  8 15:35:33 2026] 2: received move LETTER:p
+[Sun Feb  8 15:35:33 2026] 2 handling move: LETTER:p
+[Sun Feb  8 15:35:33 2026] 2: wrong letter p (-1 life, 2 left)
+[Sun Feb  8 15:35:33 2026] Sent state to 1: R5 L2 S-5 E0
+[Sun Feb  8 15:35:33 2026] Sent state to 2: R5 L2 S-13 E0
+[Sun Feb  8 15:35:33 2026] Sent state to 3: R5 L3 S-11 E0
+[Sun Feb  8 15:35:33 2026] Turn complete for 2
+[Sun Feb  8 15:35:33 2026] Turn advanced to 3
+[Sun Feb  8 15:35:39 2026] 3: received move LETTER:j
+[Sun Feb  8 15:35:39 2026] 3 handling move: LETTER:j
+[Sun Feb  8 15:35:39 2026] 3: wrong letter j (-1 life, 2 left)
+[Sun Feb  8 15:35:39 2026] Sent state to 1: R5 L2 S-5 E0
+[Sun Feb  8 15:35:39 2026] Sent state to 2: R5 L2 S-13 E0
+[Sun Feb  8 15:35:39 2026] Sent state to 3: R5 L2 S-11 E0
+[Sun Feb  8 15:35:39 2026] Turn complete for 3
+[Sun Feb  8 15:35:39 2026] Turn advanced to 1
+[Sun Feb  8 15:35:44 2026] 1: received move LETTER:k
+[Sun Feb  8 15:35:44 2026] 1 handling move: LETTER:k
+[Sun Feb  8 15:35:44 2026] 1: wrong letter k (-1 life, 1 left)
+[Sun Feb  8 15:35:44 2026] Sent state to 1: R5 L1 S-5 E0
+[Sun Feb  8 15:35:44 2026] Sent state to 2: R5 L2 S-13 E0
+[Sun Feb  8 15:35:44 2026] Sent state to 3: R5 L2 S-11 E0
+[Sun Feb  8 15:35:44 2026] Turn complete for 1
+[Sun Feb  8 15:35:44 2026] Turn advanced to 2
+[Sun Feb  8 15:35:59 2026] 2: received move LETTER:k
+[Sun Feb  8 15:35:59 2026] 2 handling move: LETTER:k
+[Sun Feb  8 15:35:59 2026] 2: wrong letter k (-1 life, 1 left)
+[Sun Feb  8 15:35:59 2026] Sent state to 1: R5 L1 S-5 E0
+[Sun Feb  8 15:35:59 2026] Sent state to 2: R5 L1 S-13 E0
+[Sun Feb  8 15:35:59 2026] Sent state to 3: R5 L2 S-11 E0
+[Sun Feb  8 15:35:59 2026] Turn complete for 2
+[Sun Feb  8 15:35:59 2026] Turn advanced to 3
+[Sun Feb  8 15:36:03 2026] 3: received move LETTER:t
+[Sun Feb  8 15:36:03 2026] 3 handling move: LETTER:t
+[Sun Feb  8 15:36:03 2026] 3: wrong letter t (-1 life, 1 left)
+[Sun Feb  8 15:36:03 2026] Sent state to 1: R5 L1 S-5 E0
+[Sun Feb  8 15:36:03 2026] Sent state to 2: R5 L1 S-13 E0
+[Sun Feb  8 15:36:03 2026] Sent state to 3: R5 L1 S-11 E0
+[Sun Feb  8 15:36:03 2026] Turn complete for 3
+[Sun Feb  8 15:36:03 2026] Turn advanced to 1
+[Sun Feb  8 15:36:19 2026] 1: timed out (-1 pt, total -6)
+[Sun Feb  8 15:36:19 2026] Sent state to 1: R5 L1 S-6 E0
+[Sun Feb  8 15:36:19 2026] Turn complete for 1
+[Sun Feb  8 15:36:19 2026] Turn advanced to 2
+[Sun Feb  8 15:36:20 2026] 2: received move LETTER:e
+[Sun Feb  8 15:36:20 2026] 2 handling move: LETTER:e
+[Sun Feb  8 15:36:20 2026] 2: correct letter e (+1 pt, total -12)
+[Sun Feb  8 15:36:20 2026] Broadcast board: _E___
+[Sun Feb  8 15:36:20 2026] Sent state to 1: R5 L1 S-6 E0
+[Sun Feb  8 15:36:20 2026] Sent state to 2: R5 L1 S-12 E0
+[Sun Feb  8 15:36:20 2026] Sent state to 3: R5 L1 S-11 E0
+[Sun Feb  8 15:36:20 2026] Turn complete for 2
+[Sun Feb  8 15:36:20 2026] Turn advanced to 3
+[Sun Feb  8 15:36:22 2026] 3: received move LETTER:r
+[Sun Feb  8 15:36:22 2026] 3 handling move: LETTER:r
+[Sun Feb  8 15:36:22 2026] 3: wrong letter r (-1 life, 0 left)
+[Sun Feb  8 15:36:22 2026] 3: eliminated (no lives left in round 5)
+[Sun Feb  8 15:36:22 2026] Sent state to 1: R5 L1 S-6 E0
+[Sun Feb  8 15:36:22 2026] Sent state to 2: R5 L1 S-12 E0
+[Sun Feb  8 15:36:22 2026] Sent state to 3: R5 L0 S-11 E1
+[Sun Feb  8 15:36:22 2026] Turn complete for 3
+[Sun Feb  8 15:36:22 2026] Turn advanced to 1
+[Sun Feb  8 15:36:38 2026] 1: timed out (-1 pt, total -7)
+[Sun Feb  8 15:36:38 2026] Sent state to 1: R5 L1 S-7 E0
+[Sun Feb  8 15:36:38 2026] Turn complete for 1
+[Sun Feb  8 15:36:38 2026] Turn advanced to 2
+[Sun Feb  8 15:36:54 2026] 2: timed out (-1 pt, total -13)
+[Sun Feb  8 15:36:54 2026] Sent state to 2: R5 L1 S-13 E0
+[Sun Feb  8 15:36:54 2026] Turn complete for 2
+[Sun Feb  8 15:36:54 2026] Turn advanced to 1
+[Sun Feb  8 15:37:10 2026] 1: timed out (-1 pt, total -8)
+[Sun Feb  8 15:37:10 2026] Sent state to 1: R5 L1 S-8 E0
+[Sun Feb  8 15:37:10 2026] Turn complete for 1
+[Sun Feb  8 15:37:10 2026] Turn advanced to 2
+[Sun Feb  8 15:37:26 2026] 2: timed out (-1 pt, total -14)
+[Sun Feb  8 15:37:26 2026] Sent state to 2: R5 L1 S-14 E0
+[Sun Feb  8 15:37:27 2026] Turn complete for 2
+[Sun Feb  8 15:37:27 2026] Turn advanced to 1
+[Sun Feb  8 15:37:30 2026] 1: received move LETTER:w
+[Sun Feb  8 15:37:30 2026] 1 handling move: LETTER:w
+[Sun Feb  8 15:37:30 2026] 1: wrong letter w (-1 life, 0 left)
+[Sun Feb  8 15:37:30 2026] 1: eliminated (no lives left in round 5)
+[Sun Feb  8 15:37:30 2026] Sent state to 1: R5 L0 S-8 E1
+[Sun Feb  8 15:37:30 2026] Sent state to 2: R5 L1 S-14 E0
+[Sun Feb  8 15:37:30 2026] Sent state to 3: R5 L0 S-11 E1
+[Sun Feb  8 15:37:30 2026] Turn complete for 1
+[Sun Feb  8 15:37:30 2026] Turn advanced to 2
+[Sun Feb  8 15:37:35 2026] 2: received move LETTER:r
+[Sun Feb  8 15:37:35 2026] 2 handling move: LETTER:r
+[Sun Feb  8 15:37:35 2026] 2: wrong letter r (-1 life, 0 left)
+[Sun Feb  8 15:37:35 2026] 2: eliminated (no lives left in round 5)
+[Sun Feb  8 15:37:35 2026] Sent state to 1: R5 L0 S-8 E1
+[Sun Feb  8 15:37:35 2026] Sent state to 2: R5 L0 S-14 E1
+[Sun Feb  8 15:37:35 2026] Sent state to 3: R5 L0 S-11 E1
+[Sun Feb  8 15:37:35 2026] Turn complete for 2
+[Sun Feb  8 15:37:35 2026] Round 5 complete
+[Sun Feb  8 15:37:42 2026] All 5 rounds completed
+[Sun Feb  8 15:37:42 2026] Added new winner: 1
+[Sun Feb  8 15:37:42 2026] Saved 1 player records to scores.txt
+[Sun Feb  8 15:37:42 2026] Game completed - Winner: 1 (-8 pts)
+[Sun Feb  8 15:37:42 2026] Player 2 disconnected
+[Sun Feb  8 15:37:42 2026] Player 3 disconnected
+[Sun Feb  8 15:37:42 2026] Scheduler ended
+[Sun Feb  8 15:37:42 2026] Player 1 disconnected
+=== SESSION END ===
+
+
+=== GAME SESSION STARTED ===
+Time: Sun Feb  8 16:06:44 2026
+
+[Sun Feb  8 16:06:44 2026] Loaded 1 player records from scores.txt
+[Sun Feb  8 16:06:44 2026] Server initialized
+[Sun Feb  8 16:06:44 2026] Server listening on port 8080
+[Sun Feb  8 16:08:29 2026] Connection 1 accepted
+[Sun Feb  8 16:08:33 2026] Player 1 connected (slot 0)
+[Sun Feb  8 16:08:37 2026] Connection 2 accepted
+[Sun Feb  8 16:08:38 2026] Player 2 connected (slot 1)
+[Sun Feb  8 16:08:42 2026] Connection 3 accepted
+[Sun Feb  8 16:08:43 2026] Player 3 connected (slot 2)
+[Sun Feb  8 16:08:45 2026] Round 1: Selected word ORANGE
+[Sun Feb  8 16:08:45 2026] Round 1 initialized - ALL players reset to 3 lives, not eliminated
+[Sun Feb  8 16:08:45 2026] Game started with 3 players
+[Sun Feb  8 16:08:45 2026] Round Robin scheduler started
+[Sun Feb  8 16:08:47 2026] Broadcast board: ______
+[Sun Feb  8 16:08:47 2026] Sent state to 2: R1 L3 S0 E0
+[Sun Feb  8 16:08:47 2026] Broadcast board: ______
+[Sun Feb  8 16:08:47 2026] Sent state to 3: R1 L3 S0 E0
+[Sun Feb  8 16:08:47 2026] Broadcast board: ______
+[Sun Feb  8 16:08:47 2026] Sent state to 1: R1 L3 S0 E0
+[Sun Feb  8 16:09:03 2026] 1: timed out (-1 pt, total -1)
+[Sun Feb  8 16:09:03 2026] Sent state to 1: R1 L3 S-1 E0
+[Sun Feb  8 16:09:03 2026] Turn complete for 1
+[Sun Feb  8 16:09:03 2026] Turn advanced to 2
+[Sun Feb  8 16:09:19 2026] 2: timed out (-1 pt, total -1)
+[Sun Feb  8 16:09:19 2026] Sent state to 2: R1 L3 S-1 E0
+[Sun Feb  8 16:09:19 2026] Turn complete for 2
+[Sun Feb  8 16:09:19 2026] Turn advanced to 3
+[Sun Feb  8 16:09:35 2026] 3: timed out (-1 pt, total -1)
+[Sun Feb  8 16:09:35 2026] Sent state to 3: R1 L3 S-1 E0
+[Sun Feb  8 16:09:35 2026] Turn complete for 3
+[Sun Feb  8 16:09:35 2026] Turn advanced to 1
+[Sun Feb  8 16:09:36 2026] 1: received move LETTER:a
+[Sun Feb  8 16:09:36 2026] 1 handling move: LETTER:a
+[Sun Feb  8 16:09:36 2026] 1: correct letter a (+1 pt, total 0)
+[Sun Feb  8 16:09:36 2026] Broadcast board: __A___
+[Sun Feb  8 16:09:36 2026] Sent state to 1: R1 L3 S0 E0
+[Sun Feb  8 16:09:36 2026] Sent state to 2: R1 L3 S-1 E0
+[Sun Feb  8 16:09:36 2026] Sent state to 3: R1 L3 S-1 E0
+[Sun Feb  8 16:09:36 2026] Turn complete for 1
+[Sun Feb  8 16:09:36 2026] Turn advanced to 2
+
+=== GAME SESSION STARTED ===
+Time: Sun Feb  8 16:10:02 2026
+
+[Sun Feb  8 16:10:02 2026] Loaded 1 player records from scores.txt
+[Sun Feb  8 16:10:02 2026] Server initialized
+
+=== GAME SESSION STARTED ===
+Time: Sun Feb  8 16:10:27 2026
+
+[Sun Feb  8 16:10:27 2026] Loaded 1 player records from scores.txt
+[Sun Feb  8 16:10:27 2026] Server initialized
+[Sun Feb  8 16:10:27 2026] Server listening on port 8080
+[Sun Feb  8 16:10:43 2026] Connection 1 accepted
+[Sun Feb  8 16:10:45 2026] Player 1 connected (slot 0)
+[Sun Feb  8 16:10:49 2026] Connection 2 accepted
+[Sun Feb  8 16:10:49 2026] Player 1 connected (slot 1)
+[Sun Feb  8 16:11:03 2026] Connection 3 accepted
+[Sun Feb  8 16:11:05 2026] Player 2 connected (slot 2)
+[Sun Feb  8 16:11:07 2026] Round 1: Selected word PEACH
+[Sun Feb  8 16:11:07 2026] Round 1 initialized - ALL players reset to 3 lives, not eliminated
+[Sun Feb  8 16:11:07 2026] Game started with 3 players
+[Sun Feb  8 16:11:07 2026] Round Robin scheduler started
+[Sun Feb  8 16:11:08 2026] Broadcast board: _____
+[Sun Feb  8 16:11:08 2026] Sent state to 1: R1 L3 S0 E0
+[Sun Feb  8 16:11:08 2026] Broadcast board: _____
+[Sun Feb  8 16:11:08 2026] Sent state to 2: R1 L3 S0 E0
+[Sun Feb  8 16:11:08 2026] Broadcast board: _____
+[Sun Feb  8 16:11:08 2026] Sent state to 1: R1 L3 S0 E0
+[Sun Feb  8 16:11:24 2026] 1: timed out (-1 pt, total -1)
+[Sun Feb  8 16:11:24 2026] Sent state to 1: R1 L3 S-1 E0
+[Sun Feb  8 16:11:24 2026] Turn complete for 1
+[Sun Feb  8 16:11:24 2026] Turn advanced to 1
+
+=== GAME SESSION STARTED ===
+Time: Sun Feb  8 16:12:02 2026
+
+[Sun Feb  8 16:12:02 2026] Loaded 1 player records from scores.txt
+[Sun Feb  8 16:12:02 2026] Server initialized
+[Sun Feb  8 16:12:02 2026] Server listening on port 8080
+[Sun Feb  8 16:12:08 2026] Connection 1 accepted
+[Sun Feb  8 16:12:10 2026] Player 1 connected (slot 0)
+[Sun Feb  8 16:12:14 2026] Connection 2 accepted
+[Sun Feb  8 16:12:15 2026] Player 2 connected (slot 1)
+[Sun Feb  8 16:12:26 2026] Connection 3 accepted
+[Sun Feb  8 16:12:28 2026] Player 3 connected (slot 2)
+[Sun Feb  8 16:12:30 2026] Round 1: Selected word GRAPE
+[Sun Feb  8 16:12:30 2026] Round 1 initialized - ALL players reset to 3 lives, not eliminated
+[Sun Feb  8 16:12:30 2026] Game started with 3 players
+[Sun Feb  8 16:12:30 2026] Round Robin scheduler started
+[Sun Feb  8 16:12:31 2026] Broadcast board: _____
+[Sun Feb  8 16:12:31 2026] Sent state to 1: R1 L3 S0 E0
+[Sun Feb  8 16:12:31 2026] Broadcast board: _____
+[Sun Feb  8 16:12:31 2026] Sent state to 3: R1 L3 S0 E0
+[Sun Feb  8 16:12:31 2026] Broadcast board: _____
+[Sun Feb  8 16:12:31 2026] Sent state to 2: R1 L3 S0 E0
+[Sun Feb  8 16:12:41 2026] 1: received move LETTER:g
+[Sun Feb  8 16:12:41 2026] 1 handling move: LETTER:g
+[Sun Feb  8 16:12:41 2026] 1: correct letter g (+1 pt, total 1)
+[Sun Feb  8 16:12:41 2026] Broadcast board: G____
+[Sun Feb  8 16:12:41 2026] Sent state to 1: R1 L3 S1 E0
+[Sun Feb  8 16:12:41 2026] Sent state to 2: R1 L3 S0 E0
+[Sun Feb  8 16:12:41 2026] Sent state to 3: R1 L3 S0 E0
+[Sun Feb  8 16:12:41 2026] Turn complete for 1
+[Sun Feb  8 16:12:41 2026] Turn advanced to 2
+[Sun Feb  8 16:12:47 2026] 2: received move LETTER:u
+[Sun Feb  8 16:12:47 2026] 2 handling move: LETTER:u
+[Sun Feb  8 16:12:47 2026] 2: wrong letter u (-1 life, 2 left)
+[Sun Feb  8 16:12:47 2026] Sent state to 1: R1 L3 S1 E0
+[Sun Feb  8 16:12:47 2026] Sent state to 2: R1 L2 S0 E0
+[Sun Feb  8 16:12:47 2026] Sent state to 3: R1 L3 S0 E0
+[Sun Feb  8 16:12:47 2026] Turn complete for 2
+[Sun Feb  8 16:12:47 2026] Turn advanced to 3
+[Sun Feb  8 16:12:52 2026] 3: received move LETTER:e
+[Sun Feb  8 16:12:52 2026] 3 handling move: LETTER:e
+[Sun Feb  8 16:12:52 2026] 3: correct letter e (+1 pt, total 1)
+[Sun Feb  8 16:12:52 2026] Broadcast board: G___E
+[Sun Feb  8 16:12:52 2026] Sent state to 1: R1 L3 S1 E0
+[Sun Feb  8 16:12:52 2026] Sent state to 2: R1 L2 S0 E0
+[Sun Feb  8 16:12:52 2026] Sent state to 3: R1 L3 S1 E0
+[Sun Feb  8 16:12:52 2026] Turn complete for 3
+[Sun Feb  8 16:12:52 2026] Turn advanced to 1
+[Sun Feb  8 16:13:01 2026] 1: received move LETTER:X
+[Sun Feb  8 16:13:01 2026] 1 handling move: LETTER:X
+[Sun Feb  8 16:13:01 2026] 1: wrong letter X (-1 life, 2 left)
+[Sun Feb  8 16:13:01 2026] Sent state to 1: R1 L2 S1 E0
+[Sun Feb  8 16:13:01 2026] Sent state to 2: R1 L2 S0 E0
+[Sun Feb  8 16:13:01 2026] Sent state to 3: R1 L3 S1 E0
+[Sun Feb  8 16:13:01 2026] Turn complete for 1
+[Sun Feb  8 16:13:01 2026] Turn advanced to 2
+[Sun Feb  8 16:13:17 2026] 2: timed out (-1 pt, total -1)
+[Sun Feb  8 16:13:17 2026] Sent state to 2: R1 L2 S-1 E0
+[Sun Feb  8 16:13:17 2026] Turn complete for 2
+[Sun Feb  8 16:13:17 2026] Turn advanced to 3
+[Sun Feb  8 16:13:27 2026] 3: received move LETTER:o
+[Sun Feb  8 16:13:27 2026] 3 handling move: LETTER:o
+[Sun Feb  8 16:13:27 2026] 3: wrong letter o (-1 life, 2 left)
+[Sun Feb  8 16:13:27 2026] Sent state to 1: R1 L2 S1 E0
+[Sun Feb  8 16:13:27 2026] Sent state to 2: R1 L2 S-1 E0
+[Sun Feb  8 16:13:27 2026] Sent state to 3: R1 L2 S1 E0
+[Sun Feb  8 16:13:27 2026] Turn complete for 3
+[Sun Feb  8 16:13:27 2026] Turn advanced to 1
+[Sun Feb  8 16:13:39 2026] 1: received move LETTER:r
+[Sun Feb  8 16:13:39 2026] 1 handling move: LETTER:r
+[Sun Feb  8 16:13:39 2026] 1: correct letter r (+1 pt, total 2)
+[Sun Feb  8 16:13:39 2026] Broadcast board: GR__E
+[Sun Feb  8 16:13:39 2026] Sent state to 1: R1 L2 S2 E0
+[Sun Feb  8 16:13:39 2026] Sent state to 2: R1 L2 S-1 E0
+[Sun Feb  8 16:13:39 2026] Sent state to 3: R1 L2 S1 E0
+[Sun Feb  8 16:13:39 2026] Turn complete for 1
+[Sun Feb  8 16:13:39 2026] Turn advanced to 2
+[Sun Feb  8 16:13:40 2026] 2: received move WORD:goose
+[Sun Feb  8 16:13:40 2026] 2 handling move: WORD:goose
+[Sun Feb  8 16:13:40 2026] 2: wrong word guess - eliminated from round 1
+[Sun Feb  8 16:13:40 2026] Sent state to 2: R1 L0 S-1 E1
+[Sun Feb  8 16:13:40 2026] Turn complete for 2
+[Sun Feb  8 16:13:40 2026] Turn advanced to 3
+[Sun Feb  8 16:13:50 2026] 3: received move LETTER:n
+[Sun Feb  8 16:13:50 2026] 3 handling move: LETTER:n
+[Sun Feb  8 16:13:50 2026] 3: wrong letter n (-1 life, 1 left)
+[Sun Feb  8 16:13:50 2026] Sent state to 1: R1 L2 S2 E0
+[Sun Feb  8 16:13:50 2026] Sent state to 2: R1 L0 S-1 E1
+[Sun Feb  8 16:13:50 2026] Sent state to 3: R1 L1 S1 E0
+[Sun Feb  8 16:13:50 2026] Turn complete for 3
+[Sun Feb  8 16:13:50 2026] Turn advanced to 1
+[Sun Feb  8 16:13:59 2026] 1: received move LETTER:a
+[Sun Feb  8 16:13:59 2026] 1 handling move: LETTER:a
+[Sun Feb  8 16:13:59 2026] 1: correct letter a (+1 pt, total 3)
+[Sun Feb  8 16:13:59 2026] Broadcast board: GRA_E
+[Sun Feb  8 16:13:59 2026] Sent state to 1: R1 L2 S3 E0
+[Sun Feb  8 16:13:59 2026] Sent state to 2: R1 L0 S-1 E1
+[Sun Feb  8 16:13:59 2026] Sent state to 3: R1 L1 S1 E0
+[Sun Feb  8 16:13:59 2026] Turn complete for 1
+[Sun Feb  8 16:13:59 2026] Turn advanced to 3
+[Sun Feb  8 16:14:04 2026] 3: received move LETTER:h
+[Sun Feb  8 16:14:04 2026] 3 handling move: LETTER:h
+[Sun Feb  8 16:14:04 2026] 3: wrong letter h (-1 life, 0 left)
+[Sun Feb  8 16:14:04 2026] 3: eliminated (no lives left in round 1)
+[Sun Feb  8 16:14:04 2026] Sent state to 1: R1 L2 S3 E0
+[Sun Feb  8 16:14:04 2026] Sent state to 2: R1 L0 S-1 E1
+[Sun Feb  8 16:14:04 2026] Sent state to 3: R1 L0 S1 E1
+[Sun Feb  8 16:14:04 2026] Turn complete for 3
+[Sun Feb  8 16:14:04 2026] Turn advanced to 1
+[Sun Feb  8 16:14:12 2026] 1: received move LETTER:p
+[Sun Feb  8 16:14:12 2026] 1 handling move: LETTER:p
+[Sun Feb  8 16:14:12 2026] 1: correct letter p (+1 pt, total 4)
+[Sun Feb  8 16:14:12 2026] Broadcast board: GRAPE
+[Sun Feb  8 16:14:12 2026] Sent state to 1: R1 L2 S4 E0
+[Sun Feb  8 16:14:12 2026] Sent state to 2: R1 L0 S-1 E1
+[Sun Feb  8 16:14:12 2026] Sent state to 3: R1 L0 S1 E1
+[Sun Feb  8 16:14:12 2026] Turn complete for 1
+[Sun Feb  8 16:14:12 2026] Round 1 complete
+[Sun Feb  8 16:14:19 2026] Starting round 2/5
+[Sun Feb  8 16:14:19 2026] Round 2: Selected word ORANGE
+[Sun Feb  8 16:14:19 2026] Round 2 initialized - ALL players reset to 3 lives, not eliminated
+[Sun Feb  8 16:14:20 2026] Broadcast board: ______
+[Sun Feb  8 16:14:20 2026] Sent state to 1: R2 L3 S4 E0
+[Sun Feb  8 16:14:20 2026] Sent state to 2: R2 L3 S-1 E0
+[Sun Feb  8 16:14:20 2026] Sent state to 3: R2 L3 S1 E0
+[Sun Feb  8 16:14:20 2026] Round 2 ready
+[Sun Feb  8 16:14:30 2026] 1: received move LETTER:h
+[Sun Feb  8 16:14:30 2026] 1 handling move: LETTER:h
+[Sun Feb  8 16:14:30 2026] 1: wrong letter h (-1 life, 2 left)
+[Sun Feb  8 16:14:30 2026] Sent state to 1: R2 L2 S4 E0
+[Sun Feb  8 16:14:30 2026] Sent state to 2: R2 L3 S-1 E0
+[Sun Feb  8 16:14:30 2026] Sent state to 3: R2 L3 S1 E0
+[Sun Feb  8 16:14:30 2026] Turn complete for 1
+[Sun Feb  8 16:14:30 2026] Turn advanced to 2
+[Sun Feb  8 16:14:31 2026] 2: received move LETTER:y
+[Sun Feb  8 16:14:31 2026] 2 handling move: LETTER:y
+[Sun Feb  8 16:14:31 2026] 2: wrong letter y (-1 life, 2 left)
+[Sun Feb  8 16:14:31 2026] Sent state to 1: R2 L2 S4 E0
+[Sun Feb  8 16:14:31 2026] Sent state to 2: R2 L2 S-1 E0
+[Sun Feb  8 16:14:31 2026] Sent state to 3: R2 L3 S1 E0
+[Sun Feb  8 16:14:31 2026] Turn complete for 2
+[Sun Feb  8 16:14:31 2026] Turn advanced to 3
+[Sun Feb  8 16:14:41 2026] 3: received move LETTER:n
+[Sun Feb  8 16:14:41 2026] 3 handling move: LETTER:n
+[Sun Feb  8 16:14:41 2026] 3: correct letter n (+1 pt, total 2)
+[Sun Feb  8 16:14:41 2026] Broadcast board: ___N__
+[Sun Feb  8 16:14:41 2026] Sent state to 1: R2 L2 S4 E0
+[Sun Feb  8 16:14:41 2026] Sent state to 2: R2 L2 S-1 E0
+[Sun Feb  8 16:14:41 2026] Sent state to 3: R2 L3 S2 E0
+[Sun Feb  8 16:14:41 2026] Turn complete for 3
+[Sun Feb  8 16:14:41 2026] Turn advanced to 1
+[Sun Feb  8 16:14:53 2026] 1: received move LETTER:o
+[Sun Feb  8 16:14:53 2026] 1 handling move: LETTER:o
+[Sun Feb  8 16:14:53 2026] 1: correct letter o (+1 pt, total 5)
+[Sun Feb  8 16:14:53 2026] Broadcast board: O__N__
+[Sun Feb  8 16:14:53 2026] Sent state to 1: R2 L2 S5 E0
+[Sun Feb  8 16:14:53 2026] Sent state to 2: R2 L2 S-1 E0
+[Sun Feb  8 16:14:53 2026] Sent state to 3: R2 L3 S2 E0
+[Sun Feb  8 16:14:53 2026] Turn complete for 1
+[Sun Feb  8 16:14:53 2026] Turn advanced to 2
+[Sun Feb  8 16:14:54 2026] 2: received move LETTER:p
+[Sun Feb  8 16:14:54 2026] 2 handling move: LETTER:p
+[Sun Feb  8 16:14:54 2026] 2: wrong letter p (-1 life, 1 left)
+[Sun Feb  8 16:14:54 2026] Sent state to 1: R2 L2 S5 E0
+[Sun Feb  8 16:14:54 2026] Sent state to 2: R2 L1 S-1 E0
+[Sun Feb  8 16:14:54 2026] Sent state to 3: R2 L3 S2 E0
+[Sun Feb  8 16:14:54 2026] Turn complete for 2
+[Sun Feb  8 16:14:54 2026] Turn advanced to 3
+[Sun Feb  8 16:15:05 2026] 3: received move LETTER:e
+[Sun Feb  8 16:15:05 2026] 3 handling move: LETTER:e
+[Sun Feb  8 16:15:05 2026] 3: correct letter e (+1 pt, total 3)
+[Sun Feb  8 16:15:05 2026] Broadcast board: O__N_E
+[Sun Feb  8 16:15:05 2026] Sent state to 1: R2 L2 S5 E0
+[Sun Feb  8 16:15:05 2026] Sent state to 2: R2 L1 S-1 E0
+[Sun Feb  8 16:15:05 2026] Sent state to 3: R2 L3 S3 E0
+[Sun Feb  8 16:15:05 2026] Turn complete for 3
+[Sun Feb  8 16:15:05 2026] Turn advanced to 1
+[Sun Feb  8 16:15:11 2026] 1: received move LETTER:k
+[Sun Feb  8 16:15:11 2026] 1 handling move: LETTER:k
+[Sun Feb  8 16:15:11 2026] 1: wrong letter k (-1 life, 1 left)
+[Sun Feb  8 16:15:11 2026] Sent state to 1: R2 L1 S5 E0
+[Sun Feb  8 16:15:11 2026] Sent state to 2: R2 L1 S-1 E0
+[Sun Feb  8 16:15:11 2026] Sent state to 3: R2 L3 S3 E0
+[Sun Feb  8 16:15:11 2026] Turn complete for 1
+[Sun Feb  8 16:15:11 2026] Turn advanced to 2
+[Sun Feb  8 16:15:12 2026] 2: received move LETTER:t
+[Sun Feb  8 16:15:12 2026] 2 handling move: LETTER:t
+[Sun Feb  8 16:15:12 2026] 2: wrong letter t (-1 life, 0 left)
+[Sun Feb  8 16:15:12 2026] 2: eliminated (no lives left in round 2)
+[Sun Feb  8 16:15:12 2026] Sent state to 1: R2 L1 S5 E0
+[Sun Feb  8 16:15:12 2026] Sent state to 2: R2 L0 S-1 E1
+[Sun Feb  8 16:15:12 2026] Sent state to 3: R2 L3 S3 E0
+[Sun Feb  8 16:15:12 2026] Turn complete for 2
+[Sun Feb  8 16:15:12 2026] Turn advanced to 3
+[Sun Feb  8 16:15:23 2026] 3: received move LETTER:c
+[Sun Feb  8 16:15:23 2026] 3 handling move: LETTER:c
+[Sun Feb  8 16:15:23 2026] 3: wrong letter c (-1 life, 2 left)
+[Sun Feb  8 16:15:23 2026] Sent state to 1: R2 L1 S5 E0
+[Sun Feb  8 16:15:23 2026] Sent state to 2: R2 L0 S-1 E1
+[Sun Feb  8 16:15:23 2026] Sent state to 3: R2 L2 S3 E0
+[Sun Feb  8 16:15:23 2026] Turn complete for 3
+[Sun Feb  8 16:15:23 2026] Turn advanced to 1
+[Sun Feb  8 16:15:29 2026] 1: received move LETTER:g
+[Sun Feb  8 16:15:29 2026] 1 handling move: LETTER:g
+[Sun Feb  8 16:15:29 2026] 1: correct letter g (+1 pt, total 6)
+[Sun Feb  8 16:15:29 2026] Broadcast board: O__NGE
+[Sun Feb  8 16:15:29 2026] Sent state to 1: R2 L1 S6 E0
+[Sun Feb  8 16:15:29 2026] Sent state to 2: R2 L0 S-1 E1
+[Sun Feb  8 16:15:29 2026] Sent state to 3: R2 L2 S3 E0
+[Sun Feb  8 16:15:29 2026] Turn complete for 1
+[Sun Feb  8 16:15:29 2026] Turn advanced to 3
+[Sun Feb  8 16:15:40 2026] 3: received move LETTER:u
+[Sun Feb  8 16:15:40 2026] 3 handling move: LETTER:u
+[Sun Feb  8 16:15:40 2026] 3: wrong letter u (-1 life, 1 left)
+[Sun Feb  8 16:15:40 2026] Sent state to 1: R2 L1 S6 E0
+[Sun Feb  8 16:15:40 2026] Sent state to 2: R2 L0 S-1 E1
+[Sun Feb  8 16:15:40 2026] Sent state to 3: R2 L1 S3 E0
+[Sun Feb  8 16:15:40 2026] Turn complete for 3
+[Sun Feb  8 16:15:40 2026] Turn advanced to 1
+[Sun Feb  8 16:15:55 2026] 1: received move LETTER:a
+[Sun Feb  8 16:15:55 2026] 1 handling move: LETTER:a
+[Sun Feb  8 16:15:55 2026] 1: correct letter a (+1 pt, total 7)
+[Sun Feb  8 16:15:55 2026] Broadcast board: O_ANGE
+[Sun Feb  8 16:15:55 2026] Sent state to 1: R2 L1 S7 E0
+[Sun Feb  8 16:15:55 2026] Sent state to 2: R2 L0 S-1 E1
+[Sun Feb  8 16:15:55 2026] Sent state to 3: R2 L1 S3 E0
+[Sun Feb  8 16:15:55 2026] Turn complete for 1
+[Sun Feb  8 16:15:55 2026] Turn advanced to 3
+[Sun Feb  8 16:16:02 2026] 3: received move LETTER:r
+[Sun Feb  8 16:16:02 2026] 3 handling move: LETTER:r
+[Sun Feb  8 16:16:02 2026] 3: correct letter r (+1 pt, total 4)
+[Sun Feb  8 16:16:02 2026] Broadcast board: ORANGE
+[Sun Feb  8 16:16:02 2026] Sent state to 1: R2 L1 S7 E0
+[Sun Feb  8 16:16:02 2026] Sent state to 2: R2 L0 S-1 E1
+[Sun Feb  8 16:16:02 2026] Sent state to 3: R2 L1 S4 E0
+[Sun Feb  8 16:16:02 2026] Turn complete for 3
+[Sun Feb  8 16:16:02 2026] Round 2 complete
+[Sun Feb  8 16:16:09 2026] Starting round 3/5
+[Sun Feb  8 16:16:09 2026] Round 3: Selected word APPLE
+[Sun Feb  8 16:16:09 2026] Round 3 initialized - ALL players reset to 3 lives, not eliminated
+[Sun Feb  8 16:16:10 2026] Broadcast board: _____
+[Sun Feb  8 16:16:10 2026] Sent state to 1: R3 L3 S7 E0
+[Sun Feb  8 16:16:10 2026] Sent state to 2: R3 L3 S-1 E0
+[Sun Feb  8 16:16:10 2026] Sent state to 3: R3 L3 S4 E0
+[Sun Feb  8 16:16:10 2026] Round 3 ready
+[Sun Feb  8 16:16:21 2026] 1: received move LETTER:a
+[Sun Feb  8 16:16:21 2026] 1 handling move: LETTER:a
+[Sun Feb  8 16:16:21 2026] 1: correct letter a (+1 pt, total 8)
+[Sun Feb  8 16:16:21 2026] Broadcast board: A____
+[Sun Feb  8 16:16:21 2026] Sent state to 1: R3 L3 S8 E0
+[Sun Feb  8 16:16:21 2026] Sent state to 2: R3 L3 S-1 E0
+[Sun Feb  8 16:16:21 2026] Sent state to 3: R3 L3 S4 E0
+[Sun Feb  8 16:16:21 2026] Turn complete for 1
+[Sun Feb  8 16:16:21 2026] Turn advanced to 2
+[Sun Feb  8 16:16:22 2026] 2: received move LETTER:r
+[Sun Feb  8 16:16:22 2026] 2 handling move: LETTER:r
+[Sun Feb  8 16:16:22 2026] 2: wrong letter r (-1 life, 2 left)
+[Sun Feb  8 16:16:22 2026] Sent state to 1: R3 L3 S8 E0
+[Sun Feb  8 16:16:22 2026] Sent state to 2: R3 L2 S-1 E0
+[Sun Feb  8 16:16:22 2026] Sent state to 3: R3 L3 S4 E0
+[Sun Feb  8 16:16:22 2026] Turn complete for 2
+[Sun Feb  8 16:16:22 2026] Turn advanced to 3
+[Sun Feb  8 16:16:36 2026] 3: received move LETTER:u
+[Sun Feb  8 16:16:36 2026] 3 handling move: LETTER:u
+[Sun Feb  8 16:16:36 2026] 3: wrong letter u (-1 life, 2 left)
+[Sun Feb  8 16:16:36 2026] Sent state to 1: R3 L3 S8 E0
+[Sun Feb  8 16:16:36 2026] Sent state to 2: R3 L2 S-1 E0
+[Sun Feb  8 16:16:36 2026] Sent state to 3: R3 L2 S4 E0
+[Sun Feb  8 16:16:36 2026] Turn complete for 3
+[Sun Feb  8 16:16:36 2026] Turn advanced to 1
+[Sun Feb  8 16:16:46 2026] 1: received move LETTER:r
+[Sun Feb  8 16:16:46 2026] 1 handling move: LETTER:r
+[Sun Feb  8 16:16:46 2026] 1: wrong letter r (-1 life, 2 left)
+[Sun Feb  8 16:16:46 2026] Sent state to 1: R3 L2 S8 E0
+[Sun Feb  8 16:16:46 2026] Sent state to 2: R3 L2 S-1 E0
+[Sun Feb  8 16:16:46 2026] Sent state to 3: R3 L2 S4 E0
+[Sun Feb  8 16:16:46 2026] Turn complete for 1
+[Sun Feb  8 16:16:46 2026] Turn advanced to 2
+[Sun Feb  8 16:16:47 2026] 2: received move LETTER:o
+[Sun Feb  8 16:16:47 2026] 2 handling move: LETTER:o
+[Sun Feb  8 16:16:47 2026] 2: wrong letter o (-1 life, 1 left)
+[Sun Feb  8 16:16:47 2026] Sent state to 1: R3 L2 S8 E0
+[Sun Feb  8 16:16:47 2026] Sent state to 2: R3 L1 S-1 E0
+[Sun Feb  8 16:16:47 2026] Sent state to 3: R3 L2 S4 E0
+[Sun Feb  8 16:16:47 2026] Turn complete for 2
+[Sun Feb  8 16:16:47 2026] Turn advanced to 3
+[Sun Feb  8 16:16:55 2026] 3: received move LETTER:e
+[Sun Feb  8 16:16:55 2026] 3 handling move: LETTER:e
+[Sun Feb  8 16:16:55 2026] 3: correct letter e (+1 pt, total 5)
+[Sun Feb  8 16:16:55 2026] Broadcast board: A___E
+[Sun Feb  8 16:16:55 2026] Sent state to 1: R3 L2 S8 E0
+[Sun Feb  8 16:16:55 2026] Sent state to 2: R3 L1 S-1 E0
+[Sun Feb  8 16:16:55 2026] Sent state to 3: R3 L2 S5 E0
+[Sun Feb  8 16:16:55 2026] Turn complete for 3
+[Sun Feb  8 16:16:55 2026] Turn advanced to 1
+[Sun Feb  8 16:17:02 2026] 1: received move LETTER:p
+[Sun Feb  8 16:17:02 2026] 1 handling move: LETTER:p
+[Sun Feb  8 16:17:02 2026] 1: correct letter p (+1 pt, total 9)
+[Sun Feb  8 16:17:02 2026] Broadcast board: APP_E
+[Sun Feb  8 16:17:02 2026] Sent state to 1: R3 L2 S9 E0
+[Sun Feb  8 16:17:02 2026] Sent state to 2: R3 L1 S-1 E0
+[Sun Feb  8 16:17:02 2026] Sent state to 3: R3 L2 S5 E0
+[Sun Feb  8 16:17:02 2026] Turn complete for 1
+[Sun Feb  8 16:17:02 2026] Turn advanced to 2
+[Sun Feb  8 16:17:03 2026] 2: received move LETTER:g
+[Sun Feb  8 16:17:03 2026] 2 handling move: LETTER:g
+[Sun Feb  8 16:17:03 2026] 2: wrong letter g (-1 life, 0 left)
+[Sun Feb  8 16:17:03 2026] 2: eliminated (no lives left in round 3)
+[Sun Feb  8 16:17:03 2026] Sent state to 1: R3 L2 S9 E0
+[Sun Feb  8 16:17:03 2026] Sent state to 2: R3 L0 S-1 E1
+[Sun Feb  8 16:17:03 2026] Sent state to 3: R3 L2 S5 E0
+[Sun Feb  8 16:17:03 2026] Turn complete for 2
+[Sun Feb  8 16:17:03 2026] Turn advanced to 3
+[Sun Feb  8 16:17:14 2026] 3: received move LETTER:l
+[Sun Feb  8 16:17:14 2026] 3 handling move: LETTER:l
+[Sun Feb  8 16:17:14 2026] 3: correct letter l (+1 pt, total 6)
+[Sun Feb  8 16:17:14 2026] Broadcast board: APPLE
+[Sun Feb  8 16:17:14 2026] Sent state to 1: R3 L2 S9 E0
+[Sun Feb  8 16:17:14 2026] Sent state to 2: R3 L0 S-1 E1
+[Sun Feb  8 16:17:14 2026] Sent state to 3: R3 L2 S6 E0
+[Sun Feb  8 16:17:14 2026] Turn complete for 3
+[Sun Feb  8 16:17:14 2026] Round 3 complete
+[Sun Feb  8 16:17:21 2026] Starting round 4/5
+[Sun Feb  8 16:17:21 2026] Round 4: Selected word MANGO
+[Sun Feb  8 16:17:21 2026] Round 4 initialized - ALL players reset to 3 lives, not eliminated
+[Sun Feb  8 16:17:22 2026] Broadcast board: _____
+[Sun Feb  8 16:17:22 2026] Sent state to 1: R4 L3 S9 E0
+[Sun Feb  8 16:17:22 2026] Sent state to 2: R4 L3 S-1 E0
+[Sun Feb  8 16:17:22 2026] Sent state to 3: R4 L3 S6 E0
+[Sun Feb  8 16:17:22 2026] Round 4 ready
+[Sun Feb  8 16:17:30 2026] 1: received move LETTER:c
+[Sun Feb  8 16:17:30 2026] 1 handling move: LETTER:c
+[Sun Feb  8 16:17:30 2026] 1: wrong letter c (-1 life, 2 left)
+[Sun Feb  8 16:17:30 2026] Sent state to 1: R4 L2 S9 E0
+[Sun Feb  8 16:17:30 2026] Sent state to 2: R4 L3 S-1 E0
+[Sun Feb  8 16:17:30 2026] Sent state to 3: R4 L3 S6 E0
+[Sun Feb  8 16:17:30 2026] Turn complete for 1
+[Sun Feb  8 16:17:30 2026] Turn advanced to 2
+[Sun Feb  8 16:17:31 2026] 2: received move LETTER:l
+[Sun Feb  8 16:17:31 2026] 2 handling move: LETTER:l
+[Sun Feb  8 16:17:31 2026] 2: wrong letter l (-1 life, 2 left)
+[Sun Feb  8 16:17:31 2026] Sent state to 1: R4 L2 S9 E0
+[Sun Feb  8 16:17:31 2026] Sent state to 2: R4 L2 S-1 E0
+[Sun Feb  8 16:17:31 2026] Sent state to 3: R4 L3 S6 E0
+[Sun Feb  8 16:17:31 2026] Turn complete for 2
+[Sun Feb  8 16:17:31 2026] Turn advanced to 3
+[Sun Feb  8 16:17:39 2026] 3: received move LETTER:p
+[Sun Feb  8 16:17:39 2026] 3 handling move: LETTER:p
+[Sun Feb  8 16:17:39 2026] 3: wrong letter p (-1 life, 2 left)
+[Sun Feb  8 16:17:39 2026] Sent state to 1: R4 L2 S9 E0
+[Sun Feb  8 16:17:39 2026] Sent state to 2: R4 L2 S-1 E0
+[Sun Feb  8 16:17:39 2026] Sent state to 3: R4 L2 S6 E0
+[Sun Feb  8 16:17:39 2026] Turn complete for 3
+[Sun Feb  8 16:17:39 2026] Turn advanced to 1
+[Sun Feb  8 16:17:44 2026] 1: received move LETTER:u
+[Sun Feb  8 16:17:44 2026] 1 handling move: LETTER:u
+[Sun Feb  8 16:17:44 2026] 1: wrong letter u (-1 life, 1 left)
+[Sun Feb  8 16:17:44 2026] Sent state to 1: R4 L1 S9 E0
+[Sun Feb  8 16:17:44 2026] Sent state to 2: R4 L2 S-1 E0
+[Sun Feb  8 16:17:44 2026] Sent state to 3: R4 L2 S6 E0
+[Sun Feb  8 16:17:44 2026] Turn complete for 1
+[Sun Feb  8 16:17:44 2026] Turn advanced to 2
+[Sun Feb  8 16:17:45 2026] 2: received move LETTER:e
+[Sun Feb  8 16:17:45 2026] 2 handling move: LETTER:e
+[Sun Feb  8 16:17:45 2026] 2: wrong letter e (-1 life, 1 left)
+[Sun Feb  8 16:17:45 2026] Sent state to 1: R4 L1 S9 E0
+[Sun Feb  8 16:17:45 2026] Sent state to 2: R4 L1 S-1 E0
+[Sun Feb  8 16:17:45 2026] Sent state to 3: R4 L2 S6 E0
+[Sun Feb  8 16:17:45 2026] Turn complete for 2
+[Sun Feb  8 16:17:45 2026] Turn advanced to 3
+[Sun Feb  8 16:17:55 2026] 3: received move LETTER:m
+[Sun Feb  8 16:17:55 2026] 3 handling move: LETTER:m
+[Sun Feb  8 16:17:55 2026] 3: correct letter m (+1 pt, total 7)
+[Sun Feb  8 16:17:55 2026] Broadcast board: M____
+[Sun Feb  8 16:17:55 2026] Sent state to 1: R4 L1 S9 E0
+[Sun Feb  8 16:17:55 2026] Sent state to 2: R4 L1 S-1 E0
+[Sun Feb  8 16:17:55 2026] Sent state to 3: R4 L2 S7 E0
+[Sun Feb  8 16:17:55 2026] Turn complete for 3
+[Sun Feb  8 16:17:55 2026] Turn advanced to 1
+[Sun Feb  8 16:18:00 2026] 1: received move LETTER:a
+[Sun Feb  8 16:18:00 2026] 1 handling move: LETTER:a
+[Sun Feb  8 16:18:00 2026] 1: correct letter a (+1 pt, total 10)
+[Sun Feb  8 16:18:00 2026] Broadcast board: MA___
+[Sun Feb  8 16:18:00 2026] Sent state to 1: R4 L1 S10 E0
+[Sun Feb  8 16:18:00 2026] Sent state to 2: R4 L1 S-1 E0
+[Sun Feb  8 16:18:00 2026] Sent state to 3: R4 L2 S7 E0
+[Sun Feb  8 16:18:00 2026] Turn complete for 1
+[Sun Feb  8 16:18:00 2026] Turn advanced to 2
+[Sun Feb  8 16:18:02 2026] 2: received move LETTER:y
+[Sun Feb  8 16:18:02 2026] 2 handling move: LETTER:y
+[Sun Feb  8 16:18:02 2026] 2: wrong letter y (-1 life, 0 left)
+[Sun Feb  8 16:18:02 2026] 2: eliminated (no lives left in round 4)
+[Sun Feb  8 16:18:02 2026] Sent state to 1: R4 L1 S10 E0
+[Sun Feb  8 16:18:02 2026] Sent state to 2: R4 L0 S-1 E1
+[Sun Feb  8 16:18:02 2026] Sent state to 3: R4 L2 S7 E0
+[Sun Feb  8 16:18:02 2026] Turn complete for 2
+[Sun Feb  8 16:18:02 2026] Turn advanced to 3
+[Sun Feb  8 16:18:14 2026] 3: received move LETTER:o
+[Sun Feb  8 16:18:14 2026] 3 handling move: LETTER:o
+[Sun Feb  8 16:18:14 2026] 3: correct letter o (+1 pt, total 8)
+[Sun Feb  8 16:18:14 2026] Broadcast board: MA__O
+[Sun Feb  8 16:18:14 2026] Sent state to 1: R4 L1 S10 E0
+[Sun Feb  8 16:18:14 2026] Sent state to 2: R4 L0 S-1 E1
+[Sun Feb  8 16:18:14 2026] Sent state to 3: R4 L2 S8 E0
+[Sun Feb  8 16:18:14 2026] Turn complete for 3
+[Sun Feb  8 16:18:14 2026] Turn advanced to 1
+[Sun Feb  8 16:18:28 2026] 1: received move LETTER:t
+[Sun Feb  8 16:18:28 2026] 1 handling move: LETTER:t
+[Sun Feb  8 16:18:28 2026] 1: wrong letter t (-1 life, 0 left)
+[Sun Feb  8 16:18:28 2026] 1: eliminated (no lives left in round 4)
+[Sun Feb  8 16:18:28 2026] Sent state to 1: R4 L0 S10 E1
+[Sun Feb  8 16:18:28 2026] Sent state to 2: R4 L0 S-1 E1
+[Sun Feb  8 16:18:28 2026] Sent state to 3: R4 L2 S8 E0
+[Sun Feb  8 16:18:28 2026] Turn complete for 1
+[Sun Feb  8 16:18:28 2026] Turn advanced to 3
+[Sun Feb  8 16:18:37 2026] 3: received move LETTER:l
+[Sun Feb  8 16:18:37 2026] 3 handling move: LETTER:l
+[Sun Feb  8 16:18:37 2026] 3: wrong letter l (-1 life, 1 left)
+[Sun Feb  8 16:18:37 2026] Sent state to 1: R4 L0 S10 E1
+[Sun Feb  8 16:18:37 2026] Sent state to 2: R4 L0 S-1 E1
+[Sun Feb  8 16:18:37 2026] Sent state to 3: R4 L1 S8 E0
+[Sun Feb  8 16:18:37 2026] Turn complete for 3
+[Sun Feb  8 16:18:37 2026] Turn advanced to 3
+[Sun Feb  8 16:18:52 2026] 3: received move LETTER:u
+[Sun Feb  8 16:18:52 2026] 3 handling move: LETTER:u
+[Sun Feb  8 16:18:52 2026] 3: wrong letter u (-1 life, 0 left)
+[Sun Feb  8 16:18:52 2026] 3: eliminated (no lives left in round 4)
+[Sun Feb  8 16:18:52 2026] Sent state to 1: R4 L0 S10 E1
+[Sun Feb  8 16:18:52 2026] Sent state to 2: R4 L0 S-1 E1
+[Sun Feb  8 16:18:52 2026] Sent state to 3: R4 L0 S8 E1
+[Sun Feb  8 16:18:52 2026] Turn complete for 3
+[Sun Feb  8 16:18:52 2026] Round 4 complete
+[Sun Feb  8 16:18:59 2026] Starting round 5/5
+[Sun Feb  8 16:18:59 2026] Round 5: Selected word MELON
+[Sun Feb  8 16:18:59 2026] Round 5 initialized - ALL players reset to 3 lives, not eliminated
+[Sun Feb  8 16:19:00 2026] Broadcast board: _____
+[Sun Feb  8 16:19:00 2026] Sent state to 1: R5 L3 S10 E0
+[Sun Feb  8 16:19:00 2026] Sent state to 2: R5 L3 S-1 E0
+[Sun Feb  8 16:19:00 2026] Sent state to 3: R5 L3 S8 E0
+[Sun Feb  8 16:19:00 2026] Round 5 ready
+[Sun Feb  8 16:19:12 2026] 1: received move LETTER:u
+[Sun Feb  8 16:19:12 2026] 1 handling move: LETTER:u
+[Sun Feb  8 16:19:12 2026] 1: wrong letter u (-1 life, 2 left)
+[Sun Feb  8 16:19:12 2026] Sent state to 1: R5 L2 S10 E0
+[Sun Feb  8 16:19:12 2026] Sent state to 2: R5 L3 S-1 E0
+[Sun Feb  8 16:19:12 2026] Sent state to 3: R5 L3 S8 E0
+[Sun Feb  8 16:19:12 2026] Turn complete for 1
+[Sun Feb  8 16:19:12 2026] Turn advanced to 2
+[Sun Feb  8 16:19:13 2026] 2: received move LETTER:g
+[Sun Feb  8 16:19:13 2026] 2 handling move: LETTER:g
+[Sun Feb  8 16:19:13 2026] 2: wrong letter g (-1 life, 2 left)
+[Sun Feb  8 16:19:13 2026] Sent state to 1: R5 L2 S10 E0
+[Sun Feb  8 16:19:13 2026] Sent state to 2: R5 L2 S-1 E0
+[Sun Feb  8 16:19:13 2026] Sent state to 3: R5 L3 S8 E0
+[Sun Feb  8 16:19:13 2026] Turn complete for 2
+[Sun Feb  8 16:19:13 2026] Turn advanced to 3
+[Sun Feb  8 16:19:25 2026] 3: received move LETTER:a
+[Sun Feb  8 16:19:25 2026] 3 handling move: LETTER:a
+[Sun Feb  8 16:19:25 2026] 3: wrong letter a (-1 life, 2 left)
+[Sun Feb  8 16:19:25 2026] Sent state to 1: R5 L2 S10 E0
+[Sun Feb  8 16:19:25 2026] Sent state to 2: R5 L2 S-1 E0
+[Sun Feb  8 16:19:25 2026] Sent state to 3: R5 L2 S8 E0
+[Sun Feb  8 16:19:25 2026] Turn complete for 3
+[Sun Feb  8 16:19:25 2026] Turn advanced to 1
+[Sun Feb  8 16:19:31 2026] 1: received move LETTER:b
+[Sun Feb  8 16:19:31 2026] 1 handling move: LETTER:b
+[Sun Feb  8 16:19:31 2026] 1: wrong letter b (-1 life, 1 left)
+[Sun Feb  8 16:19:31 2026] Sent state to 1: R5 L1 S10 E0
+[Sun Feb  8 16:19:31 2026] Sent state to 2: R5 L2 S-1 E0
+[Sun Feb  8 16:19:31 2026] Sent state to 3: R5 L2 S8 E0
+[Sun Feb  8 16:19:31 2026] Turn complete for 1
+[Sun Feb  8 16:19:31 2026] Turn advanced to 2
+[Sun Feb  8 16:19:32 2026] 2: received move LETTER:f
+[Sun Feb  8 16:19:32 2026] 2 handling move: LETTER:f
+[Sun Feb  8 16:19:32 2026] 2: wrong letter f (-1 life, 1 left)
+[Sun Feb  8 16:19:32 2026] Sent state to 1: R5 L1 S10 E0
+[Sun Feb  8 16:19:32 2026] Sent state to 2: R5 L1 S-1 E0
+[Sun Feb  8 16:19:32 2026] Sent state to 3: R5 L2 S8 E0
+[Sun Feb  8 16:19:32 2026] Turn complete for 2
+[Sun Feb  8 16:19:32 2026] Turn advanced to 3
+[Sun Feb  8 16:19:40 2026] 3: received move LETTER:p
+[Sun Feb  8 16:19:40 2026] 3 handling move: LETTER:p
+[Sun Feb  8 16:19:40 2026] 3: wrong letter p (-1 life, 1 left)
+[Sun Feb  8 16:19:40 2026] Sent state to 1: R5 L1 S10 E0
+[Sun Feb  8 16:19:40 2026] Sent state to 2: R5 L1 S-1 E0
+[Sun Feb  8 16:19:40 2026] Sent state to 3: R5 L1 S8 E0
+[Sun Feb  8 16:19:40 2026] Turn complete for 3
+[Sun Feb  8 16:19:40 2026] Turn advanced to 1
+[Sun Feb  8 16:19:46 2026] 1: received move LETTER:i
+[Sun Feb  8 16:19:46 2026] 1 handling move: LETTER:i
+[Sun Feb  8 16:19:46 2026] 1: wrong letter i (-1 life, 0 left)
+[Sun Feb  8 16:19:46 2026] 1: eliminated (no lives left in round 5)
+[Sun Feb  8 16:19:46 2026] Sent state to 1: R5 L0 S10 E1
+[Sun Feb  8 16:19:46 2026] Sent state to 2: R5 L1 S-1 E0
+[Sun Feb  8 16:19:46 2026] Sent state to 3: R5 L1 S8 E0
+[Sun Feb  8 16:19:46 2026] Turn complete for 1
+[Sun Feb  8 16:19:46 2026] Turn advanced to 2
+[Sun Feb  8 16:19:47 2026] 2: received move LETTER:r
+[Sun Feb  8 16:19:47 2026] 2 handling move: LETTER:r
+[Sun Feb  8 16:19:47 2026] 2: wrong letter r (-1 life, 0 left)
+[Sun Feb  8 16:19:47 2026] 2: eliminated (no lives left in round 5)
+[Sun Feb  8 16:19:47 2026] Sent state to 1: R5 L0 S10 E1
+[Sun Feb  8 16:19:47 2026] Sent state to 2: R5 L0 S-1 E1
+[Sun Feb  8 16:19:47 2026] Sent state to 3: R5 L1 S8 E0
+[Sun Feb  8 16:19:47 2026] Turn complete for 2
+[Sun Feb  8 16:19:47 2026] Turn advanced to 3
+[Sun Feb  8 16:19:58 2026] 3: received move LETTER:b
+[Sun Feb  8 16:19:58 2026] 3 handling move: LETTER:b
+[Sun Feb  8 16:19:58 2026] 3: wrong letter b (-1 life, 0 left)
+[Sun Feb  8 16:19:58 2026] 3: eliminated (no lives left in round 5)
+[Sun Feb  8 16:19:58 2026] Sent state to 1: R5 L0 S10 E1
+[Sun Feb  8 16:19:58 2026] Sent state to 2: R5 L0 S-1 E1
+[Sun Feb  8 16:19:58 2026] Sent state to 3: R5 L0 S8 E1
+[Sun Feb  8 16:19:58 2026] Turn complete for 3
+[Sun Feb  8 16:19:58 2026] Round 5 complete
+[Sun Feb  8 16:20:05 2026] All 5 rounds completed
+[Sun Feb  8 16:20:05 2026] Updated 1 wins to 2
+[Sun Feb  8 16:20:05 2026] Saved 1 player records to scores.txt
+[Sun Feb  8 16:20:05 2026] Game completed - Winner: 1 (10 pts)
+[Sun Feb  8 16:20:05 2026] Player 3 disconnected
+[Sun Feb  8 16:20:05 2026] Scheduler ended
+[Sun Feb  8 16:20:05 2026] Player 1 disconnected
+[Sun Feb  8 16:20:05 2026] Player 2 disconnected
+=== SESSION END ===
+
+
+=== GAME SESSION STARTED ===
+Time: Sun Feb  8 22:24:51 2026
+
+[Sun Feb  8 22:24:51 2026] Loaded 1 player records from scores.txt
+[Sun Feb  8 22:24:51 2026] Server initialized
+[Sun Feb  8 22:24:51 2026] Server listening on port 8080
+
+=== GAME SESSION STARTED ===
+[Sun Feb  8 22:25:22 2026] Connection 1 accepted
+[Sun Feb  8 22:25:26 2026] Player john connected (slot 0)
+[Sun Feb  8 22:25:41 2026] Connection 2 accepted
+[Sun Feb  8 22:25:44 2026] Player bella connected (slot 1)
+[Sun Feb  8 22:25:54 2026] Connection 3 accepted
+[Sun Feb  8 22:26:02 2026] Player ali connected (slot 2)
+[Sun Feb  8 22:26:04 2026] Round 1: Selected word APPLE
+[Sun Feb  8 22:26:04 2026] Round 1 initialized - ALL players reset to 3 lives, not eliminated
+[Sun Feb  8 22:26:04 2026] Round Robin scheduler started
+[Sun Feb  8 22:26:04 2026] Game started with 3 players
+[Sun Feb  8 22:26:05 2026] Broadcast board: _____
+[Sun Feb  8 22:26:05 2026] Sent state to bella: R1 L3 S0 E0
+[Sun Feb  8 22:26:05 2026] Broadcast board: _____
+[Sun Feb  8 22:26:05 2026] Sent state to ali: R1 L3 S0 E0
+[Sun Feb  8 22:26:05 2026] Broadcast board: _____
+[Sun Feb  8 22:26:05 2026] Sent state to john: R1 L3 S0 E0
+[Sun Feb  8 22:26:21 2026] john: timed out (-1 pt, total -1)
+[Sun Feb  8 22:26:21 2026] Sent state to john: R1 L3 S-1 E0
+[Sun Feb  8 22:26:22 2026] Turn complete for john
+[Sun Feb  8 22:26:22 2026] Turn advanced to bella
+[Sun Feb  8 22:26:38 2026] bella: timed out (-1 pt, total -1)
+[Sun Feb  8 22:26:38 2026] Sent state to bella: R1 L3 S-1 E0
+[Sun Feb  8 22:26:38 2026] Turn complete for bella
+[Sun Feb  8 22:26:38 2026] Turn advanced to ali
+[Sun Feb  8 22:26:54 2026] ali: timed out (-1 pt, total -1)
+[Sun Feb  8 22:26:54 2026] Sent state to ali: R1 L3 S-1 E0
+[Sun Feb  8 22:26:54 2026] Turn complete for ali
+[Sun Feb  8 22:26:54 2026] Turn advanced to john
+[Sun Feb  8 22:27:10 2026] john: timed out (-1 pt, total -2)
+[Sun Feb  8 22:27:10 2026] Sent state to john: R1 L3 S-2 E0
+[Sun Feb  8 22:27:10 2026] Turn complete for john
+[Sun Feb  8 22:27:10 2026] Turn advanced to bella
+[Sun Feb  8 22:27:26 2026] bella: timed out (-1 pt, total -2)
+[Sun Feb  8 22:27:26 2026] Sent state to bella: R1 L3 S-2 E0
+[Sun Feb  8 22:27:26 2026] Turn complete for bella
+[Sun Feb  8 22:27:26 2026] Turn advanced to ali
+[Sun Feb  8 22:27:43 2026] ali: timed out (-1 pt, total -2)
+[Sun Feb  8 22:27:43 2026] Sent state to ali: R1 L3 S-2 E0
+[Sun Feb  8 22:27:43 2026] Turn complete for ali
+[Sun Feb  8 22:27:43 2026] Turn advanced to john
+[Sun Feb  8 22:27:59 2026] john: timed out (-1 pt, total -3)
+[Sun Feb  8 22:27:59 2026] Sent state to john: R1 L3 S-3 E0
+[Sun Feb  8 22:27:59 2026] Turn complete for john
+[Sun Feb  8 22:27:59 2026] Turn advanced to bella
+[Sun Feb  8 22:28:15 2026] bella: timed out (-1 pt, total -3)
+[Sun Feb  8 22:28:15 2026] Sent state to bella: R1 L3 S-3 E0
+[Sun Feb  8 22:28:15 2026] Turn complete for bella
+[Sun Feb  8 22:28:15 2026] Turn advanced to ali
+[Sun Feb  8 22:28:21 2026] ali: received move LETTER:j
+[Sun Feb  8 22:28:21 2026] ali handling move: LETTER:j
+[Sun Feb  8 22:28:21 2026] ali: wrong letter j (-1 life, 2 left)
+[Sun Feb  8 22:28:21 2026] Sent state to john: R1 L3 S-3 E0
+[Sun Feb  8 22:28:21 2026] Sent state to bella: R1 L3 S-3 E0
+[Sun Feb  8 22:28:21 2026] Sent state to ali: R1 L2 S-2 E0
+[Sun Feb  8 22:28:22 2026] Turn complete for ali
+[Sun Feb  8 22:28:22 2026] Turn advanced to john
+[Sun Feb  8 22:28:23 2026] john: received move LETTER:e
+[Sun Feb  8 22:28:23 2026] john handling move: LETTER:e
+[Sun Feb  8 22:28:23 2026] john: correct letter e (+1 pt, total -2)
+[Sun Feb  8 22:28:23 2026] Broadcast board: ____E
+[Sun Feb  8 22:28:23 2026] Sent state to john: R1 L3 S-2 E0
+[Sun Feb  8 22:28:23 2026] Sent state to bella: R1 L3 S-3 E0
+[Sun Feb  8 22:28:23 2026] Sent state to ali: R1 L2 S-2 E0
+[Sun Feb  8 22:28:23 2026] Turn complete for john
+[Sun Feb  8 22:28:23 2026] Turn advanced to bella
+[Sun Feb  8 22:28:24 2026] bella: received move LETTER:h
+[Sun Feb  8 22:28:24 2026] bella handling move: LETTER:h
+[Sun Feb  8 22:28:24 2026] bella: wrong letter h (-1 life, 2 left)
+[Sun Feb  8 22:28:24 2026] Sent state to john: R1 L3 S-2 E0
+[Sun Feb  8 22:28:24 2026] Sent state to bella: R1 L2 S-3 E0
+[Sun Feb  8 22:28:24 2026] Sent state to ali: R1 L2 S-2 E0
+[Sun Feb  8 22:28:24 2026] Turn complete for bella
+[Sun Feb  8 22:28:24 2026] Turn advanced to ali
+[Sun Feb  8 22:28:33 2026] ali: received move LETTER:l
+[Sun Feb  8 22:28:33 2026] ali handling move: LETTER:l
+[Sun Feb  8 22:28:33 2026] ali: correct letter l (+1 pt, total -1)
+[Sun Feb  8 22:28:33 2026] Broadcast board: ___LE
+[Sun Feb  8 22:28:33 2026] Sent state to john: R1 L3 S-2 E0
+[Sun Feb  8 22:28:33 2026] Sent state to bella: R1 L2 S-3 E0
+[Sun Feb  8 22:28:33 2026] Sent state to ali: R1 L2 S-1 E0
+[Sun Feb  8 22:28:33 2026] Turn complete for ali
+[Sun Feb  8 22:28:33 2026] Turn advanced to john
+[Sun Feb  8 22:28:34 2026] john: received move LETTER:k
+[Sun Feb  8 22:28:34 2026] john handling move: LETTER:k
+[Sun Feb  8 22:28:34 2026] john: wrong letter k (-1 life, 2 left)
+[Sun Feb  8 22:28:34 2026] Sent state to john: R1 L2 S-2 E0
+[Sun Feb  8 22:28:34 2026] Sent state to bella: R1 L2 S-3 E0
+[Sun Feb  8 22:28:34 2026] Sent state to ali: R1 L2 S-1 E0
+[Sun Feb  8 22:28:34 2026] Turn complete for john
+[Sun Feb  8 22:28:34 2026] Turn advanced to bella
+[Sun Feb  8 22:28:35 2026] bella: received move LETTER:u
+[Sun Feb  8 22:28:35 2026] bella handling move: LETTER:u
+[Sun Feb  8 22:28:35 2026] bella: wrong letter u (-1 life, 1 left)
+[Sun Feb  8 22:28:35 2026] Sent state to john: R1 L2 S-2 E0
+[Sun Feb  8 22:28:35 2026] Sent state to bella: R1 L1 S-3 E0
+[Sun Feb  8 22:28:35 2026] Sent state to ali: R1 L2 S-1 E0
+[Sun Feb  8 22:28:35 2026] Turn complete for bella
+[Sun Feb  8 22:28:35 2026] Turn advanced to ali
+[Sun Feb  8 22:28:43 2026] ali: received move LETTER:a
+[Sun Feb  8 22:28:43 2026] ali handling move: LETTER:a
+[Sun Feb  8 22:28:43 2026] ali: correct letter a (+1 pt, total 0)
+[Sun Feb  8 22:28:43 2026] Broadcast board: A__LE
+[Sun Feb  8 22:28:43 2026] Sent state to john: R1 L2 S-2 E0
+[Sun Feb  8 22:28:43 2026] Sent state to bella: R1 L1 S-3 E0
+[Sun Feb  8 22:28:43 2026] Sent state to ali: R1 L2 S0 E0
+[Sun Feb  8 22:28:43 2026] Turn complete for ali
+[Sun Feb  8 22:28:43 2026] Turn advanced to john
+[Sun Feb  8 22:28:44 2026] john: received move LETTER:p
+[Sun Feb  8 22:28:44 2026] john handling move: LETTER:p
+[Sun Feb  8 22:28:44 2026] john: correct letter p (+1 pt, total -1)
+[Sun Feb  8 22:28:44 2026] Broadcast board: APPLE
+[Sun Feb  8 22:28:44 2026] Sent state to john: R1 L2 S-1 E0
+[Sun Feb  8 22:28:44 2026] Sent state to bella: R1 L1 S-3 E0
+[Sun Feb  8 22:28:44 2026] Sent state to ali: R1 L2 S0 E0
+[Sun Feb  8 22:28:44 2026] Turn complete for john
+[Sun Feb  8 22:28:44 2026] Round 1 complete
+[Sun Feb  8 22:28:51 2026] Starting round 2/5
+[Sun Feb  8 22:28:51 2026] Round 2: Selected word ORANGE
+[Sun Feb  8 22:28:51 2026] Round 2 initialized - ALL players reset to 3 lives, not eliminated
+[Sun Feb  8 22:28:52 2026] Broadcast board: ______
+[Sun Feb  8 22:28:52 2026] Sent state to john: R2 L3 S-1 E0
+[Sun Feb  8 22:28:52 2026] Sent state to bella: R2 L3 S-3 E0
+[Sun Feb  8 22:28:52 2026] Sent state to ali: R2 L3 S0 E0
+[Sun Feb  8 22:28:52 2026] Round 2 ready
+[Sun Feb  8 22:28:53 2026] john: received move LETTER:a
+[Sun Feb  8 22:28:53 2026] john handling move: LETTER:a
+[Sun Feb  8 22:28:53 2026] john: correct letter a (+1 pt, total 0)
+[Sun Feb  8 22:28:53 2026] Broadcast board: __A___
+[Sun Feb  8 22:28:53 2026] Sent state to john: R2 L3 S0 E0
+[Sun Feb  8 22:28:53 2026] Sent state to bella: R2 L3 S-3 E0
+[Sun Feb  8 22:28:53 2026] Sent state to ali: R2 L3 S0 E0
+[Sun Feb  8 22:28:53 2026] Turn complete for john
+[Sun Feb  8 22:28:53 2026] Turn advanced to bella
+[Sun Feb  8 22:28:54 2026] bella: received move LETTER:u
+[Sun Feb  8 22:28:54 2026] bella handling move: LETTER:u
+[Sun Feb  8 22:28:54 2026] bella: wrong letter u (-1 life, 2 left)
+[Sun Feb  8 22:28:54 2026] Sent state to john: R2 L3 S0 E0
+[Sun Feb  8 22:28:54 2026] Sent state to bella: R2 L2 S-3 E0
+[Sun Feb  8 22:28:54 2026] Sent state to ali: R2 L3 S0 E0
+[Sun Feb  8 22:28:54 2026] Turn complete for bella
+[Sun Feb  8 22:28:54 2026] Turn advanced to ali
+[Sun Feb  8 22:29:10 2026] ali: timed out (-1 pt, total -1)
+[Sun Feb  8 22:29:10 2026] Sent state to ali: R2 L3 S-1 E0
+[Sun Feb  8 22:29:10 2026] Turn complete for ali
+[Sun Feb  8 22:29:10 2026] Turn advanced to john
+[Sun Feb  8 22:29:20 2026] john: received move LETTER:o
+[Sun Feb  8 22:29:20 2026] john handling move: LETTER:o
+[Sun Feb  8 22:29:20 2026] john: correct letter o (+1 pt, total 1)
+[Sun Feb  8 22:29:20 2026] Broadcast board: O_A___
+[Sun Feb  8 22:29:20 2026] Sent state to john: R2 L3 S1 E0
+[Sun Feb  8 22:29:20 2026] Sent state to bella: R2 L2 S-3 E0
+[Sun Feb  8 22:29:20 2026] Sent state to ali: R2 L3 S-1 E0
+[Sun Feb  8 22:29:20 2026] Turn complete for john
+[Sun Feb  8 22:29:20 2026] Turn advanced to bella
+[Sun Feb  8 22:29:21 2026] bella: received move LETTER:l
+[Sun Feb  8 22:29:21 2026] bella handling move: LETTER:l
+[Sun Feb  8 22:29:21 2026] bella: wrong letter l (-1 life, 1 left)
+[Sun Feb  8 22:29:21 2026] Sent state to john: R2 L3 S1 E0
+[Sun Feb  8 22:29:21 2026] Sent state to bella: R2 L1 S-3 E0
+[Sun Feb  8 22:29:21 2026] Sent state to ali: R2 L3 S-1 E0
+[Sun Feb  8 22:29:21 2026] Turn complete for bella
+[Sun Feb  8 22:29:21 2026] Turn advanced to ali
+[Sun Feb  8 22:29:23 2026] ali: received move LETTER:p
+[Sun Feb  8 22:29:23 2026] ali handling move: LETTER:p
+[Sun Feb  8 22:29:23 2026] ali: wrong letter p (-1 life, 2 left)
+[Sun Feb  8 22:29:23 2026] Sent state to john: R2 L3 S1 E0
+[Sun Feb  8 22:29:23 2026] Sent state to bella: R2 L1 S-3 E0
+[Sun Feb  8 22:29:23 2026] Sent state to ali: R2 L2 S-1 E0
+[Sun Feb  8 22:29:23 2026] Turn complete for ali
+[Sun Feb  8 22:29:23 2026] Turn advanced to john
+[Sun Feb  8 22:29:39 2026] john: timed out (-1 pt, total 0)
+[Sun Feb  8 22:29:39 2026] Sent state to john: R2 L3 S0 E0
+[Sun Feb  8 22:29:39 2026] Turn complete for john
+[Sun Feb  8 22:29:39 2026] Turn advanced to bella
+[Sun Feb  8 22:29:55 2026] bella: timed out (-1 pt, total -4)
+[Sun Feb  8 22:29:55 2026] Sent state to bella: R2 L1 S-4 E0
+[Sun Feb  8 22:29:55 2026] Turn complete for bella
+[Sun Feb  8 22:29:55 2026] Turn advanced to ali
+[Sun Feb  8 22:30:11 2026] ali: timed out (-1 pt, total -2)
+[Sun Feb  8 22:30:11 2026] Sent state to ali: R2 L2 S-2 E0
+[Sun Feb  8 22:30:11 2026] Turn complete for ali
+[Sun Feb  8 22:30:11 2026] Turn advanced to john
+[Sun Feb  8 22:30:28 2026] john: timed out (-1 pt, total -1)
+[Sun Feb  8 22:30:28 2026] Sent state to john: R2 L3 S-1 E0
+[Sun Feb  8 22:30:28 2026] Turn complete for john
+[Sun Feb  8 22:30:28 2026] Turn advanced to bella
+[Sun Feb  8 22:30:44 2026] bella: timed out (-1 pt, total -5)
+[Sun Feb  8 22:30:44 2026] Sent state to bella: R2 L1 S-5 E0
+[Sun Feb  8 22:30:44 2026] Turn complete for bella
+[Sun Feb  8 22:30:44 2026] Turn advanced to ali
+[Sun Feb  8 22:31:00 2026] ali: timed out (-1 pt, total -3)
+[Sun Feb  8 22:31:00 2026] Sent state to ali: R2 L2 S-3 E0
+[Sun Feb  8 22:31:00 2026] Turn complete for ali
+[Sun Feb  8 22:31:00 2026] Turn advanced to john
+[Sun Feb  8 22:31:16 2026] john: timed out (-1 pt, total -2)
+[Sun Feb  8 22:31:16 2026] Sent state to john: R2 L3 S-2 E0
+[Sun Feb  8 22:31:16 2026] Turn complete for john
+[Sun Feb  8 22:31:16 2026] Turn advanced to bella
+[Sun Feb  8 22:31:32 2026] bella: timed out (-1 pt, total -6)
+[Sun Feb  8 22:31:32 2026] Sent state to bella: R2 L1 S-6 E0
+[Sun Feb  8 22:31:32 2026] Turn complete for bella
+[Sun Feb  8 22:31:32 2026] Turn advanced to ali
+[Sun Feb  8 22:31:48 2026] ali: timed out (-1 pt, total -4)
+[Sun Feb  8 22:31:48 2026] Sent state to ali: R2 L2 S-4 E0
+[Sun Feb  8 22:31:48 2026] Turn complete for ali
+[Sun Feb  8 22:31:48 2026] Turn advanced to john
+[Sun Feb  8 22:32:04 2026] john: timed out (-1 pt, total -3)
+[Sun Feb  8 22:32:04 2026] Sent state to john: R2 L3 S-3 E0
+[Sun Feb  8 22:32:05 2026] Turn complete for john
+[Sun Feb  8 22:32:05 2026] Turn advanced to bella
+[Sun Feb  8 22:32:21 2026] bella: timed out (-1 pt, total -7)
+[Sun Feb  8 22:32:21 2026] Sent state to bella: R2 L1 S-7 E0
+[Sun Feb  8 22:32:21 2026] Turn complete for bella
+[Sun Feb  8 22:32:21 2026] Turn advanced to ali
+[Sun Feb  8 22:32:37 2026] ali: timed out (-1 pt, total -5)
+[Sun Feb  8 22:32:37 2026] Sent state to ali: R2 L2 S-5 E0
+[Sun Feb  8 22:32:37 2026] Turn complete for ali
+[Sun Feb  8 22:32:37 2026] Turn advanced to john
+[Sun Feb  8 22:32:53 2026] john: timed out (-1 pt, total -4)
+[Sun Feb  8 22:32:53 2026] Sent state to john: R2 L3 S-4 E0
+[Sun Feb  8 22:32:53 2026] Turn complete for john
+[Sun Feb  8 22:32:53 2026] Turn advanced to bella
+[Sun Feb  8 22:33:05 2026] bella: received move LETTER:h
+[Sun Feb  8 22:33:05 2026] bella handling move: LETTER:h
+[Sun Feb  8 22:33:05 2026] bella: wrong letter h (-1 life, 0 left)
+[Sun Feb  8 22:33:05 2026] bella: eliminated (no lives left in round 2)
+[Sun Feb  8 22:33:05 2026] Sent state to john: R2 L3 S-4 E0
+[Sun Feb  8 22:33:05 2026] Sent state to bella: R2 L0 S-7 E1
+[Sun Feb  8 22:33:05 2026] Sent state to ali: R2 L2 S-5 E0
+[Sun Feb  8 22:33:05 2026] Turn complete for bella
+[Sun Feb  8 22:33:05 2026] Turn advanced to ali
+[Sun Feb  8 22:33:22 2026] ali: timed out (-1 pt, total -6)
+[Sun Feb  8 22:33:22 2026] Sent state to ali: R2 L2 S-6 E0
+[Sun Feb  8 22:33:22 2026] Turn complete for ali
+[Sun Feb  8 22:33:22 2026] Turn advanced to john
+[Sun Feb  8 22:33:23 2026] john: received move LETTER:d
+[Sun Feb  8 22:33:23 2026] john handling move: LETTER:d
+[Sun Feb  8 22:33:23 2026] john: wrong letter d (-1 life, 2 left)
+[Sun Feb  8 22:33:23 2026] Sent state to john: R2 L2 S-4 E0
+[Sun Feb  8 22:33:23 2026] Sent state to bella: R2 L0 S-7 E1
+[Sun Feb  8 22:33:23 2026] Sent state to ali: R2 L2 S-6 E0
+[Sun Feb  8 22:33:23 2026] Turn complete for john
+[Sun Feb  8 22:33:23 2026] Turn advanced to ali
+[Sun Feb  8 22:33:39 2026] ali: timed out (-1 pt, total -7)
+[Sun Feb  8 22:33:39 2026] Sent state to ali: R2 L2 S-7 E0
+[Sun Feb  8 22:33:39 2026] Turn complete for ali
+[Sun Feb  8 22:33:39 2026] Turn advanced to john
+[Sun Feb  8 22:33:49 2026] john: received move LETTER:s
+[Sun Feb  8 22:33:49 2026] john handling move: LETTER:s
+[Sun Feb  8 22:33:49 2026] john: wrong letter s (-1 life, 1 left)
+[Sun Feb  8 22:33:49 2026] Sent state to john: R2 L1 S-4 E0
+[Sun Feb  8 22:33:49 2026] Sent state to bella: R2 L0 S-7 E1
+[Sun Feb  8 22:33:49 2026] Sent state to ali: R2 L2 S-7 E0
+[Sun Feb  8 22:33:49 2026] Turn complete for john
+[Sun Feb  8 22:33:49 2026] Turn advanced to ali
+[Sun Feb  8 22:33:52 2026] ali: received move LETTER:l
+[Sun Feb  8 22:33:52 2026] ali handling move: LETTER:l
+[Sun Feb  8 22:33:52 2026] ali: wrong letter l (-1 life, 1 left)
+[Sun Feb  8 22:33:52 2026] Sent state to john: R2 L1 S-4 E0
+[Sun Feb  8 22:33:52 2026] Sent state to bella: R2 L0 S-7 E1
+[Sun Feb  8 22:33:52 2026] Sent state to ali: R2 L1 S-7 E0
+[Sun Feb  8 22:33:52 2026] Turn complete for ali
+[Sun Feb  8 22:33:52 2026] Turn advanced to john
+[Sun Feb  8 22:34:01 2026] john: received move LETTER:f
+[Sun Feb  8 22:34:01 2026] john handling move: LETTER:f
+[Sun Feb  8 22:34:01 2026] john: wrong letter f (-1 life, 0 left)
+[Sun Feb  8 22:34:01 2026] john: eliminated (no lives left in round 2)
+[Sun Feb  8 22:34:01 2026] Sent state to john: R2 L0 S-4 E1
+[Sun Feb  8 22:34:01 2026] Sent state to bella: R2 L0 S-7 E1
+[Sun Feb  8 22:34:01 2026] Sent state to ali: R2 L1 S-7 E0
+[Sun Feb  8 22:34:01 2026] Turn complete for john
+[Sun Feb  8 22:34:01 2026] Turn advanced to ali
+[Sun Feb  8 22:34:07 2026] ali: received move LETTER:d
+[Sun Feb  8 22:34:07 2026] ali handling move: LETTER:d
+[Sun Feb  8 22:34:07 2026] ali: wrong letter d (-1 life, 0 left)
+[Sun Feb  8 22:34:07 2026] ali: eliminated (no lives left in round 2)
+[Sun Feb  8 22:34:07 2026] Sent state to john: R2 L0 S-4 E1
+[Sun Feb  8 22:34:07 2026] Sent state to bella: R2 L0 S-7 E1
+[Sun Feb  8 22:34:07 2026] Sent state to ali: R2 L0 S-7 E1
+[Sun Feb  8 22:34:07 2026] Turn complete for ali
+[Sun Feb  8 22:34:07 2026] Round 2 complete
+[Sun Feb  8 22:34:14 2026] Starting round 3/5
+[Sun Feb  8 22:34:14 2026] Round 3: Selected word ORANGE
+[Sun Feb  8 22:34:14 2026] Round 3 initialized - ALL players reset to 3 lives, not eliminated
+[Sun Feb  8 22:34:15 2026] Broadcast board: ______
+[Sun Feb  8 22:34:15 2026] Sent state to john: R3 L3 S-4 E0
+[Sun Feb  8 22:34:15 2026] Sent state to bella: R3 L3 S-7 E0
+[Sun Feb  8 22:34:15 2026] Sent state to ali: R3 L3 S-7 E0
+[Sun Feb  8 22:34:15 2026] Round 3 ready
+[Sun Feb  8 22:34:15 2026] john: received move LETTER:g
+[Sun Feb  8 22:34:15 2026] john handling move: LETTER:g
+[Sun Feb  8 22:34:15 2026] john: correct letter g (+1 pt, total -3)
+[Sun Feb  8 22:34:15 2026] Broadcast board: ____G_
+[Sun Feb  8 22:34:15 2026] Sent state to john: R3 L3 S-3 E0
+[Sun Feb  8 22:34:15 2026] Sent state to bella: R3 L3 S-7 E0
+[Sun Feb  8 22:34:15 2026] Sent state to ali: R3 L3 S-7 E0
+[Sun Feb  8 22:34:15 2026] Turn complete for john
+[Sun Feb  8 22:34:15 2026] Turn advanced to bella
+[Sun Feb  8 22:34:16 2026] bella: received move LETTER:r
+[Sun Feb  8 22:34:16 2026] bella handling move: LETTER:r
+[Sun Feb  8 22:34:16 2026] bella: correct letter r (+1 pt, total -6)
+[Sun Feb  8 22:34:16 2026] Broadcast board: _R__G_
+[Sun Feb  8 22:34:16 2026] Sent state to john: R3 L3 S-3 E0
+[Sun Feb  8 22:34:16 2026] Sent state to bella: R3 L3 S-6 E0
+[Sun Feb  8 22:34:16 2026] Sent state to ali: R3 L3 S-7 E0
+[Sun Feb  8 22:34:16 2026] Turn complete for bella
+[Sun Feb  8 22:34:16 2026] Turn advanced to ali
+[Sun Feb  8 22:34:33 2026] ali: timed out (-1 pt, total -8)
+[Sun Feb  8 22:34:33 2026] Sent state to ali: R3 L3 S-8 E0
+[Sun Feb  8 22:34:33 2026] Turn complete for ali
+[Sun Feb  8 22:34:33 2026] Turn advanced to john
+[Sun Feb  8 22:34:34 2026] john: received move LETTER:h
+[Sun Feb  8 22:34:34 2026] john handling move: LETTER:h
+[Sun Feb  8 22:34:34 2026] john: wrong letter h (-1 life, 2 left)
+[Sun Feb  8 22:34:34 2026] Sent state to john: R3 L2 S-3 E0
+[Sun Feb  8 22:34:34 2026] Sent state to bella: R3 L3 S-6 E0
+[Sun Feb  8 22:34:34 2026] Sent state to ali: R3 L3 S-8 E0
+[Sun Feb  8 22:34:34 2026] Turn complete for john
+[Sun Feb  8 22:34:34 2026] Turn advanced to bella
+[Sun Feb  8 22:34:39 2026] bella: received move WORD:S
+[Sun Feb  8 22:34:39 2026] bella handling move: WORD:S
+[Sun Feb  8 22:34:39 2026] bella: wrong word guess - eliminated from round 3
+[Sun Feb  8 22:34:39 2026] Sent state to bella: R3 L0 S-6 E1
+[Sun Feb  8 22:34:39 2026] Turn complete for bella
+[Sun Feb  8 22:34:39 2026] Turn advanced to ali
+[Sun Feb  8 22:34:42 2026] ali: received move WORD:f
+[Sun Feb  8 22:34:42 2026] ali handling move: WORD:f
+[Sun Feb  8 22:34:42 2026] ali: wrong word guess - eliminated from round 3
+[Sun Feb  8 22:34:42 2026] Sent state to ali: R3 L0 S-8 E1
+[Sun Feb  8 22:34:42 2026] Turn complete for ali
+[Sun Feb  8 22:34:42 2026] Turn advanced to john
+[Sun Feb  8 22:34:45 2026] john: received move WORD:g
+[Sun Feb  8 22:34:45 2026] john handling move: WORD:g
+[Sun Feb  8 22:34:45 2026] john: wrong word guess - eliminated from round 3
+[Sun Feb  8 22:34:45 2026] Sent state to john: R3 L0 S-3 E1
+[Sun Feb  8 22:34:45 2026] Turn complete for john
+[Sun Feb  8 22:34:45 2026] Round 3 complete
+[Sun Feb  8 22:34:52 2026] Starting round 4/5
+[Sun Feb  8 22:34:52 2026] Round 4: Selected word CHERRY
+[Sun Feb  8 22:34:52 2026] Round 4 initialized - ALL players reset to 3 lives, not eliminated
+[Sun Feb  8 22:34:53 2026] Broadcast board: ______
+[Sun Feb  8 22:34:53 2026] Sent state to john: R4 L3 S-3 E0
+[Sun Feb  8 22:34:53 2026] Sent state to bella: R4 L3 S-6 E0
+[Sun Feb  8 22:34:53 2026] Sent state to ali: R4 L3 S-8 E0
+[Sun Feb  8 22:34:53 2026] Round 4 ready
+[Sun Feb  8 22:34:54 2026] john: received move WORD:h
+[Sun Feb  8 22:34:54 2026] john handling move: WORD:h
+[Sun Feb  8 22:34:54 2026] john: wrong word guess - eliminated from round 4
+[Sun Feb  8 22:34:54 2026] Sent state to john: R4 L0 S-3 E1
+[Sun Feb  8 22:34:54 2026] Turn complete for john
+[Sun Feb  8 22:34:54 2026] Turn advanced to bella
+[Sun Feb  8 22:34:55 2026] bella: received move WORD:g
+[Sun Feb  8 22:34:55 2026] bella handling move: WORD:g
+[Sun Feb  8 22:34:55 2026] bella: wrong word guess - eliminated from round 4
+[Sun Feb  8 22:34:55 2026] Sent state to bella: R4 L0 S-6 E1
+[Sun Feb  8 22:34:55 2026] Turn complete for bella
+[Sun Feb  8 22:34:55 2026] Turn advanced to ali
+[Sun Feb  8 22:34:56 2026] ali: received move WORD:f
+[Sun Feb  8 22:34:56 2026] ali handling move: WORD:f
+[Sun Feb  8 22:34:56 2026] ali: wrong word guess - eliminated from round 4
+[Sun Feb  8 22:34:56 2026] Sent state to ali: R4 L0 S-8 E1
+[Sun Feb  8 22:34:56 2026] Turn complete for ali
+[Sun Feb  8 22:34:56 2026] Round 4 complete
+[Sun Feb  8 22:35:03 2026] Starting round 5/5
+[Sun Feb  8 22:35:03 2026] Round 5: Selected word MANGO
+[Sun Feb  8 22:35:03 2026] Round 5 initialized - ALL players reset to 3 lives, not eliminated
+[Sun Feb  8 22:35:04 2026] Broadcast board: _____
+[Sun Feb  8 22:35:04 2026] Sent state to john: R5 L3 S-3 E0
+[Sun Feb  8 22:35:04 2026] Sent state to bella: R5 L3 S-6 E0
+[Sun Feb  8 22:35:04 2026] Sent state to ali: R5 L3 S-8 E0
+[Sun Feb  8 22:35:04 2026] Round 5 ready
+[Sun Feb  8 22:35:04 2026] john: received move WORD:h
+[Sun Feb  8 22:35:04 2026] john handling move: WORD:h
+[Sun Feb  8 22:35:04 2026] john: wrong word guess - eliminated from round 5
+[Sun Feb  8 22:35:04 2026] Sent state to john: R5 L0 S-3 E1
+[Sun Feb  8 22:35:04 2026] Turn complete for john
+[Sun Feb  8 22:35:04 2026] Turn advanced to bella
+[Sun Feb  8 22:35:05 2026] bella: received move WORD:g
+[Sun Feb  8 22:35:05 2026] bella handling move: WORD:g
+[Sun Feb  8 22:35:05 2026] bella: wrong word guess - eliminated from round 5
+[Sun Feb  8 22:35:05 2026] Sent state to bella: R5 L0 S-6 E1
+[Sun Feb  8 22:35:05 2026] Turn complete for bella
+[Sun Feb  8 22:35:05 2026] Turn advanced to ali
+[Sun Feb  8 22:35:06 2026] ali: received move WORD:h
+[Sun Feb  8 22:35:06 2026] ali handling move: WORD:h
+[Sun Feb  8 22:35:06 2026] ali: wrong word guess - eliminated from round 5
+[Sun Feb  8 22:35:06 2026] Sent state to ali: R5 L0 S-8 E1
+[Sun Feb  8 22:35:07 2026] Turn complete for ali
+[Sun Feb  8 22:35:07 2026] Round 5 complete
+[Sun Feb  8 22:35:14 2026] All 5 rounds completed
+[Sun Feb  8 22:35:14 2026] Added new winner: john
+[Sun Feb  8 22:35:14 2026] Saved 2 player records to scores.txt
+[Sun Feb  8 22:35:14 2026] Game completed - Winner: john (-3 pts)
+[Sun Feb  8 22:35:14 2026] Scheduler ended
+[Sun Feb  8 22:35:14 2026] Player ali disconnected
+[Sun Feb  8 22:35:14 2026] Player bella disconnected
+[Sun Feb  8 22:35:14 2026] Player john disconnected
+=== SESSION END ===
+
